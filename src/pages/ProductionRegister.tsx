@@ -89,7 +89,7 @@ const ProductionRegister = () => {
   const PAGE_SIZE = 25;
   const [page, setPage] = useState(0);
   const { data, isLoading } = useAllProductionLogs({ page, pageSize: PAGE_SIZE });
-  const { data: _org } = useOrganization();
+  const { data: org } = useOrganization(); // eslint-disable-line @typescript-eslint/no-unused-vars
   const settings = parseOrgSettings(org?.settings);
   const logs = data?.logs;
   const totalCount = data?.total ?? 0;
