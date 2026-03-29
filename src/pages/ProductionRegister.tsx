@@ -61,7 +61,7 @@ const Gs1Breakdown = ({ gs1 }: { gs1: string }) => {
 
 const escapeCsv = (value: string): string => {
   const str = String(value);
-  if (/^[\+\-\=@\t\r\n]/.test(str)) return `"'${str.replace(/"/g, '""')}"`;
+  if (/^[+\-=@\t\r\n]/.test(str)) return `"'${str.replace(/"/g, '""')}"`;
   if (str.includes('"') || str.includes('\n') || str.includes('\r') || str.includes(',')) return `"${str.replace(/"/g, '""')}"`;
   return str;
 };

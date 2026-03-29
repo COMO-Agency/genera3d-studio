@@ -24,6 +24,7 @@ export function toParenthesisedGs1(raw: string): string {
   if (raw.startsWith("(")) return raw;
 
   // Known 2-digit AIs used in UDI strings
+  // eslint-disable-next-line no-control-regex
   const aiPattern = /\x1D(\d{2})/g;
   let result = raw.replace(aiPattern, "($1)");
 

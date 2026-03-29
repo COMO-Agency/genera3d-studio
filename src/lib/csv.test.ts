@@ -3,7 +3,7 @@ import { describe, it, expect } from "vitest";
 // Inline the function since it's defined inside ProductionHistory
 const escapeCsv = (value: string): string => {
   const str = String(value);
-  if (/^[\+\-\=@\t\r\n]/.test(str)) {
+  if (/^[+\-=@\t\r\n]/.test(str)) {
     return `"'${str.replace(/"/g, '""')}"`;
   }
   if (str.includes('"') || str.includes('\n') || str.includes('\r') || str.includes(',')) {

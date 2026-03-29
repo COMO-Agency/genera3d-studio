@@ -6,6 +6,7 @@ interface PasswordCredential extends Credential {
   readonly name: string;
 }
 
+// eslint-disable-next-line no-var
 declare var PasswordCredential: {
   prototype: PasswordCredential;
   new (data: { id: string; password: string; name?: string }): PasswordCredential;
