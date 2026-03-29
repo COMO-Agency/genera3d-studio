@@ -3,7 +3,7 @@ import { Printer } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface PrinterStatusIndicatorProps {
-  settings?: any;
+  settings?: Record<string, unknown> | null;
 }
 
 const PrinterStatusIndicator = ({ settings }: PrinterStatusIndicatorProps) => {

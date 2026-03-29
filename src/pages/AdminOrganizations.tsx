@@ -112,7 +112,7 @@ const AdminOrganizations = () => {
       queryClient.invalidateQueries({ queryKey: ["admin-org-member-counts"] });
       toast({ title: "Organisation gelöscht" });
     },
-    onError: (error: any) => {
+    onError: (error: Error) => {
       toast({
         title: "Fehler",
         description: error.message || "Organisation konnte nicht gelöscht werden.",
