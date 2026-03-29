@@ -15,7 +15,7 @@ import {
 import { useAllProductionLogs } from "@/hooks/useAllProductionLogs";
 
 interface NotificationsDropdownProps {
-  org?: { settings?: Record<string, unknown> | string | null } | null;
+  org?: { settings?: import("@/integrations/supabase/types").Json | null } | null;
 }
 
 const NotificationsDropdown = ({ org }: NotificationsDropdownProps) => {
