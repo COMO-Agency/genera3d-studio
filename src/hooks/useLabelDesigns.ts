@@ -79,7 +79,11 @@ export const useCreateLabelDesign = () => {
       toast({ title: "Design angelegt" });
     },
     onError: (err: Error) => {
-      toast({ title: "Fehler", description: err.message, variant: "destructive" });
+      toast({
+        title: "Fehler",
+        description: err.message,
+        variant: "destructive",
+      });
     },
   });
 };
@@ -87,7 +91,11 @@ export const useCreateLabelDesign = () => {
 export const useUpdateLabelDesign = () => {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async ({ id, label_id, ...input }: Partial<CreateLabelDesignInput> & { id: string; label_id: string }) => {
+    mutationFn: async ({
+      id,
+      label_id,
+      ...input
+    }: Partial<CreateLabelDesignInput> & { id: string; label_id: string }) => {
       const { data, error } = await supabase
         .from("label_designs")
         .update(input)
@@ -103,7 +111,11 @@ export const useUpdateLabelDesign = () => {
       toast({ title: "Design aktualisiert" });
     },
     onError: (err: Error) => {
-      toast({ title: "Fehler", description: err.message, variant: "destructive" });
+      toast({
+        title: "Fehler",
+        description: err.message,
+        variant: "destructive",
+      });
     },
   });
 };
@@ -125,7 +137,11 @@ export const useDeleteLabelDesign = () => {
       toast({ title: "Design entfernt" });
     },
     onError: (err: Error) => {
-      toast({ title: "Fehler", description: err.message, variant: "destructive" });
+      toast({
+        title: "Fehler",
+        description: err.message,
+        variant: "destructive",
+      });
     },
   });
 };
@@ -146,6 +162,10 @@ export const useUploadLabelDesignImage = () =>
       return urlData.publicUrl;
     },
     onError: (err: Error) => {
-      toast({ title: "Upload fehlgeschlagen", description: err.message, variant: "destructive" });
+      toast({
+        title: "Upload fehlgeschlagen",
+        description: err.message,
+        variant: "destructive",
+      });
     },
   });

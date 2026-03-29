@@ -67,7 +67,10 @@ export interface OrgSettings {
 }
 
 /** Helper to safely parse org settings from Json */
-export function parseOrgSettings(settings: Json | null | undefined): OrgSettings {
-  if (!settings || typeof settings !== "object" || Array.isArray(settings)) return {};
+export function parseOrgSettings(
+  settings: Json | null | undefined,
+): OrgSettings {
+  if (!settings || typeof settings !== "object" || Array.isArray(settings))
+    return {};
   return settings as unknown as OrgSettings;
 }

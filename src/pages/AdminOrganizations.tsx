@@ -5,13 +5,46 @@ import { supabase } from "@/integrations/supabase/client";
 import { useIsPlatformAdmin } from "@/hooks/useUserRole";
 import { useDocumentTitle } from "@/hooks/useDocumentTitle";
 import { toast } from "@/hooks/use-toast";
-import { Building2, Plus, Copy, Pencil, Check, X, Trash2, Users } from "lucide-react";
+import {
+  Building2,
+  Plus,
+  Copy,
+  Pencil,
+  Check,
+  X,
+  Trash2,
+  Users,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from "@/components/ui/dialog";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+  DialogDescription,
+} from "@/components/ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
 import { de } from "date-fns/locale";
@@ -44,9 +77,7 @@ const AdminOrganizations = () => {
     queryKey: ["admin-org-member-counts"],
     enabled: isPlatformAdmin,
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("profiles")
-        .select("org_id");
+      const { data, error } = await supabase.from("profiles").select("org_id");
       if (error) throw error;
       const counts: Record<string, number> = {};
       data?.forEach((p) => {
@@ -60,9 +91,16 @@ const AdminOrganizations = () => {
 
   const createMutation = useMutation({
     mutationFn: async (name: string) => {
-      const { data, error } = await supabase.rpc("create_organization", { p_name: name });
+      const { data, error } = await supabase.rpc("create_organization", {
+        p_name: name,
+      });
       if (error) throw error;
-      return data as unknown as { success: boolean; id: string; name: string; license_key: string };
+      return data as unknown as {
+        success: boolean;
+        id: string;
+        name: string;
+        license_key: string;
+      };
     },
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["admin-organizations"] });
@@ -75,7 +113,11 @@ const AdminOrganizations = () => {
       });
     },
     onError: (err: Error) => {
-      toast({ title: "Fehler", description: err.message, variant: "destructive" });
+      toast({
+        title: "Fehler",
+        description: err.message,
+        variant: "destructive",
+      });
     },
   });
 
@@ -95,7 +137,11 @@ const AdminOrganizations = () => {
       toast({ title: "Name aktualisiert" });
     },
     onError: (err: Error) => {
-      toast({ title: "Fehler", description: err.message, variant: "destructive" });
+      toast({
+        title: "Fehler",
+        description: err.message,
+        variant: "destructive",
+      });
     },
   });
 
@@ -115,7 +161,8 @@ const AdminOrganizations = () => {
     onError: (error: Error) => {
       toast({
         title: "Fehler",
-        description: error.message || "Organisation konnte nicht gelöscht werden.",
+        description:
+          error.message || "Organisation konnte nicht gelöscht werden.",
         variant: "destructive",
       });
     },
@@ -124,17 +171,25 @@ const AdminOrganizations = () => {
   const copyKey = async (key: string) => {
     try {
       await navigator.clipboard.writeText(key);
-      toast({ title: "Kopiert", description: "Lizenzschlüssel in Zwischenablage kopiert." });
+      toast({
+        title: "Kopiert",
+        description: "Lizenzschlüssel in Zwischenablage kopiert.",
+      });
     } catch {
-      toast({ title: "Fehler", description: "Kopieren fehlgeschlagen.", variant: "destructive" });
+      toast({
+        title: "Fehler",
+        description: "Kopieren fehlgeschlagen.",
+        variant: "destructive",
+      });
     }
   };
 
-  if (roleLoading) return (
-    <div className="flex items-center justify-center min-h-[40vh]">
-      <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-    </div>
-  );
+  if (roleLoading)
+    return (
+      <div className="flex items-center justify-center min-h-[40vh]">
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+      </div>
+    );
   if (!isPlatformAdmin) {
     return <Navigate to="/dashboard" replace />;
   }
@@ -153,7 +208,9 @@ const AdminOrganizations = () => {
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-base">Alle Organisationen ({orgs?.length ?? 0})</CardTitle>
+          <CardTitle className="text-base">
+            Alle Organisationen ({orgs?.length ?? 0})
+          </CardTitle>
         </CardHeader>
         <CardContent className="p-0">
           <Table>
@@ -169,13 +226,19 @@ const AdminOrganizations = () => {
             <TableBody>
               {isLoading ? (
                 <TableRow>
-                  <TableCell colSpan={5} className="text-center py-8 text-muted-foreground">
+                  <TableCell
+                    colSpan={5}
+                    className="text-center py-8 text-muted-foreground"
+                  >
                     Laden…
                   </TableCell>
                 </TableRow>
               ) : !orgs?.length ? (
                 <TableRow>
-                  <TableCell colSpan={5} className="text-center py-8 text-muted-foreground">
+                  <TableCell
+                    colSpan={5}
+                    className="text-center py-8 text-muted-foreground"
+                  >
                     Noch keine Organisationen vorhanden.
                   </TableCell>
                 </TableRow>
@@ -193,8 +256,15 @@ const AdminOrganizations = () => {
                               className="h-8 w-48"
                               autoFocus
                               onKeyDown={(e) => {
-                                if (e.key === "Enter" && editName.trim() && !updateMutation.isPending) {
-                                  updateMutation.mutate({ id: org.id, name: editName.trim() });
+                                if (
+                                  e.key === "Enter" &&
+                                  editName.trim() &&
+                                  !updateMutation.isPending
+                                ) {
+                                  updateMutation.mutate({
+                                    id: org.id,
+                                    name: editName.trim(),
+                                  });
                                 }
                                 if (e.key === "Escape") setEditingId(null);
                               }}
@@ -203,8 +273,15 @@ const AdminOrganizations = () => {
                               size="icon"
                               variant="ghost"
                               className="h-7 w-7"
-                              disabled={!editName.trim() || updateMutation.isPending}
-                              onClick={() => updateMutation.mutate({ id: org.id, name: editName.trim() })}
+                              disabled={
+                                !editName.trim() || updateMutation.isPending
+                              }
+                              onClick={() =>
+                                updateMutation.mutate({
+                                  id: org.id,
+                                  name: editName.trim(),
+                                })
+                              }
                             >
                               <Check className="h-3.5 w-3.5" />
                             </Button>
@@ -239,14 +316,19 @@ const AdminOrganizations = () => {
                         </div>
                       </TableCell>
                       <TableCell>
-                        <Badge variant={count > 0 ? "secondary" : "outline"} className="text-xs">
+                        <Badge
+                          variant={count > 0 ? "secondary" : "outline"}
+                          className="text-xs"
+                        >
                           <Users className="h-3 w-3 mr-1" />
                           {count}
                         </Badge>
                       </TableCell>
                       <TableCell className="text-muted-foreground text-sm">
                         {org.created_at
-                          ? format(new Date(org.created_at), "dd.MM.yyyy", { locale: de })
+                          ? format(new Date(org.created_at), "dd.MM.yyyy", {
+                              locale: de,
+                            })
                           : "—"}
                       </TableCell>
                       <TableCell>
@@ -271,16 +353,24 @@ const AdminOrganizations = () => {
                                 variant="ghost"
                                 className="h-7 w-7 text-destructive hover:text-destructive"
                                 disabled={count > 0}
-                                title={count > 0 ? "Organisation hat noch Mitglieder" : "Organisation löschen"}
+                                title={
+                                  count > 0
+                                    ? "Organisation hat noch Mitglieder"
+                                    : "Organisation löschen"
+                                }
                               >
                                 <Trash2 className="h-3.5 w-3.5" />
                               </Button>
                             </AlertDialogTrigger>
                             <AlertDialogContent>
                               <AlertDialogHeader>
-                                <AlertDialogTitle>Organisation löschen?</AlertDialogTitle>
+                                <AlertDialogTitle>
+                                  Organisation löschen?
+                                </AlertDialogTitle>
                                 <AlertDialogDescription>
-                                  „{org.name}" wird unwiderruflich gelöscht. Diese Aktion kann nicht rückgängig gemacht werden.
+                                  „{org.name}" wird unwiderruflich gelöscht.
+                                  Diese Aktion kann nicht rückgängig gemacht
+                                  werden.
                                 </AlertDialogDescription>
                               </AlertDialogHeader>
                               <AlertDialogFooter>
@@ -306,7 +396,13 @@ const AdminOrganizations = () => {
       </Card>
 
       {/* Create Dialog */}
-      <Dialog open={createOpen} onOpenChange={(open) => { setCreateOpen(open); if (!open) setNewName(""); }}>
+      <Dialog
+        open={createOpen}
+        onOpenChange={(open) => {
+          setCreateOpen(open);
+          if (!open) setNewName("");
+        }}
+      >
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Neue Organisation erstellen</DialogTitle>
@@ -319,12 +415,23 @@ const AdminOrganizations = () => {
             value={newName}
             onChange={(e) => setNewName(e.target.value)}
             onKeyDown={(e) => {
-              if (e.key === "Enter" && newName.trim() && !createMutation.isPending) createMutation.mutate(newName.trim());
+              if (
+                e.key === "Enter" &&
+                newName.trim() &&
+                !createMutation.isPending
+              )
+                createMutation.mutate(newName.trim());
             }}
             autoFocus
           />
           <DialogFooter>
-            <Button variant="outline" onClick={() => { setCreateOpen(false); setNewName(""); }}>
+            <Button
+              variant="outline"
+              onClick={() => {
+                setCreateOpen(false);
+                setNewName("");
+              }}
+            >
               Abbrechen
             </Button>
             <Button

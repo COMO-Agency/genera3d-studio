@@ -31,7 +31,9 @@ const LabelAdminUdiPool = () => {
   const [addOpen, setAddOpen] = useState(false);
   const [batchOpen, setBatchOpen] = useState(false);
   const [editEntry, setEditEntry] = useState<LabelUdiPoolEntry | null>(null);
-  const [deleteEntry, setDeleteEntry] = useState<LabelUdiPoolEntry | null>(null);
+  const [deleteEntry, setDeleteEntry] = useState<LabelUdiPoolEntry | null>(
+    null,
+  );
 
   const stats = useMemo(() => {
     const total = pool.length;
@@ -39,11 +41,12 @@ const LabelAdminUdiPool = () => {
     return { total, available, sold: total - available };
   }, [pool]);
 
-  if (!labelId) return (
-    <div className="rounded-lg border border-border bg-card p-8 text-center text-muted-foreground">
-      Kein Label zugewiesen. Bitte zuerst eine Label-Mitgliedschaft anlegen.
-    </div>
-  );
+  if (!labelId)
+    return (
+      <div className="rounded-lg border border-border bg-card p-8 text-center text-muted-foreground">
+        Kein Label zugewiesen. Bitte zuerst eine Label-Mitgliedschaft anlegen.
+      </div>
+    );
 
   if (isLoading) {
     return (
@@ -55,7 +58,11 @@ const LabelAdminUdiPool = () => {
 
   return (
     <div className="space-y-6">
-      <UdiPoolStats total={stats.total} available={stats.available} sold={stats.sold} />
+      <UdiPoolStats
+        total={stats.total}
+        available={stats.available}
+        sold={stats.sold}
+      />
 
       <div className="flex gap-2 flex-wrap">
         <Button size="sm" onClick={() => setAddOpen(true)}>
@@ -78,8 +85,13 @@ const LabelAdminUdiPool = () => {
         designs={designs}
         onSubmit={(designId, udiValue, priceCents) =>
           createUdi.mutate(
-            { label_id: labelId, label_design_id: designId, udi_di_value: udiValue, price_cents: priceCents },
-            { onSuccess: () => setAddOpen(false) }
+            {
+              label_id: labelId,
+              label_design_id: designId,
+              udi_di_value: udiValue,
+              price_cents: priceCents,
+            },
+            { onSuccess: () => setAddOpen(false) },
           )
         }
         isPending={createUdi.isPending}
@@ -91,8 +103,13 @@ const LabelAdminUdiPool = () => {
         designs={designs}
         onSubmit={(designId, udiValues, priceCents) =>
           createBatch.mutate(
-            { label_id: labelId, label_design_id: designId, udi_di_values: udiValues, price_cents: priceCents },
-            { onSuccess: () => setBatchOpen(false) }
+            {
+              label_id: labelId,
+              label_design_id: designId,
+              udi_di_values: udiValues,
+              price_cents: priceCents,
+            },
+            { onSuccess: () => setBatchOpen(false) },
           )
         }
         isPending={createBatch.isPending}
@@ -102,7 +119,10 @@ const LabelAdminUdiPool = () => {
         entry={editEntry}
         onClose={() => setEditEntry(null)}
         onSubmit={(id, priceCents) =>
-          updateUdi.mutate({ id, label_id: labelId, price_cents: priceCents }, { onSuccess: () => setEditEntry(null) })
+          updateUdi.mutate(
+            { id, label_id: labelId, price_cents: priceCents },
+            { onSuccess: () => setEditEntry(null) },
+          )
         }
         isPending={updateUdi.isPending}
       />
@@ -112,7 +132,10 @@ const LabelAdminUdiPool = () => {
         onClose={() => setDeleteEntry(null)}
         onConfirm={() => {
           if (!deleteEntry) return;
-          deleteUdi.mutate({ id: deleteEntry.id, label_id: labelId }, { onSuccess: () => setDeleteEntry(null) });
+          deleteUdi.mutate(
+            { id: deleteEntry.id, label_id: labelId },
+            { onSuccess: () => setDeleteEntry(null) },
+          );
         }}
       />
     </div>

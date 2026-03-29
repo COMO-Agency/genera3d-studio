@@ -41,7 +41,9 @@ export const useOrgDesigns = () => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("org_designs")
-        .select("id, org_id, name, image_url, lens_width_mm, bridge_width_mm, temple_length_mm, weight_g, master_udi_di_base, collection, size, construction_type, serial_prefix, fixed_gtin, is_active, created_at")
+        .select(
+          "id, org_id, name, image_url, lens_width_mm, bridge_width_mm, temple_length_mm, weight_g, master_udi_di_base, collection, size, construction_type, serial_prefix, fixed_gtin, is_active, created_at",
+        )
         .eq("org_id", orgId as string)
         .eq("is_active", true)
         .order("created_at", { ascending: false });
@@ -84,10 +86,17 @@ export const useCreateOrgDesign = () => {
     },
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["org_designs"] });
-      toast({ title: "Design angelegt", description: "Eigenes Design wurde gespeichert." });
+      toast({
+        title: "Design angelegt",
+        description: "Eigenes Design wurde gespeichert.",
+      });
     },
     onError: (err: Error) => {
-      toast({ title: "Fehler", description: err.message, variant: "destructive" });
+      toast({
+        title: "Fehler",
+        description: err.message,
+        variant: "destructive",
+      });
     },
   });
 };
@@ -98,7 +107,10 @@ export const useUpdateOrgDesign = () => {
   const qc = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ id, ...input }: Partial<CreateOrgDesignInput> & { id: string }) => {
+    mutationFn: async ({
+      id,
+      ...input
+    }: Partial<CreateOrgDesignInput> & { id: string }) => {
       if (!orgId) throw new Error("Keine Organisation");
       const { data, error } = await supabase
         .from("org_designs")
@@ -115,7 +127,11 @@ export const useUpdateOrgDesign = () => {
       toast({ title: "Design aktualisiert" });
     },
     onError: (err: Error) => {
-      toast({ title: "Fehler", description: err.message, variant: "destructive" });
+      toast({
+        title: "Fehler",
+        description: err.message,
+        variant: "destructive",
+      });
     },
   });
 };
@@ -140,7 +156,11 @@ export const useDeleteOrgDesign = () => {
       toast({ title: "Design entfernt" });
     },
     onError: (err: Error) => {
-      toast({ title: "Fehler", description: err.message, variant: "destructive" });
+      toast({
+        title: "Fehler",
+        description: err.message,
+        variant: "destructive",
+      });
     },
   });
 };
@@ -161,7 +181,11 @@ export const useUploadDesignImage = () => {
       return urlData.publicUrl;
     },
     onError: (err: Error) => {
-      toast({ title: "Upload fehlgeschlagen", description: err.message, variant: "destructive" });
+      toast({
+        title: "Upload fehlgeschlagen",
+        description: err.message,
+        variant: "destructive",
+      });
     },
   });
 };

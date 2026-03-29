@@ -61,10 +61,17 @@ export const useSubscribeToLabel = () => {
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["label_subscriptions"] });
       qc.invalidateQueries({ queryKey: ["label_designs_subscribed"] });
-      toast({ title: "Abonniert", description: "Du hast das Label erfolgreich abonniert." });
+      toast({
+        title: "Abonniert",
+        description: "Du hast das Label erfolgreich abonniert.",
+      });
     },
     onError: (err: Error) => {
-      toast({ title: "Fehler", description: err.message, variant: "destructive" });
+      toast({
+        title: "Fehler",
+        description: err.message,
+        variant: "destructive",
+      });
     },
   });
 };
@@ -98,7 +105,11 @@ export const useUnsubscribeFromLabel = () => {
       toast({ title: "Abgemeldet" });
     },
     onError: (err: Error) => {
-      toast({ title: "Fehler", description: err.message, variant: "destructive" });
+      toast({
+        title: "Fehler",
+        description: err.message,
+        variant: "destructive",
+      });
     },
   });
 };

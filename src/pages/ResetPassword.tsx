@@ -1,6 +1,12 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -19,7 +25,9 @@ const ResetPassword = () => {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event) => {
       if (event === "PASSWORD_RECOVERY") {
         setReady(true);
       }
@@ -27,9 +35,12 @@ const ResetPassword = () => {
 
     const hash = window.location.hash;
     if (hash.includes("type=recovery")) {
-      supabase.auth.getSession().then(({ data: { session } }) => {
-        if (session) setReady(true);
-      }).catch(() => {});
+      supabase.auth
+        .getSession()
+        .then(({ data: { session } }) => {
+          if (session) setReady(true);
+        })
+        .catch(() => {});
     }
 
     return () => subscription.unsubscribe();
@@ -38,21 +49,36 @@ const ResetPassword = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (password !== confirmPassword) {
-      toast({ title: "Fehler", description: "Passwörter stimmen nicht überein.", variant: "destructive" });
+      toast({
+        title: "Fehler",
+        description: "Passwörter stimmen nicht überein.",
+        variant: "destructive",
+      });
       return;
     }
     if (password.length < 6) {
-      toast({ title: "Fehler", description: "Passwort muss mindestens 6 Zeichen lang sein.", variant: "destructive" });
+      toast({
+        title: "Fehler",
+        description: "Passwort muss mindestens 6 Zeichen lang sein.",
+        variant: "destructive",
+      });
       return;
     }
     setLoading(true);
     try {
       const { error } = await supabase.auth.updateUser({ password });
       if (error) throw error;
-      toast({ title: "Passwort geändert", description: "Dein Passwort wurde erfolgreich aktualisiert." });
+      toast({
+        title: "Passwort geändert",
+        description: "Dein Passwort wurde erfolgreich aktualisiert.",
+      });
       navigate("/dashboard", { replace: true });
     } catch (err: unknown) {
-      toast({ title: "Fehler", description: getErrorMessage(err), variant: "destructive" });
+      toast({
+        title: "Fehler",
+        description: getErrorMessage(err),
+        variant: "destructive",
+      });
     } finally {
       setLoading(false);
     }
@@ -103,7 +129,8 @@ const ResetPassword = () => {
             </form>
           ) : (
             <p className="text-sm text-muted-foreground text-center py-4">
-              Bitte klicke auf den Link in deiner E-Mail, um dein Passwort zurückzusetzen.
+              Bitte klicke auf den Link in deiner E-Mail, um dein Passwort
+              zurückzusetzen.
             </p>
           )}
         </CardContent>

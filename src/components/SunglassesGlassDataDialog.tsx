@@ -1,13 +1,22 @@
 import { useState } from "react";
 import {
-  Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle,
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import {
-  Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
@@ -28,7 +37,11 @@ const filterCategories = [
   { value: "4", label: "Kategorie 4 — 3–8% Lichtdurchlässigkeit" },
 ];
 
-const SunglassesGlassDataDialog = ({ open, onClose, productionLogId }: SunglassesGlassDataDialogProps) => {
+const SunglassesGlassDataDialog = ({
+  open,
+  onClose,
+  productionLogId,
+}: SunglassesGlassDataDialogProps) => {
   const { data: profile } = useProfile();
   const [glassType, setGlassType] = useState("");
   const [filterCategory, setFilterCategory] = useState("");
@@ -61,10 +74,17 @@ const SunglassesGlassDataDialog = ({ open, onClose, productionLogId }: Sunglasse
         notes: notes.trim() || null,
       });
       if (error) throw error;
-      toast({ title: "Glasdaten gespeichert", description: "Sonnenbrillen-Glasdaten wurden dokumentiert." });
+      toast({
+        title: "Glasdaten gespeichert",
+        description: "Sonnenbrillen-Glasdaten wurden dokumentiert.",
+      });
       handleClose();
     } catch (err: unknown) {
-      toast({ title: "Fehler", description: getErrorMessage(err), variant: "destructive" });
+      toast({
+        title: "Fehler",
+        description: getErrorMessage(err),
+        variant: "destructive",
+      });
     } finally {
       setLoading(false);
     }
@@ -76,7 +96,8 @@ const SunglassesGlassDataDialog = ({ open, onClose, productionLogId }: Sunglasse
         <DialogHeader>
           <DialogTitle>Sonnenbrillen-Glasdaten (PSA)</DialogTitle>
           <DialogDescription>
-            Als Hersteller der Sonnenbrille (PSA Kat. I) dokumentieren Sie die eingesetzten Gläser.
+            Als Hersteller der Sonnenbrille (PSA Kat. I) dokumentieren Sie die
+            eingesetzten Gläser.
           </DialogDescription>
         </DialogHeader>
 
@@ -84,7 +105,9 @@ const SunglassesGlassDataDialog = ({ open, onClose, productionLogId }: Sunglasse
           <div className="space-y-2">
             <Label>Glastyp *</Label>
             <Select value={glassType} onValueChange={setGlassType}>
-              <SelectTrigger><SelectValue placeholder="Glastyp wählen" /></SelectTrigger>
+              <SelectTrigger>
+                <SelectValue placeholder="Glastyp wählen" />
+              </SelectTrigger>
               <SelectContent>
                 <SelectItem value="plano">Plan-Verglasung (Plano)</SelectItem>
                 <SelectItem value="korrektion">Korrektionsglas</SelectItem>
@@ -98,10 +121,14 @@ const SunglassesGlassDataDialog = ({ open, onClose, productionLogId }: Sunglasse
           <div className="space-y-2">
             <Label>UV-Schutzklasse / Filterkategorie *</Label>
             <Select value={filterCategory} onValueChange={setFilterCategory}>
-              <SelectTrigger><SelectValue placeholder="Kategorie wählen" /></SelectTrigger>
+              <SelectTrigger>
+                <SelectValue placeholder="Kategorie wählen" />
+              </SelectTrigger>
               <SelectContent>
                 {filterCategories.map((fc) => (
-                  <SelectItem key={fc.value} value={fc.value}>{fc.label}</SelectItem>
+                  <SelectItem key={fc.value} value={fc.value}>
+                    {fc.label}
+                  </SelectItem>
                 ))}
               </SelectContent>
             </Select>
@@ -128,7 +155,9 @@ const SunglassesGlassDataDialog = ({ open, onClose, productionLogId }: Sunglasse
         </div>
 
         <DialogFooter>
-          <Button variant="outline" onClick={handleClose}>Später</Button>
+          <Button variant="outline" onClick={handleClose}>
+            Später
+          </Button>
           <Button
             disabled={!glassType || !filterCategory || loading}
             onClick={handleSubmit}

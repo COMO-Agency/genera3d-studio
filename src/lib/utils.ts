@@ -23,14 +23,24 @@ export function getErrorMessage(err: unknown): string {
 }
 
 const MAX_UPLOAD_SIZE = 10 * 1024 * 1024; // 10 MB
-const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif", "image/svg+xml"];
+const ALLOWED_IMAGE_TYPES = [
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+  "image/gif",
+  "image/svg+xml",
+];
 
 /** Validates a file before upload (size + MIME type). Throws on invalid. */
 export function validateImageFile(file: File): void {
   if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
-    throw new Error(`Ungültiger Dateityp: ${file.type || "unbekannt"}. Erlaubt: JPEG, PNG, WebP, GIF, SVG.`);
+    throw new Error(
+      `Ungültiger Dateityp: ${file.type || "unbekannt"}. Erlaubt: JPEG, PNG, WebP, GIF, SVG.`,
+    );
   }
   if (file.size > MAX_UPLOAD_SIZE) {
-    throw new Error(`Datei zu groß (${(file.size / 1024 / 1024).toFixed(1)} MB). Maximum: 10 MB.`);
+    throw new Error(
+      `Datei zu groß (${(file.size / 1024 / 1024).toFixed(1)} MB). Maximum: 10 MB.`,
+    );
   }
 }

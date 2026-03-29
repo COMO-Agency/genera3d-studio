@@ -2,7 +2,13 @@ import { lazy, Suspense } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+} from "react-router-dom";
 import { ThemeProvider } from "next-themes";
 import { AuthProvider } from "@/hooks/useAuth";
 import ProtectedRoute from "@/components/ProtectedRoute";
@@ -81,8 +87,14 @@ const AnimatedRoutes = () => {
                 <Route path="/colors" element={<ColorCatalog />} />
                 <Route path="/my-designs" element={<MyDesigns />} />
                 <Route path="/register" element={<ProductionRegister />} />
-                <Route path="/history" element={<Navigate to="/register" replace />} />
-                <Route path="/udi" element={<Navigate to="/register" replace />} />
+                <Route
+                  path="/history"
+                  element={<Navigate to="/register" replace />}
+                />
+                <Route
+                  path="/udi"
+                  element={<Navigate to="/register" replace />}
+                />
                 <Route path="/post-market" element={<PostMarket />} />
                 <Route path="/settings" element={<SettingsPage />} />
                 <Route path="/labels" element={<Labels />} />
@@ -94,7 +106,10 @@ const AnimatedRoutes = () => {
           <Route element={<ProtectedRoute requiredRole="admin" />}>
             <Route element={<OnboardingGate />}>
               <Route element={<AppLayout />}>
-                <Route path="/admin/organizations" element={<AdminOrganizations />} />
+                <Route
+                  path="/admin/organizations"
+                  element={<AdminOrganizations />}
+                />
                 <Route path="/admin/users" element={<AdminUsers />} />
               </Route>
             </Route>
@@ -103,7 +118,10 @@ const AnimatedRoutes = () => {
           <Route element={<ProtectedRoute requiredRole="label_admin" />}>
             <Route element={<OnboardingGate />}>
               <Route element={<AppLayout />}>
-                <Route path="/admin/gtin-import" element={<AdminGtinImport />} />
+                <Route
+                  path="/admin/gtin-import"
+                  element={<AdminGtinImport />}
+                />
               </Route>
             </Route>
           </Route>
@@ -113,7 +131,10 @@ const AnimatedRoutes = () => {
               <Route element={<AppLayout />}>
                 <Route path="/docs-portal" element={<DocsPortal />} />
                 <Route path="/label-admin" element={<LabelAdmin />}>
-                  <Route index element={<Navigate to="/label-admin/designs" replace />} />
+                  <Route
+                    index
+                    element={<Navigate to="/label-admin/designs" replace />}
+                  />
                   <Route path="designs" element={<LabelAdminDesigns />} />
                   <Route path="udi-pool" element={<LabelAdminUdiPool />} />
                   <Route path="settings" element={<LabelAdminSettings />} />

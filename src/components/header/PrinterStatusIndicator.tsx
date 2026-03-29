@@ -1,4 +1,9 @@
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { Printer } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Json } from "@/integrations/supabase/types";
@@ -9,22 +14,32 @@ interface PrinterStatusIndicatorProps {
 
 const PrinterStatusIndicator = ({ settings }: PrinterStatusIndicatorProps) => {
   const raw = (settings as Record<string, unknown> | null)?.printers;
-  const printers: Array<{ status: string; name: string }> = Array.isArray(raw) ? raw : [];
+  const printers: Array<{ status: string; name: string }> = Array.isArray(raw)
+    ? raw
+    : [];
   const activePrinter = printers.find((p) => p.status === "online");
   const busyPrinter = printers.find((p) => p.status === "printing");
-  const status = busyPrinter ? "printing" : activePrinter ? "ready" : printers.length > 0 ? "offline" : "ready";
+  const status = busyPrinter
+    ? "printing"
+    : activePrinter
+      ? "ready"
+      : printers.length > 0
+        ? "offline"
+        : "ready";
 
-  const dotColor = status === "printing"
-    ? "bg-warning animate-pulse"
-    : status === "ready"
-      ? "bg-[hsl(var(--success))]"
-      : "bg-destructive";
+  const dotColor =
+    status === "printing"
+      ? "bg-warning animate-pulse"
+      : status === "ready"
+        ? "bg-[hsl(var(--success))]"
+        : "bg-destructive";
 
-  const label = status === "printing"
-    ? `Druckt: ${busyPrinter?.name ?? "..."}`
-    : status === "ready"
-      ? "Drucker bereit"
-      : "Drucker offline";
+  const label =
+    status === "printing"
+      ? `Druckt: ${busyPrinter?.name ?? "..."}`
+      : status === "ready"
+        ? "Drucker bereit"
+        : "Drucker offline";
 
   return (
     <TooltipProvider>

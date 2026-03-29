@@ -3,7 +3,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
-  Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription,
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+  DialogDescription,
 } from "@/components/ui/dialog";
 import type { LabelUdiPoolEntry } from "@/hooks/useLabelUdiPool";
 
@@ -14,7 +19,12 @@ interface EditPriceDialogProps {
   isPending: boolean;
 }
 
-const EditPriceDialog = ({ entry, onClose, onSubmit, isPending }: EditPriceDialogProps) => {
+const EditPriceDialog = ({
+  entry,
+  onClose,
+  onSubmit,
+  isPending,
+}: EditPriceDialogProps) => {
   const [price, setPrice] = useState("");
 
   useEffect(() => {
@@ -37,10 +47,18 @@ const EditPriceDialog = ({ entry, onClose, onSubmit, isPending }: EditPriceDialo
         </DialogHeader>
         <div className="space-y-2">
           <Label>Neuer Preis (EUR)</Label>
-          <Input type="number" step="0.01" min="0" value={price} onChange={(e) => setPrice(e.target.value)} />
+          <Input
+            type="number"
+            step="0.01"
+            min="0"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+          />
         </div>
         <DialogFooter>
-          <Button variant="outline" onClick={onClose}>Abbrechen</Button>
+          <Button variant="outline" onClick={onClose}>
+            Abbrechen
+          </Button>
           <Button onClick={handleSubmit} disabled={isPending}>
             {isPending ? "Speichern…" : "Speichern"}
           </Button>

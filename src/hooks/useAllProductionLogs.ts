@@ -16,7 +16,12 @@ export const useAllProductionLogs = (pagination?: PaginationParams) => {
   const orgId = profile?.org_id;
 
   return useQuery({
-    queryKey: ["production_logs_all", orgId, pagination?.page, pagination?.pageSize],
+    queryKey: [
+      "production_logs_all",
+      orgId,
+      pagination?.page,
+      pagination?.pageSize,
+    ],
     enabled: !!orgId,
     queryFn: async () => {
       if (!orgId) throw new Error("No organization");
@@ -42,7 +47,7 @@ export const useAllProductionLogs = (pagination?: PaginationParams) => {
         logs: (data ?? []) as ProductionLogWithDesign[],
         total: count ?? 0,
         page: pagination?.page ?? 0,
-        pageSize: pagination?.pageSize ?? (data?.length ?? 0),
+        pageSize: pagination?.pageSize ?? data?.length ?? 0,
       };
     },
     staleTime: STALE_TIME,

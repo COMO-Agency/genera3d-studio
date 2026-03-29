@@ -8,7 +8,11 @@ interface FavoriteButtonProps {
   className?: string;
 }
 
-const FavoriteButton = ({ isFavorite, onToggle, className }: FavoriteButtonProps) => {
+const FavoriteButton = ({
+  isFavorite,
+  onToggle,
+  className,
+}: FavoriteButtonProps) => {
   const [bouncing, setBouncing] = useState(false);
 
   const handleClick = (e: React.MouseEvent) => {
@@ -33,9 +37,11 @@ const FavoriteButton = ({ isFavorite, onToggle, className }: FavoriteButtonProps
         isFavorite
           ? "text-accent"
           : "text-muted-foreground/50 hover:text-accent/70",
-        className
+        className,
       )}
-      aria-label={isFavorite ? "Von Merkliste entfernen" : "Zur Merkliste hinzufügen"}
+      aria-label={
+        isFavorite ? "Von Merkliste entfernen" : "Zur Merkliste hinzufügen"
+      }
     >
       <Heart className={cn("h-4 w-4", isFavorite && "fill-current")} />
     </button>

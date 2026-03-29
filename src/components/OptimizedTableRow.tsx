@@ -3,13 +3,23 @@
  * Phase 2: Performance-Optimierung
  */
 
-import { memo } from 'react';
-import { TableRow, TableCell } from '@/components/ui/table';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { format } from 'date-fns';
-import { modeLabelMap, productionStatusLabelMap, productionStatusColorMap } from '@/lib/constants';
-import { ClipboardCheck, XCircle, Copy, Check, ShieldCheck } from 'lucide-react';
+import { memo } from "react";
+import { TableRow, TableCell } from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { format } from "date-fns";
+import {
+  modeLabelMap,
+  productionStatusLabelMap,
+  productionStatusColorMap,
+} from "@/lib/constants";
+import {
+  ClipboardCheck,
+  XCircle,
+  Copy,
+  Check,
+  ShieldCheck,
+} from "lucide-react";
 
 interface ProductionLog {
   id: string;
@@ -57,12 +67,19 @@ export const OptimizedTableRow = memo(function OptimizedTableRow({
     >
       <TableCell>
         <div>
-          <span className="font-medium text-foreground">{log.design_name ?? "Unbekannt"}</span>
-          <span className="block text-xs text-muted-foreground">V{log.design_version ?? "—"}</span>
+          <span className="font-medium text-foreground">
+            {log.design_name ?? "Unbekannt"}
+          </span>
+          <span className="block text-xs text-muted-foreground">
+            V{log.design_version ?? "—"}
+          </span>
         </div>
       </TableCell>
       <TableCell>
-        <Badge variant="outline" className={`text-xs ${productionStatusColorMap[log.status ?? ""] ?? ""}`}>
+        <Badge
+          variant="outline"
+          className={`text-xs ${productionStatusColorMap[log.status ?? ""] ?? ""}`}
+        >
           {productionStatusLabelMap[log.status ?? ""] ?? log.status ?? "—"}
         </Badge>
       </TableCell>
@@ -111,7 +128,9 @@ export const OptimizedTableRow = memo(function OptimizedTableRow({
         )}
       </TableCell>
       <TableCell>
-        <span className="text-xs text-muted-foreground">{log.customer_ref ?? "—"}</span>
+        <span className="text-xs text-muted-foreground">
+          {log.customer_ref ?? "—"}
+        </span>
       </TableCell>
       <TableCell>
         <div className="flex items-center gap-1">
@@ -120,18 +139,25 @@ export const OptimizedTableRow = memo(function OptimizedTableRow({
           </code>
           {log.assigned_udi_pi && (
             <button
-              onClick={() => onCopy(log.assigned_udi_pi as string, `pi-${log.id}`)}
+              onClick={() =>
+                onCopy(log.assigned_udi_pi as string, `pi-${log.id}`)
+              }
               className="text-muted-foreground hover:text-foreground"
               aria-label="UDI-PI kopieren"
             >
-              {isCopied ? <Check className="h-3 w-3 text-success" /> : <Copy className="h-3 w-3" />}
+              {isCopied ? (
+                <Check className="h-3 w-3 text-success" />
+              ) : (
+                <Copy className="h-3 w-3" />
+              )}
             </button>
           )}
         </div>
       </TableCell>
       <TableCell>
-        {log.status !== "cancelled" && log.design_name && (
-          log.mode === "sunglasses" ? (
+        {log.status !== "cancelled" &&
+          log.design_name &&
+          (log.mode === "sunglasses" ? (
             <Button
               size="sm"
               variant="outline"
@@ -149,18 +175,22 @@ export const OptimizedTableRow = memo(function OptimizedTableRow({
             >
               <ShieldCheck className="h-3 w-3" /> MDR
             </Button>
-          )
-        )}
+          ))}
       </TableCell>
       <TableCell className="text-sm text-muted-foreground whitespace-nowrap">
-        {log.created_at && !isNaN(new Date(log.created_at).getTime()) ? format(new Date(log.created_at), "dd.MM.yyyy HH:mm") : "—"}
+        {log.created_at && !isNaN(new Date(log.created_at).getTime())
+          ? format(new Date(log.created_at), "dd.MM.yyyy HH:mm")
+          : "—"}
       </TableCell>
     </TableRow>
   );
 });
 
 // Deep comparison for production logs
-export const areLogsEqual = (prevLog: ProductionLog, nextLog: ProductionLog): boolean => {
+export const areLogsEqual = (
+  prevLog: ProductionLog,
+  nextLog: ProductionLog,
+): boolean => {
   return (
     prevLog.id === nextLog.id &&
     prevLog.status === nextLog.status &&

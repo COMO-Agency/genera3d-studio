@@ -53,12 +53,15 @@ async function loadImageAsBase64(url: string): Promise<string | null> {
   }
 }
 
-async function loadImageWithDimensions(url: string): Promise<{ base64: string; width: number; height: number } | null> {
+async function loadImageWithDimensions(
+  url: string,
+): Promise<{ base64: string; width: number; height: number } | null> {
   const base64 = await loadImageAsBase64(url);
   if (!base64) return null;
   return new Promise((resolve) => {
     const img = new Image();
-    img.onload = () => resolve({ base64, width: img.naturalWidth, height: img.naturalHeight });
+    img.onload = () =>
+      resolve({ base64, width: img.naturalWidth, height: img.naturalHeight });
     img.onerror = () => resolve(null);
     img.src = base64;
   });
@@ -92,8 +95,17 @@ export async function generatePsaCertificatePdf(data: PsaCertificateData) {
         const aspect = logoData.width / logoData.height;
         const imgH = maxH;
         const imgW = imgH * aspect;
-        const imgFormat = logoData.base64.includes("image/png") ? "PNG" : "JPEG";
-        doc.addImage(logoData.base64, imgFormat, (pageW - imgW) / 2, y - 5, imgW, imgH);
+        const imgFormat = logoData.base64.includes("image/png")
+          ? "PNG"
+          : "JPEG";
+        doc.addImage(
+          logoData.base64,
+          imgFormat,
+          (pageW - imgW) / 2,
+          y - 5,
+          imgW,
+          imgH,
+        );
         y += imgH + 2;
       } catch {
         // skip
@@ -109,7 +121,12 @@ export async function generatePsaCertificatePdf(data: PsaCertificateData) {
   y += 6;
   doc.setFontSize(10);
   doc.setFont("helvetica", "normal");
-  doc.text("gemäß Verordnung (EU) 2016/425 über Persönliche Schutzausrüstung (PSA)", pageW / 2, y, { align: "center" });
+  doc.text(
+    "gemäß Verordnung (EU) 2016/425 über Persönliche Schutzausrüstung (PSA)",
+    pageW / 2,
+    y,
+    { align: "center" },
+  );
   y += 5;
   doc.text("Sonnenbrille — PSA Kategorie I", pageW / 2, y, { align: "center" });
   y += 10;
@@ -148,10 +165,14 @@ export async function generatePsaCertificatePdf(data: PsaCertificateData) {
     "Hinweis: Der Augenoptiker gilt als Hersteller, da er durch das Einschleifen der Gläser",
     marginL,
     y,
-    { maxWidth: contentW }
+    { maxWidth: contentW },
   );
   y += 4;
-  doc.text('das fertige Produkt "Sonnenbrille" mit Schutzfunktion erzeugt.', marginL, y);
+  doc.text(
+    'das fertige Produkt "Sonnenbrille" mit Schutzfunktion erzeugt.',
+    marginL,
+    y,
+  );
   doc.setFontSize(10);
   y += 8;
   line(y);
@@ -175,10 +196,14 @@ export async function generatePsaCertificatePdf(data: PsaCertificateData) {
     "Der oben bezeichnete Hersteller erklärt hiermit, dass die beschriebene Sonnenbrille den",
     marginL,
     y,
-    { maxWidth: contentW }
+    { maxWidth: contentW },
   );
   y += 5;
-  doc.text("Anforderungen folgender Vorschriften und Normen entspricht:", marginL, y);
+  doc.text(
+    "Anforderungen folgender Vorschriften und Normen entspricht:",
+    marginL,
+    y,
+  );
   y += 8;
 
   const norms = [
@@ -198,7 +223,9 @@ export async function generatePsaCertificatePdf(data: PsaCertificateData) {
   sectionTitle("4. CE-Kennzeichnung");
   doc.text(
     "Die CE-Kennzeichnung wurde gemäß PSA-Verordnung (EU) 2016/425, Artikel 17 angebracht.",
-    marginL, y, { maxWidth: contentW }
+    marginL,
+    y,
+    { maxWidth: contentW },
   );
   y += 6;
   doc.setFontSize(24);
@@ -267,7 +294,7 @@ export async function generatePsaCertificatePdf(data: PsaCertificateData) {
     `Dokument generiert am ${format(now, "dd.MM.yyyy HH:mm")} — ${data.orgName}`,
     pageW / 2,
     287,
-    { align: "center" }
+    { align: "center" },
   );
 
   doc.save(`PSA-CE-Erklaerung-${data.serialNumber}.pdf`);

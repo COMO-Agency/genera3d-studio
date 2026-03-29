@@ -5,7 +5,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import {
   Select,
   SelectContent,
@@ -13,9 +20,25 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { AlertTriangle, CheckCircle2, Plus, ChevronsUpDown } from "lucide-react";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+  AlertTriangle,
+  CheckCircle2,
+  Plus,
+  ChevronsUpDown,
+} from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -67,7 +90,9 @@ const PostMarket = () => {
       if (!profile?.org_id) return [];
       const { data, error } = await supabase
         .from("post_market_reports")
-        .select("*, production_logs!fk_post_market_reports_production_log(assigned_udi_pi, design_name)")
+        .select(
+          "*, production_logs!fk_post_market_reports_production_log(assigned_udi_pi, design_name)",
+        )
         .eq("org_id", profile.org_id)
         .order("reported_at", { ascending: false });
       if (error) throw error;
@@ -82,7 +107,9 @@ const PostMarket = () => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("production_logs")
-        .select("id, assigned_udi_pi, design_name, created_at, status, color_name")
+        .select(
+          "id, assigned_udi_pi, design_name, created_at, status, color_name",
+        )
         .eq("org_id", profile?.org_id ?? "")
         .order("created_at", { ascending: false })
         .limit(200);
@@ -98,7 +125,7 @@ const PostMarket = () => {
     return productionLogs.filter(
       (l) =>
         l.design_name?.toLowerCase().includes(q) ||
-        l.assigned_udi_pi?.toLowerCase().includes(q)
+        l.assigned_udi_pi?.toLowerCase().includes(q),
     );
   }, [productionLogs, logSearch]);
 
@@ -130,7 +157,10 @@ const PostMarket = () => {
       });
       if (error) throw error;
 
-      toast({ title: "Vorfall gemeldet", description: "Der Vorfall wurde erfolgreich erfasst." });
+      toast({
+        title: "Vorfall gemeldet",
+        description: "Der Vorfall wurde erfolgreich erfasst.",
+      });
       queryClient.invalidateQueries({ queryKey: ["post_market_reports"] });
       setDialogOpen(false);
       setReason("");
@@ -138,7 +168,11 @@ const PostMarket = () => {
       setSelectedLogId(null);
       setManualUdiPi("");
     } catch (err: unknown) {
-      toast({ title: "Fehler", description: getErrorMessage(err), variant: "destructive" });
+      toast({
+        title: "Fehler",
+        description: getErrorMessage(err),
+        variant: "destructive",
+      });
     } finally {
       setSaving(false);
     }
@@ -150,32 +184,69 @@ const PostMarket = () => {
     try {
       const { error } = await supabase
         .from("post_market_reports")
-        .update({ status: "resolved", resolution_note: resolveNote.trim(), resolved_at: new Date().toISOString() })
+        .update({
+          status: "resolved",
+          resolution_note: resolveNote.trim(),
+          resolved_at: new Date().toISOString(),
+        })
         .eq("id", resolveDialogId)
         .eq("org_id", profile.org_id);
       if (error) throw error;
-      toast({ title: "Vorfall gelöst", description: "Der Vorfall wurde als gelöst markiert." });
+      toast({
+        title: "Vorfall gelöst",
+        description: "Der Vorfall wurde als gelöst markiert.",
+      });
       queryClient.invalidateQueries({ queryKey: ["post_market_reports"] });
       setResolveDialogId(null);
       setResolveNote("");
     } catch (err: unknown) {
-      toast({ title: "Fehler", description: getErrorMessage(err), variant: "destructive" });
+      toast({
+        title: "Fehler",
+        description: getErrorMessage(err),
+        variant: "destructive",
+      });
     } finally {
       setResolving(false);
     }
   };
 
   const statusBadge = (status: string) => {
-    if (status === "open") return <Badge variant="outline" className="bg-warning/10 text-warning border-warning/20 text-xs">Offen</Badge>;
-    if (status === "resolved") return <Badge variant="outline" className="bg-success/10 text-success border-success/20 text-xs">Gelöst</Badge>;
-    return <Badge variant="outline" className="text-xs">{status}</Badge>;
+    if (status === "open")
+      return (
+        <Badge
+          variant="outline"
+          className="bg-warning/10 text-warning border-warning/20 text-xs"
+        >
+          Offen
+        </Badge>
+      );
+    if (status === "resolved")
+      return (
+        <Badge
+          variant="outline"
+          className="bg-success/10 text-success border-success/20 text-xs"
+        >
+          Gelöst
+        </Badge>
+      );
+    return (
+      <Badge variant="outline" className="text-xs">
+        {status}
+      </Badge>
+    );
   };
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold text-foreground animate-slide-left">Post-Market-Überwachung</h1>
-        <Button className="gap-2" disabled={!profile?.org_id} onClick={() => setDialogOpen(true)}>
+        <h1 className="text-2xl font-semibold text-foreground animate-slide-left">
+          Post-Market-Überwachung
+        </h1>
+        <Button
+          className="gap-2"
+          disabled={!profile?.org_id}
+          onClick={() => setDialogOpen(true)}
+        >
           <Plus className="h-4 w-4" /> Vorfall melden
         </Button>
       </div>
@@ -189,32 +260,44 @@ const PostMarket = () => {
             <div className="space-y-3">
               {[1, 2, 3].map((i) => (
                 <div key={i} className="flex gap-4">
-                  <Skeleton className="h-5 w-32" /><Skeleton className="h-5 w-24" /><Skeleton className="h-5 w-20" />
+                  <Skeleton className="h-5 w-32" />
+                  <Skeleton className="h-5 w-24" />
+                  <Skeleton className="h-5 w-20" />
                 </div>
               ))}
             </div>
           ) : !reports || reports.length === 0 ? (
             <EmptyState
               icon={AlertTriangle}
-              title={!profile?.org_id ? "Organisation erforderlich" : "Keine Vorfälle"}
-              description={!profile?.org_id ? "Tritt einer Organisation bei, um Post-Market-Vorfälle zu erfassen." : "Es wurden noch keine Post-Market-Vorfälle gemeldet."}
-              actionLabel={!profile?.org_id ? "Zu den Einstellungen" : undefined}
+              title={
+                !profile?.org_id
+                  ? "Organisation erforderlich"
+                  : "Keine Vorfälle"
+              }
+              description={
+                !profile?.org_id
+                  ? "Tritt einer Organisation bei, um Post-Market-Vorfälle zu erfassen."
+                  : "Es wurden noch keine Post-Market-Vorfälle gemeldet."
+              }
+              actionLabel={
+                !profile?.org_id ? "Zu den Einstellungen" : undefined
+              }
               actionTo={!profile?.org_id ? "/settings" : undefined}
             />
           ) : (
             <div className="overflow-x-auto">
               <Table>
                 <TableHeader>
-                   <TableRow>
-                     <TableHead>Datum</TableHead>
-                     <TableHead>Grund</TableHead>
-                     <TableHead>Beschreibung</TableHead>
-                     <TableHead>Design</TableHead>
-                     <TableHead>UDI-PI</TableHead>
-                     <TableHead>Status</TableHead>
-                     <TableHead>Lösungsbemerkung</TableHead>
-                     <TableHead className="text-right">Aktion</TableHead>
-                   </TableRow>
+                  <TableRow>
+                    <TableHead>Datum</TableHead>
+                    <TableHead>Grund</TableHead>
+                    <TableHead>Beschreibung</TableHead>
+                    <TableHead>Design</TableHead>
+                    <TableHead>UDI-PI</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead>Lösungsbemerkung</TableHead>
+                    <TableHead className="text-right">Aktion</TableHead>
+                  </TableRow>
                 </TableHeader>
                 <TableBody>
                   {reports.map((r) => (
@@ -222,18 +305,28 @@ const PostMarket = () => {
                       <TableCell className="text-sm text-muted-foreground whitespace-nowrap">
                         {format(new Date(r.reported_at), "dd.MM.yyyy")}
                       </TableCell>
-                      <TableCell className="font-medium text-sm">{r.reason}</TableCell>
-                      <TableCell className="text-sm text-muted-foreground max-w-[200px] truncate" title={r.description ?? ""}>
+                      <TableCell className="font-medium text-sm">
+                        {r.reason}
+                      </TableCell>
+                      <TableCell
+                        className="text-sm text-muted-foreground max-w-[200px] truncate"
+                        title={r.description ?? ""}
+                      >
                         {r.description || "—"}
                       </TableCell>
                       <TableCell className="text-sm text-muted-foreground">
                         {r.production_logs?.design_name ?? "—"}
                       </TableCell>
                       <TableCell>
-                        <code className="text-xs font-mono">{r.production_logs?.assigned_udi_pi ?? "—"}</code>
+                        <code className="text-xs font-mono">
+                          {r.production_logs?.assigned_udi_pi ?? "—"}
+                        </code>
                       </TableCell>
                       <TableCell>{statusBadge(r.status)}</TableCell>
-                      <TableCell className="text-sm text-muted-foreground max-w-[200px] truncate" title={r.resolution_note ?? ""}>
+                      <TableCell
+                        className="text-sm text-muted-foreground max-w-[200px] truncate"
+                        title={r.resolution_note ?? ""}
+                      >
                         {r.resolution_note || "—"}
                       </TableCell>
                       <TableCell className="text-right">
@@ -242,7 +335,10 @@ const PostMarket = () => {
                             size="sm"
                             variant="outline"
                             className="gap-1.5 text-xs"
-                            onClick={() => { setResolveDialogId(r.id); setResolveNote(""); }}
+                            onClick={() => {
+                              setResolveDialogId(r.id);
+                              setResolveNote("");
+                            }}
                           >
                             <CheckCircle2 className="h-3.5 w-3.5" />
                             Lösen
@@ -258,14 +354,26 @@ const PostMarket = () => {
         </CardContent>
       </Card>
 
-      <Dialog open={dialogOpen} onOpenChange={(v) => {
-        if (!v) { setReason(""); setDescription(""); setSelectedLogId(null); setManualUdiPi(""); setLogSearch(""); setLogPickerOpen(false); }
-        setDialogOpen(v);
-      }}>
+      <Dialog
+        open={dialogOpen}
+        onOpenChange={(v) => {
+          if (!v) {
+            setReason("");
+            setDescription("");
+            setSelectedLogId(null);
+            setManualUdiPi("");
+            setLogSearch("");
+            setLogPickerOpen(false);
+          }
+          setDialogOpen(v);
+        }}
+      >
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle>Vorfall melden</DialogTitle>
-            <DialogDescription>Erfasse einen neuen Post-Market-Vorfall für deine Organisation.</DialogDescription>
+            <DialogDescription>
+              Erfasse einen neuen Post-Market-Vorfall für deine Organisation.
+            </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-2">
             {/* Production log picker */}
@@ -273,13 +381,20 @@ const PostMarket = () => {
               <Label>Rahmen aus Historie wählen</Label>
               <Popover open={logPickerOpen} onOpenChange={setLogPickerOpen}>
                 <PopoverTrigger asChild>
-                  <Button variant="outline" role="combobox" className="w-full justify-between font-normal">
+                  <Button
+                    variant="outline"
+                    role="combobox"
+                    className="w-full justify-between font-normal"
+                  >
                     {selectedLog ? (
                       <span className="truncate">
-                        {selectedLog.design_name ?? "Design"} — {selectedLog.assigned_udi_pi}
+                        {selectedLog.design_name ?? "Design"} —{" "}
+                        {selectedLog.assigned_udi_pi}
                       </span>
                     ) : (
-                      <span className="text-muted-foreground">Rahmen suchen…</span>
+                      <span className="text-muted-foreground">
+                        Rahmen suchen…
+                      </span>
                     )}
                     <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                   </Button>
@@ -303,17 +418,27 @@ const PostMarket = () => {
                               setManualUdiPi("");
                               setLogPickerOpen(false);
                             }}
-                            className={cn(selectedLogId === log.id && "bg-accent")}
+                            className={cn(
+                              selectedLogId === log.id && "bg-accent",
+                            )}
                           >
                             <div className="flex flex-col gap-0.5 w-full">
                               <div className="flex justify-between items-center">
-                                <span className="font-medium text-sm">{log.design_name ?? "—"}</span>
+                                <span className="font-medium text-sm">
+                                  {log.design_name ?? "—"}
+                                </span>
                                 <span className="text-xs text-muted-foreground">
-                                  {log.created_at ? format(new Date(log.created_at), "dd.MM.yy") : ""}
+                                  {log.created_at
+                                    ? format(
+                                        new Date(log.created_at),
+                                        "dd.MM.yy",
+                                      )
+                                    : ""}
                                 </span>
                               </div>
                               <span className="text-xs font-mono text-muted-foreground">
-                                {log.assigned_udi_pi}{log.color_name ? ` · ${log.color_name}` : ""}
+                                {log.assigned_udi_pi}
+                                {log.color_name ? ` · ${log.color_name}` : ""}
                               </span>
                             </div>
                           </CommandItem>
@@ -338,7 +463,9 @@ const PostMarket = () => {
             {/* Manual fallback */}
             {!selectedLogId && (
               <div className="space-y-2">
-                <Label className="text-xs text-muted-foreground">Oder Seriennummer manuell eingeben</Label>
+                <Label className="text-xs text-muted-foreground">
+                  Oder Seriennummer manuell eingeben
+                </Label>
                 <Input
                   placeholder="Seriennummer / UDI-PI"
                   value={manualUdiPi}
@@ -350,22 +477,45 @@ const PostMarket = () => {
             <div className="space-y-2">
               <Label>Grund</Label>
               <Select value={reason} onValueChange={setReason}>
-                <SelectTrigger><SelectValue placeholder="Grund wählen" /></SelectTrigger>
+                <SelectTrigger>
+                  <SelectValue placeholder="Grund wählen" />
+                </SelectTrigger>
                 <SelectContent>
                   {reasonOptions.map((r) => (
-                    <SelectItem key={r} value={r}>{r}</SelectItem>
+                    <SelectItem key={r} value={r}>
+                      {r}
+                    </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
             </div>
             <div className="space-y-2">
-              <Label>Beschreibung {reason === "Sonstiges" && <span className="text-destructive">*</span>}</Label>
-              <Textarea placeholder="Details zum Vorfall…" value={description} onChange={(e) => setDescription(e.target.value)} rows={3} />
+              <Label>
+                Beschreibung{" "}
+                {reason === "Sonstiges" && (
+                  <span className="text-destructive">*</span>
+                )}
+              </Label>
+              <Textarea
+                placeholder="Details zum Vorfall…"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                rows={3}
+              />
             </div>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setDialogOpen(false)}>Abbrechen</Button>
-            <Button disabled={!reason || (reason === "Sonstiges" && !description.trim()) || saving} onClick={handleSubmit}>
+            <Button variant="outline" onClick={() => setDialogOpen(false)}>
+              Abbrechen
+            </Button>
+            <Button
+              disabled={
+                !reason ||
+                (reason === "Sonstiges" && !description.trim()) ||
+                saving
+              }
+              onClick={handleSubmit}
+            >
               {saving ? "Wird gespeichert…" : "Vorfall melden"}
             </Button>
           </DialogFooter>
@@ -373,15 +523,27 @@ const PostMarket = () => {
       </Dialog>
 
       {/* Löse-Dialog */}
-      <Dialog open={!!resolveDialogId} onOpenChange={(v) => { if (!v) { setResolveDialogId(null); setResolveNote(""); } }}>
+      <Dialog
+        open={!!resolveDialogId}
+        onOpenChange={(v) => {
+          if (!v) {
+            setResolveDialogId(null);
+            setResolveNote("");
+          }
+        }}
+      >
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle>Vorfall lösen</DialogTitle>
-            <DialogDescription>Beschreibe, wie der Vorfall gelöst wurde.</DialogDescription>
+            <DialogDescription>
+              Beschreibe, wie der Vorfall gelöst wurde.
+            </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-2">
             <div className="space-y-2">
-              <Label>Bemerkung zur Lösung <span className="text-destructive">*</span></Label>
+              <Label>
+                Bemerkung zur Lösung <span className="text-destructive">*</span>
+              </Label>
               <Textarea
                 placeholder="Beschreiben Sie, warum der Vorfall als gelöst gilt…"
                 value={resolveNote}
@@ -391,8 +553,19 @@ const PostMarket = () => {
             </div>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => { setResolveDialogId(null); setResolveNote(""); }}>Abbrechen</Button>
-            <Button disabled={!resolveNote.trim() || resolving} onClick={handleResolve}>
+            <Button
+              variant="outline"
+              onClick={() => {
+                setResolveDialogId(null);
+                setResolveNote("");
+              }}
+            >
+              Abbrechen
+            </Button>
+            <Button
+              disabled={!resolveNote.trim() || resolving}
+              onClick={handleResolve}
+            >
               {resolving ? "Wird gespeichert…" : "Als gelöst markieren"}
             </Button>
           </DialogFooter>

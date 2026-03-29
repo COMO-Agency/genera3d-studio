@@ -49,7 +49,12 @@ export const useCreateFreeDesign = () => {
       qc.invalidateQueries({ queryKey: ["free_designs"] });
       toast({ title: "Design erstellt" });
     },
-    onError: (e: Error) => toast({ title: "Fehler", description: e.message, variant: "destructive" }),
+    onError: (e: Error) =>
+      toast({
+        title: "Fehler",
+        description: e.message,
+        variant: "destructive",
+      }),
   });
 };
 
@@ -60,14 +65,22 @@ export const useUpdateFreeDesign = () => {
   return useMutation({
     mutationFn: async ({ id, ...input }: FreeDesignInput & { id: string }) => {
       checkAdmin(isPlatformAdmin);
-      const { error } = await supabase.from("designs").update(input).eq("id", id);
+      const { error } = await supabase
+        .from("designs")
+        .update(input)
+        .eq("id", id);
       if (error) throw error;
     },
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["free_designs"] });
       toast({ title: "Design aktualisiert" });
     },
-    onError: (e: Error) => toast({ title: "Fehler", description: e.message, variant: "destructive" }),
+    onError: (e: Error) =>
+      toast({
+        title: "Fehler",
+        description: e.message,
+        variant: "destructive",
+      }),
   });
 };
 
@@ -78,14 +91,22 @@ export const useDeleteFreeDesign = () => {
   return useMutation({
     mutationFn: async (id: string) => {
       checkAdmin(isPlatformAdmin);
-      const { error } = await supabase.from("designs").update({ is_latest: false }).eq("id", id);
+      const { error } = await supabase
+        .from("designs")
+        .update({ is_latest: false })
+        .eq("id", id);
       if (error) throw error;
     },
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["free_designs"] });
       toast({ title: "Design entfernt" });
     },
-    onError: (e: Error) => toast({ title: "Fehler", description: e.message, variant: "destructive" }),
+    onError: (e: Error) =>
+      toast({
+        title: "Fehler",
+        description: e.message,
+        variant: "destructive",
+      }),
   });
 };
 
@@ -95,11 +116,20 @@ export const useUploadFreeDesignImage = () => {
       validateImageFile(file);
       const ext = file.name.split(".").pop();
       const path = `free-designs/${crypto.randomUUID()}.${ext}`;
-      const { error } = await supabase.storage.from("org-design-images").upload(path, file);
+      const { error } = await supabase.storage
+        .from("org-design-images")
+        .upload(path, file);
       if (error) throw error;
-      const { data } = supabase.storage.from("org-design-images").getPublicUrl(path);
+      const { data } = supabase.storage
+        .from("org-design-images")
+        .getPublicUrl(path);
       return data.publicUrl;
     },
-    onError: (e: Error) => toast({ title: "Upload fehlgeschlagen", description: e.message, variant: "destructive" }),
+    onError: (e: Error) =>
+      toast({
+        title: "Upload fehlgeschlagen",
+        description: e.message,
+        variant: "destructive",
+      }),
   });
 };

@@ -31,7 +31,9 @@ const ColorPreviewCard = ({ color: c, onDelete, isGlobal }: Props) => (
         </div>
         <div className="flex items-center gap-1.5 shrink-0">
           {isGlobal && (
-            <Badge variant="secondary" className="text-xs">Genera</Badge>
+            <Badge variant="secondary" className="text-xs">
+              Genera
+            </Badge>
           )}
           <Badge variant="outline" className="text-xs">
             {c.color_type === "standard" ? "Standard" : "C1 Sonderfarbe"}
@@ -65,7 +67,8 @@ const ColorPreviewCard = ({ color: c, onDelete, isGlobal }: Props) => (
 
       {c.opacity_type && c.opacity_type !== "opak" && (
         <p className="text-xs text-muted-foreground flex items-center gap-1.5">
-          <Droplets className="h-3.5 w-3.5" /> {OPACITY_LABELS[c.opacity_type] ?? c.opacity_type}
+          <Droplets className="h-3.5 w-3.5" />{" "}
+          {OPACITY_LABELS[c.opacity_type] ?? c.opacity_type}
         </p>
       )}
 

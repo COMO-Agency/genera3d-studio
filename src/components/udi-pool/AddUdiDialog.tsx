@@ -3,10 +3,19 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
-  Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription,
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+  DialogDescription,
 } from "@/components/ui/dialog";
 import {
-  Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from "@/components/ui/select";
 
 interface Design {
@@ -22,7 +31,13 @@ interface AddUdiDialogProps {
   isPending: boolean;
 }
 
-const AddUdiDialog = ({ open, onOpenChange, designs, onSubmit, isPending }: AddUdiDialogProps) => {
+const AddUdiDialog = ({
+  open,
+  onOpenChange,
+  designs,
+  onSubmit,
+  isPending,
+}: AddUdiDialogProps) => {
   const [designId, setDesignId] = useState("");
   const [udiValue, setUdiValue] = useState("");
   const [price, setPrice] = useState("");
@@ -44,7 +59,9 @@ const AddUdiDialog = ({ open, onOpenChange, designs, onSubmit, isPending }: AddU
     const normalizedPrice = price.replace(",", ".");
     const cents = Math.round(parseFloat(normalizedPrice) * 100);
     if (isNaN(cents) || cents < 0) {
-      alert("Ungültiger Preis. Bitte geben Sie einen gültigen Preis ein (z.B. 25.00 oder 25,00).");
+      alert(
+        "Ungültiger Preis. Bitte geben Sie einen gültigen Preis ein (z.B. 25.00 oder 25,00).",
+      );
       return;
     }
     onSubmit(designId, udiValue.trim(), cents);
@@ -55,32 +72,54 @@ const AddUdiDialog = ({ open, onOpenChange, designs, onSubmit, isPending }: AddU
       <DialogContent>
         <DialogHeader>
           <DialogTitle>UDI hinzufügen</DialogTitle>
-          <DialogDescription>Einzelnen UDI-DI-Eintrag anlegen.</DialogDescription>
+          <DialogDescription>
+            Einzelnen UDI-DI-Eintrag anlegen.
+          </DialogDescription>
         </DialogHeader>
         <div className="space-y-4">
           <div className="space-y-2">
             <Label>Design</Label>
             <Select value={designId} onValueChange={setDesignId}>
-              <SelectTrigger><SelectValue placeholder="Design wählen" /></SelectTrigger>
+              <SelectTrigger>
+                <SelectValue placeholder="Design wählen" />
+              </SelectTrigger>
               <SelectContent>
                 {designs.map((d) => (
-                  <SelectItem key={d.id} value={d.id}>{d.name}</SelectItem>
+                  <SelectItem key={d.id} value={d.id}>
+                    {d.name}
+                  </SelectItem>
                 ))}
               </SelectContent>
             </Select>
           </div>
           <div className="space-y-2">
             <Label>UDI-DI Wert</Label>
-            <Input value={udiValue} onChange={(e) => setUdiValue(e.target.value)} placeholder="z.B. 04260..." />
+            <Input
+              value={udiValue}
+              onChange={(e) => setUdiValue(e.target.value)}
+              placeholder="z.B. 04260..."
+            />
           </div>
           <div className="space-y-2">
             <Label>Preis (EUR)</Label>
-            <Input type="number" step="0.01" min="0" value={price} onChange={(e) => setPrice(e.target.value)} placeholder="z.B. 25.00" />
+            <Input
+              type="number"
+              step="0.01"
+              min="0"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              placeholder="z.B. 25.00"
+            />
           </div>
         </div>
         <DialogFooter>
-          <Button variant="outline" onClick={() => handleOpenChange(false)}>Abbrechen</Button>
-          <Button onClick={handleSubmit} disabled={isPending || !designId || !udiValue.trim() || !price}>
+          <Button variant="outline" onClick={() => handleOpenChange(false)}>
+            Abbrechen
+          </Button>
+          <Button
+            onClick={handleSubmit}
+            disabled={isPending || !designId || !udiValue.trim() || !price}
+          >
             {isPending ? "Speichern…" : "Speichern"}
           </Button>
         </DialogFooter>

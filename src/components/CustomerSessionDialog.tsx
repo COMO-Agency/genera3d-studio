@@ -17,7 +17,10 @@ interface CustomerSessionDialogProps {
   onOpenChange: (open: boolean) => void;
 }
 
-const CustomerSessionDialog = ({ open, onOpenChange }: CustomerSessionDialogProps) => {
+const CustomerSessionDialog = ({
+  open,
+  onOpenChange,
+}: CustomerSessionDialogProps) => {
   const [name, setName] = useState("");
   const { startSession } = useCustomerSession();
 
@@ -38,7 +41,9 @@ const CustomerSessionDialog = ({ open, onOpenChange }: CustomerSessionDialogProp
       <DialogContent className="sm:max-w-sm">
         <DialogHeader>
           <DialogTitle>Druckauftrag anlegen</DialogTitle>
-          <DialogDescription>Alle Druckaufträge werden mit diesem Kunden verknüpft.</DialogDescription>
+          <DialogDescription>
+            Alle Druckaufträge werden mit diesem Kunden verknüpft.
+          </DialogDescription>
         </DialogHeader>
         <div className="space-y-2 py-2">
           <Label>Kundenname / Referenz</Label>
@@ -51,8 +56,12 @@ const CustomerSessionDialog = ({ open, onOpenChange }: CustomerSessionDialogProp
           />
         </div>
         <DialogFooter>
-          <Button variant="outline" onClick={() => handleOpenChange(false)}>Abbrechen</Button>
-          <Button disabled={!name.trim()} onClick={handleStart}>Beratung starten</Button>
+          <Button variant="outline" onClick={() => handleOpenChange(false)}>
+            Abbrechen
+          </Button>
+          <Button disabled={!name.trim()} onClick={handleStart}>
+            Beratung starten
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

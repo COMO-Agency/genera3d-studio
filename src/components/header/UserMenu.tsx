@@ -29,7 +29,13 @@ import { toast } from "@/hooks/use-toast";
 
 function getInitials(name?: string | null, email?: string | null): string {
   if (name && name.trim()) {
-    return name.trim().split(/\s+/).map((w) => w[0]).slice(0, 2).join("").toUpperCase();
+    return name
+      .trim()
+      .split(/\s+/)
+      .map((w) => w[0])
+      .slice(0, 2)
+      .join("")
+      .toUpperCase();
   }
   if (email) return email[0].toUpperCase();
   return "?";
@@ -48,7 +54,10 @@ const UserMenu = () => {
     await signOut();
     endSession();
     queryClient.clear();
-    toast({ title: "Abgemeldet", description: "Du wurdest erfolgreich ausgeloggt." });
+    toast({
+      title: "Abgemeldet",
+      description: "Du wurdest erfolgreich ausgeloggt.",
+    });
     navigate("/login");
   };
 
@@ -56,7 +65,12 @@ const UserMenu = () => {
     <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" size="icon" className="rounded-full p-0" aria-label="Benutzermenü">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="rounded-full p-0"
+            aria-label="Benutzermenü"
+          >
             <Avatar className="h-8 w-8">
               <AvatarFallback className="text-xs bg-primary/10 text-primary">
                 {initials}
@@ -68,18 +82,25 @@ const UserMenu = () => {
           {user && (
             <>
               <div className="px-2 py-1.5">
-                <p className="text-sm font-medium text-foreground">{profile?.full_name || user.email}</p>
+                <p className="text-sm font-medium text-foreground">
+                  {profile?.full_name || user.email}
+                </p>
                 <p className="text-xs text-muted-foreground">{user.email}</p>
               </div>
               {profile?.role && (
                 <div className="px-2 pb-1.5">
-                  <Badge variant="secondary" className="text-[10px] capitalize">{profile.role}</Badge>
+                  <Badge variant="secondary" className="text-[10px] capitalize">
+                    {profile.role}
+                  </Badge>
                 </div>
               )}
               <DropdownMenuSeparator />
             </>
           )}
-          <DropdownMenuItem className="gap-2" onClick={() => setConfirmOpen(true)}>
+          <DropdownMenuItem
+            className="gap-2"
+            onClick={() => setConfirmOpen(true)}
+          >
             <LogOut className="h-4 w-4" />
             Abmelden
           </DropdownMenuItem>
@@ -91,12 +112,15 @@ const UserMenu = () => {
           <AlertDialogHeader>
             <AlertDialogTitle>Abmelden?</AlertDialogTitle>
             <AlertDialogDescription>
-              Möchtest du dich wirklich abmelden? Nicht gespeicherte Änderungen gehen verloren.
+              Möchtest du dich wirklich abmelden? Nicht gespeicherte Änderungen
+              gehen verloren.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Abbrechen</AlertDialogCancel>
-            <AlertDialogAction onClick={handleLogout}>Abmelden</AlertDialogAction>
+            <AlertDialogAction onClick={handleLogout}>
+              Abmelden
+            </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

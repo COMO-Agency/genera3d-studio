@@ -28,10 +28,10 @@ class ErrorBoundary extends Component<Props, State> {
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     // Log to console
     console.error("ErrorBoundary caught:", error, errorInfo);
-    
+
     // Send to error reporting
     captureComponentError(error, errorInfo, this.props.componentName);
-    
+
     this.setState({ errorInfo });
   }
 
@@ -51,14 +51,24 @@ class ErrorBoundary extends Component<Props, State> {
       }
 
       return (
-        <div className="flex min-h-screen items-center justify-center bg-secondary p-6" role="alert" aria-live="assertive">
+        <div
+          className="flex min-h-screen items-center justify-center bg-secondary p-6"
+          role="alert"
+          aria-live="assertive"
+        >
           <div className="text-center max-w-md space-y-4">
             <div className="mx-auto h-12 w-12 rounded-full bg-destructive/10 flex items-center justify-center">
-              <AlertTriangle className="h-6 w-6 text-destructive" aria-hidden="true" />
+              <AlertTriangle
+                className="h-6 w-6 text-destructive"
+                aria-hidden="true"
+              />
             </div>
-            <h2 className="text-lg font-semibold text-foreground">Etwas ist schiefgelaufen</h2>
+            <h2 className="text-lg font-semibold text-foreground">
+              Etwas ist schiefgelaufen
+            </h2>
             <p className="text-sm text-muted-foreground">
-              {this.state.error?.message || "Ein unerwarteter Fehler ist aufgetreten."}
+              {this.state.error?.message ||
+                "Ein unerwarteter Fehler ist aufgetreten."}
             </p>
             {import.meta.env.DEV && this.state.errorInfo && (
               <details className="text-left text-xs text-muted-foreground bg-muted p-2 rounded">
@@ -73,9 +83,7 @@ class ErrorBoundary extends Component<Props, State> {
                 <RotateCcw className="h-4 w-4 mr-2" aria-hidden="true" />
                 Erneut versuchen
               </Button>
-              <Button onClick={this.handleReload}>
-                Seite neu laden
-              </Button>
+              <Button onClick={this.handleReload}>Seite neu laden</Button>
             </div>
           </div>
         </div>

@@ -59,9 +59,11 @@ export const useRealtimeProductionLogs = () => {
             filter: `org_id=eq.${orgId}`,
           },
           () => {
-            queryClient.invalidateQueries({ queryKey: ["production_logs_all"] });
+            queryClient.invalidateQueries({
+              queryKey: ["production_logs_all"],
+            });
             queryClient.invalidateQueries({ queryKey: ["gtin-pool-count"] });
-          }
+          },
         )
         .subscribe((status) => {
           if (status === "SUBSCRIBED") {
@@ -79,7 +81,8 @@ export const useRealtimeProductionLogs = () => {
               startFallbackPolling();
               toast({
                 title: "Verbindungsproblem",
-                description: "Echtzeit-Updates sind vorübergehend nicht verfügbar. Daten werden alle 30 Sekunden aktualisiert.",
+                description:
+                  "Echtzeit-Updates sind vorübergehend nicht verfügbar. Daten werden alle 30 Sekunden aktualisiert.",
                 variant: "destructive",
               });
             }

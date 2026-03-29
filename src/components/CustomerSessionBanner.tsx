@@ -10,7 +10,9 @@ const CustomerSessionBanner = () => {
   useEffect(() => {
     if (!active || !startedAt) return;
     const tick = () => {
-      const diff = Math.floor((Date.now() - new Date(startedAt).getTime()) / 1000);
+      const diff = Math.floor(
+        (Date.now() - new Date(startedAt).getTime()) / 1000,
+      );
       const m = Math.floor(diff / 60);
       const s = diff % 60;
       setElapsed(`${m}:${s.toString().padStart(2, "0")}`);
@@ -30,7 +32,12 @@ const CustomerSessionBanner = () => {
         <span className="text-primary font-semibold">{customerName}</span>
         <span className="text-muted-foreground text-xs">({elapsed})</span>
       </div>
-      <Button variant="ghost" size="sm" className="h-6 px-2 text-xs" onClick={endSession}>
+      <Button
+        variant="ghost"
+        size="sm"
+        className="h-6 px-2 text-xs"
+        onClick={endSession}
+      >
         <X className="h-3 w-3 mr-1" /> Beenden
       </Button>
     </div>

@@ -37,7 +37,7 @@ export const useFreeDesigns = () => {
       if (collectionsRes.error) throw collectionsRes.error;
 
       const collectionMap = new Map(
-        (collectionsRes.data ?? []).map((c) => [c.id, c.name])
+        (collectionsRes.data ?? []).map((c) => [c.id, c.name]),
       );
 
       return (designsRes.data ?? []).map((d) => ({
@@ -52,7 +52,7 @@ export const useFreeDesigns = () => {
         glb_preview_url: d.glb_preview_url,
         collection_id: d.collection_id,
         collectionName: d.collection_id
-          ? collectionMap.get(d.collection_id) ?? "Sonstige"
+          ? (collectionMap.get(d.collection_id) ?? "Sonstige")
           : "Sonstige",
         size: d.size ?? null,
         construction_type: d.construction_type ?? null,

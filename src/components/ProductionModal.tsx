@@ -1,12 +1,21 @@
 import { useEffect, useRef, useState } from "react";
 import {
-  Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle,
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import {
-  Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from "@/components/ui/select";
 import { cn, getErrorMessage } from "@/lib/utils";
 import { supabase } from "@/integrations/supabase/client";
@@ -44,22 +53,34 @@ interface ProductionModalProps {
   onSuccess?: (result: ProductionSuccessResult) => void;
 }
 
-const ProductionModal = ({ open, onClose, designId, designName, preselectedColor, udiDiBase, onSuccess }: ProductionModalProps) => {
+const ProductionModal = ({
+  open,
+  onClose,
+  designId,
+  designName,
+  preselectedColor,
+  udiDiBase,
+  onSuccess,
+}: ProductionModalProps) => {
   const [color, setColor] = useState(preselectedColor ?? "");
   const [materialId, setMaterialId] = useState("");
-  const [mode, setMode] = useState<"optical" | "optical_sun" | "sunglasses" | "">("");
+  const [mode, setMode] = useState<
+    "optical" | "optical_sun" | "sunglasses" | ""
+  >("");
   const [customerRef, setCustomerRef] = useState("");
   const [loading, setLoading] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const queryClient = useQueryClient();
-  const { active: sessionActive, customerName: sessionCustomer } = useCustomerSession();
+  const { active: sessionActive, customerName: sessionCustomer } =
+    useCustomerSession();
   const { data: materials } = useMaterials();
   const { data: orgColors } = useOrgColors();
   const { data: org } = useOrganization();
   const { data: orgDesigns } = useOrgDesigns();
   const settings = parseOrgSettings(org?.settings);
 
-  const isFreeDesign = orgDesigns != null && !orgDesigns.some((d) => d.id === designId);
+  const isFreeDesign =
+    orgDesigns != null && !orgDesigns.some((d) => d.id === designId);
   const [freeDesignMfr, setFreeDesignMfr] = useState<{
     manufacturer_name?: string | null;
     manufacturer_address?: string | null;
@@ -80,7 +101,9 @@ const ProductionModal = ({ open, onClose, designId, designName, preselectedColor
       try {
         const { data: d } = await supabase
           .from("designs")
-          .select("manufacturer_name, manufacturer_address, manufacturer_city, manufacturer_contact")
+          .select(
+            "manufacturer_name, manufacturer_address, manufacturer_city, manufacturer_contact",
+          )
           .eq("id", designId)
           .maybeSingle();
         if (!cancelled) {
@@ -94,7 +117,9 @@ const ProductionModal = ({ open, onClose, designId, designName, preselectedColor
         }
       }
     })();
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+    };
   }, [open, isFreeDesign, designId]);
 
   useEffect(() => {
@@ -149,12 +174,21 @@ const ProductionModal = ({ open, onClose, designId, designName, preselectedColor
 
       // Notify parent with result — use manufacturer from designs table for Free Designs
       // Fallback to org data if Free Design manufacturer data is not available
-      const mfrName = isFreeDesign ? (freeDesignMfr?.manufacturer_name || org?.name) : org?.name;
+      const mfrName = isFreeDesign
+        ? freeDesignMfr?.manufacturer_name || org?.name
+        : org?.name;
       const mfrContact = isFreeDesign
-        ? (freeDesignMfr?.manufacturer_contact || settings.mdr_responsible_person || settings.contact_person)
-        : (settings.mdr_responsible_person || settings.contact_person);
+        ? freeDesignMfr?.manufacturer_contact ||
+          settings.mdr_responsible_person ||
+          settings.contact_person
+        : settings.mdr_responsible_person || settings.contact_person;
       const mfrAddress = isFreeDesign
-        ? [freeDesignMfr?.manufacturer_address, freeDesignMfr?.manufacturer_city].filter(Boolean).join(", ") || settings.address
+        ? [
+            freeDesignMfr?.manufacturer_address,
+            freeDesignMfr?.manufacturer_city,
+          ]
+            .filter(Boolean)
+            .join(", ") || settings.address
         : settings.address;
 
       onSuccess?.({
@@ -171,7 +205,11 @@ const ProductionModal = ({ open, onClose, designId, designName, preselectedColor
       // Close dialog (unmounts component)
       onClose();
     } catch (err: unknown) {
-      toast({ title: "Fehler", description: getErrorMessage(err), variant: "destructive" });
+      toast({
+        title: "Fehler",
+        description: getErrorMessage(err),
+        variant: "destructive",
+      });
     } finally {
       setLoading(false);
       submittingRef.current = false;
@@ -181,7 +219,9 @@ const ProductionModal = ({ open, onClose, designId, designName, preselectedColor
   const getConfirmText = () => {
     const colorName = orgColors?.find((c) => c.id === color)?.name ?? color;
     const colorText = colorName ? ` in ${colorName}` : "";
-    const gtinHint = udiDiBase ? "Die feste Design-GTIN wird verwendet." : "Eine GTIN wird aus dem Pool zugewiesen.";
+    const gtinHint = udiDiBase
+      ? "Die feste Design-GTIN wird verwendet."
+      : "Eine GTIN wird aus dem Pool zugewiesen.";
     if (mode === "optical")
       return `Optische Brille „${designName}"${colorText} wird angelegt. ${gtinHint} Fortfahren?`;
     if (mode === "optical_sun")
@@ -207,10 +247,14 @@ const ProductionModal = ({ open, onClose, designId, designName, preselectedColor
               </SelectTrigger>
               <SelectContent>
                 {materials?.map((m) => (
-                  <SelectItem key={m.id} value={m.id}>{m.name}</SelectItem>
+                  <SelectItem key={m.id} value={m.id}>
+                    {m.name}
+                  </SelectItem>
                 ))}
                 {(!materials || materials.length === 0) && (
-                  <SelectItem value="__none" disabled>Keine Materialien angelegt</SelectItem>
+                  <SelectItem value="__none" disabled>
+                    Keine Materialien angelegt
+                  </SelectItem>
                 )}
               </SelectContent>
             </Select>
@@ -230,7 +274,9 @@ const ProductionModal = ({ open, onClose, designId, designName, preselectedColor
                   </SelectItem>
                 ))}
                 {(!orgColors || orgColors.length === 0) && (
-                  <SelectItem value="__none" disabled>Keine Farben angelegt — Farbkatalog besuchen</SelectItem>
+                  <SelectItem value="__none" disabled>
+                    Keine Farben angelegt — Farbkatalog besuchen
+                  </SelectItem>
                 )}
               </SelectContent>
             </Select>
@@ -243,7 +289,11 @@ const ProductionModal = ({ open, onClose, designId, designName, preselectedColor
               <Button
                 type="button"
                 variant={mode === "optical" ? "default" : "outline"}
-                className={cn("h-auto py-3", mode === "optical" && "ring-2 ring-neon-cyan ring-offset-2 ring-offset-background")}
+                className={cn(
+                  "h-auto py-3",
+                  mode === "optical" &&
+                    "ring-2 ring-neon-cyan ring-offset-2 ring-offset-background",
+                )}
                 onClick={() => setMode("optical")}
               >
                 <div className="text-center">
@@ -254,7 +304,11 @@ const ProductionModal = ({ open, onClose, designId, designName, preselectedColor
               <Button
                 type="button"
                 variant={mode === "optical_sun" ? "default" : "outline"}
-                className={cn("h-auto py-3", mode === "optical_sun" && "ring-2 ring-warning ring-offset-2 ring-offset-background")}
+                className={cn(
+                  "h-auto py-3",
+                  mode === "optical_sun" &&
+                    "ring-2 ring-warning ring-offset-2 ring-offset-background",
+                )}
                 onClick={() => setMode("optical_sun")}
               >
                 <div className="text-center">
@@ -265,7 +319,11 @@ const ProductionModal = ({ open, onClose, designId, designName, preselectedColor
               <Button
                 type="button"
                 variant={mode === "sunglasses" ? "default" : "outline"}
-                className={cn("h-auto py-3", mode === "sunglasses" && "ring-2 ring-neon-pink ring-offset-2 ring-offset-background")}
+                className={cn(
+                  "h-auto py-3",
+                  mode === "sunglasses" &&
+                    "ring-2 ring-neon-pink ring-offset-2 ring-offset-background",
+                )}
                 onClick={() => setMode("sunglasses")}
               >
                 <div className="text-center">
@@ -298,11 +356,14 @@ const ProductionModal = ({ open, onClose, designId, designName, preselectedColor
               <div className="rounded-md border border-warning/30 bg-warning/5 p-3 text-sm text-foreground space-y-2">
                 <p>{getConfirmText()}</p>
                 <p className="text-xs text-muted-foreground">
-                  Status: QC ausstehend — Qualitätskontrolle nach Druck erforderlich.
+                  Status: QC ausstehend — Qualitätskontrolle nach Druck
+                  erforderlich.
                 </p>
               </div>
               <div className="flex justify-end gap-2">
-                <Button variant="outline" onClick={() => setShowConfirm(false)}>Abbrechen</Button>
+                <Button variant="outline" onClick={() => setShowConfirm(false)}>
+                  Abbrechen
+                </Button>
                 <Button disabled={loading} onClick={handleStart}>
                   {loading ? "Wird angelegt…" : "Bestätigen"}
                 </Button>
@@ -310,12 +371,21 @@ const ProductionModal = ({ open, onClose, designId, designName, preselectedColor
             </div>
           ) : (
             <>
-              <Button variant="outline" onClick={handleClose}>Abbrechen</Button>
+              <Button variant="outline" onClick={handleClose}>
+                Abbrechen
+              </Button>
               <Button
-                disabled={!color || !mode || !materialId || (isFreeDesign && freeDesignMfrLoading)}
+                disabled={
+                  !color ||
+                  !mode ||
+                  !materialId ||
+                  (isFreeDesign && freeDesignMfrLoading)
+                }
                 onClick={() => setShowConfirm(true)}
               >
-                {isFreeDesign && freeDesignMfrLoading ? "Lade…" : "Rahmen anlegen"}
+                {isFreeDesign && freeDesignMfrLoading
+                  ? "Lade…"
+                  : "Rahmen anlegen"}
               </Button>
             </>
           )}

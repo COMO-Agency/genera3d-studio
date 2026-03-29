@@ -9,7 +9,10 @@ const NotFound = () => {
   const location = useLocation();
 
   useEffect(() => {
-    console.error("404 Error: User attempted to access non-existent route:", location.pathname);
+    console.error(
+      "404 Error: User attempted to access non-existent route:",
+      location.pathname,
+    );
   }, [location.pathname]);
 
   return (
@@ -26,13 +29,18 @@ const NotFound = () => {
         </div>
         <div className="flex items-center justify-center gap-2 mb-4">
           <div className="h-8 w-8 rounded-md bg-gradient-to-br from-neon-cyan to-primary flex items-center justify-center">
-            <span className="text-primary-foreground font-bold text-xs">G3</span>
+            <span className="text-primary-foreground font-bold text-xs">
+              G3
+            </span>
           </div>
           <span className="font-semibold text-foreground">Genera3D</span>
         </div>
-        <h1 className="mb-2 text-5xl font-light text-foreground tracking-tight">404</h1>
+        <h1 className="mb-2 text-5xl font-light text-foreground tracking-tight">
+          404
+        </h1>
         <p className="mb-6 text-lg text-muted-foreground">
-          Diese Seite wurde nicht gefunden. Vielleicht wurde sie verlegt — wie eine Brille auf dem Kopf.
+          Diese Seite wurde nicht gefunden. Vielleicht wurde sie verlegt — wie
+          eine Brille auf dem Kopf.
         </p>
         <Button asChild size="lg">
           <Link to="/dashboard">Zurück zum Dashboard</Link>
