@@ -31,7 +31,7 @@ jobs:
         run: npx tsc --noEmit
         
       - name: Check formatting
-        run: npx prettier --check "src/**/*.{ts,tsx,css,json}" || true
+        run: npx prettier --check "src/**/*.{ts,tsx,css,json}"
 
   # Job 2: Unit Tests
   unit-tests:
