@@ -5,7 +5,13 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Upload, AlertTriangle, Check } from "lucide-react";
@@ -56,7 +62,10 @@ const AdminGtinImport = () => {
   const [ownerId, setOwnerId] = useState("");
   const [rawText, setRawText] = useState("");
   const [importing, setImporting] = useState(false);
-  const [result, setResult] = useState<{ inserted: number; skipped: number } | null>(null);
+  const [result, setResult] = useState<{
+    inserted: number;
+    skipped: number;
+  } | null>(null);
 
   // For non-superadmins, auto-set defaults based on their membership
   useEffect(() => {
@@ -75,7 +84,9 @@ const AdminGtinImport = () => {
     queryKey: ["admin-orgs"],
     enabled: isPlatformAdmin && ownerType === "org",
     queryFn: async () => {
-      const { data, error } = await supabase.from("organizations").select("id, name");
+      const { data, error } = await supabase
+        .from("organizations")
+        .select("id, name");
       if (error) throw error;
       return data ?? [];
     },
@@ -152,7 +163,10 @@ const AdminGtinImport = () => {
               const v = String(r[col] ?? "").trim();
               return v.length >= 8 && /^\d+$/.test(v);
             }).length;
-            if (numericCount > rows.length * 0.5) { gtinCol = col; break; }
+            if (numericCount > rows.length * 0.5) {
+              gtinCol = col;
+              break;
+            }
           }
         }
         if (gtinCol < 0) gtinCol = 0;
@@ -163,14 +177,21 @@ const AdminGtinImport = () => {
           .filter((v) => v.length >= 8 && /^\d+$/.test(v));
 
         setRawText(gtins.join("\n"));
-        toast({ title: "Excel gelesen", description: `${gtins.length} GTINs aus Spalte "${header[gtinCol] || gtinCol + 1}" erkannt.` });
+        toast({
+          title: "Excel gelesen",
+          description: `${gtins.length} GTINs aus Spalte "${header[gtinCol] || gtinCol + 1}" erkannt.`,
+        });
       } catch (err: unknown) {
-        toast({ title: "Excel-Fehler", description: getErrorMessage(err), variant: "destructive" });
+        toast({
+          title: "Excel-Fehler",
+          description: getErrorMessage(err),
+          variant: "destructive",
+        });
       }
     } else {
       const reader = new FileReader();
       reader.onload = (ev) => {
-        setRawText(ev.target?.result as string ?? "");
+        setRawText((ev.target?.result as string) ?? "");
       };
       reader.readAsText(file);
     }
@@ -192,7 +213,7 @@ const AdminGtinImport = () => {
     // Warnung bei ungültigen Checksums
     if (invalidChecksumGtins.length > 0) {
       const proceed = window.confirm(
-        `${invalidChecksumGtins.length} GTINs haben ungültige GS1-Checksums. Diese werden übersprungen. Fortfahren?`
+        `${invalidChecksumGtins.length} GTINs haben ungültige GS1-Checksums. Diese werden übersprungen. Fortfahren?`,
       );
       if (!proceed) return;
     }
@@ -207,7 +228,10 @@ const AdminGtinImport = () => {
         .select("gtin_value")
         .in("gtin_value", validGtins.slice(0, 1000));
 
-      if (existCheckErr) throw new Error(`Duplikatprüfung fehlgeschlagen: ${existCheckErr.message}`);
+      if (existCheckErr)
+        throw new Error(
+          `Duplikatprüfung fehlgeschlagen: ${existCheckErr.message}`,
+        );
 
       const existingSet = new Set(existing?.map((e) => e.gtin_value) ?? []);
 
@@ -218,7 +242,10 @@ const AdminGtinImport = () => {
             .from("gtin_pool")
             .select("gtin_value")
             .in("gtin_value", batch);
-          if (batchErr) throw new Error(`Duplikatprüfung fehlgeschlagen: ${batchErr.message}`);
+          if (batchErr)
+            throw new Error(
+              `Duplikatprüfung fehlgeschlagen: ${batchErr.message}`,
+            );
           batchExisting?.forEach((e) => existingSet.add(e.gtin_value));
         }
       }
@@ -231,7 +258,8 @@ const AdminGtinImport = () => {
           gtin_value: gtin,
         }));
 
-      const skipped = validGtins.length - toInsert.length + invalidChecksumGtins.length;
+      const skipped =
+        validGtins.length - toInsert.length + invalidChecksumGtins.length;
 
       let inserted = 0;
       for (let i = 0; i < toInsert.length; i += 500) {
@@ -243,21 +271,29 @@ const AdminGtinImport = () => {
 
       setResult({ inserted, skipped });
       setRawText("");
-      toast({ title: "Import abgeschlossen", description: `${inserted} GTINs importiert, ${skipped} übersprungen.` });
+      toast({
+        title: "Import abgeschlossen",
+        description: `${inserted} GTINs importiert, ${skipped} übersprungen.`,
+      });
       queryClient.invalidateQueries({ queryKey: ["gtin-pool"] });
       queryClient.invalidateQueries({ queryKey: ["gtin-pool-count"] });
     } catch (err: unknown) {
-      toast({ title: "Fehler", description: getErrorMessage(err), variant: "destructive" });
+      toast({
+        title: "Fehler",
+        description: getErrorMessage(err),
+        variant: "destructive",
+      });
     } finally {
       setImporting(false);
     }
   };
 
-  if (isLoading) return (
-    <div className="flex items-center justify-center min-h-[40vh]">
-      <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-    </div>
-  );
+  if (isLoading)
+    return (
+      <div className="flex items-center justify-center min-h-[40vh]">
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+      </div>
+    );
   if (!hasAccess) {
     return <Navigate to="/dashboard" replace />;
   }
@@ -278,8 +314,17 @@ const AdminGtinImport = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label className="text-xs">Eigentümertyp</Label>
-                <Select value={ownerType} onValueChange={(v) => { setOwnerType(v as "org" | "label"); setOwnerId(""); setResult(null); }}>
-                  <SelectTrigger><SelectValue /></SelectTrigger>
+                <Select
+                  value={ownerType}
+                  onValueChange={(v) => {
+                    setOwnerType(v as "org" | "label");
+                    setOwnerId("");
+                    setResult(null);
+                  }}
+                >
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="org">Organisation</SelectItem>
                     <SelectItem value="label">Label</SelectItem>
@@ -287,18 +332,24 @@ const AdminGtinImport = () => {
                 </Select>
               </div>
               <div className="space-y-2">
-                <Label className="text-xs">{ownerType === "org" ? "Organisation" : "Label"}</Label>
+                <Label className="text-xs">
+                  {ownerType === "org" ? "Organisation" : "Label"}
+                </Label>
                 <Select value={ownerId} onValueChange={setOwnerId}>
-                  <SelectTrigger><SelectValue placeholder="Auswählen..." /></SelectTrigger>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Auswählen..." />
+                  </SelectTrigger>
                   <SelectContent>
                     {owners?.map((o) => (
-                      <SelectItem key={o.id} value={o.id}>{o.name}</SelectItem>
+                      <SelectItem key={o.id} value={o.id}>
+                        {o.name}
+                      </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
               </div>
             </div>
-          ) : isLabelAdmin && (profile?.org_id && labelId) ? (
+          ) : isLabelAdmin && profile?.org_id && labelId ? (
             <div className="space-y-2">
               <Label className="text-xs">Importieren für</Label>
               <Select
@@ -314,7 +365,9 @@ const AdminGtinImport = () => {
                   setResult(null);
                 }}
               >
-                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
                 <SelectContent>
                   <SelectItem value={profile.org_id}>
                     Organisation: {org?.name ?? "Meine Organisation"}
@@ -328,7 +381,9 @@ const AdminGtinImport = () => {
           ) : ownerId ? (
             <Alert>
               <AlertDescription>
-                GTINs werden für {ownerType === "label" ? "dein Label" : "deine Organisation"} importiert.
+                GTINs werden für{" "}
+                {ownerType === "label" ? "dein Label" : "deine Organisation"}{" "}
+                importiert.
               </AlertDescription>
             </Alert>
           ) : null}
@@ -336,16 +391,24 @@ const AdminGtinImport = () => {
           {/* CSV Upload */}
           <div className="space-y-2">
             <Label className="text-xs">CSV/TXT/XLSX-Datei hochladen</Label>
-            <Input type="file" accept=".csv,.txt,.xlsx,.xls" onChange={handleFileUpload} />
+            <Input
+              type="file"
+              accept=".csv,.txt,.xlsx,.xls"
+              onChange={handleFileUpload}
+            />
           </div>
 
           {/* Textarea */}
           <div className="space-y-2">
-            <Label className="text-xs">Oder GTINs einfügen (eine pro Zeile)</Label>
+            <Label className="text-xs">
+              Oder GTINs einfügen (eine pro Zeile)
+            </Label>
             <Textarea
               value={rawText}
               onChange={(e) => setRawText(e.target.value)}
-              placeholder={"04012345000010\n04012345000027\n04012345000034\n..."}
+              placeholder={
+                "04012345000010\n04012345000027\n04012345000034\n..."
+              }
               rows={8}
               className="font-mono text-xs"
             />
@@ -354,20 +417,31 @@ const AdminGtinImport = () => {
           {/* Preview */}
           {rawText.trim() && (
             <div className="flex items-center gap-3 flex-wrap">
-              <Badge variant="secondary">{validGtins.length} gültige GTINs</Badge>
+              <Badge variant="secondary">
+                {validGtins.length} gültige GTINs
+              </Badge>
               {duplicateCount > 0 && (
-                <Badge variant="outline" className="text-warning border-warning/30">
-                  <AlertTriangle className="h-3 w-3 mr-1" /> {duplicateCount} Duplikate entfernt
+                <Badge
+                  variant="outline"
+                  className="text-warning border-warning/30"
+                >
+                  <AlertTriangle className="h-3 w-3 mr-1" /> {duplicateCount}{" "}
+                  Duplikate entfernt
                 </Badge>
               )}
               {invalidChecksumGtins.length > 0 && (
-                <Badge variant="destructive" className="bg-destructive/10 text-destructive border-destructive/30">
-                  <AlertTriangle className="h-3 w-3 mr-1" /> {invalidChecksumGtins.length} ungültige GTINs (Checksum)
+                <Badge
+                  variant="destructive"
+                  className="bg-destructive/10 text-destructive border-destructive/30"
+                >
+                  <AlertTriangle className="h-3 w-3 mr-1" />{" "}
+                  {invalidChecksumGtins.length} ungültige GTINs (Checksum)
                 </Badge>
               )}
               {exceedsLimit && (
                 <Badge variant="destructive">
-                  <AlertTriangle className="h-3 w-3 mr-1" /> Limit überschritten (max {MAX_GTIN_IMPORT})
+                  <AlertTriangle className="h-3 w-3 mr-1" /> Limit überschritten
+                  (max {MAX_GTIN_IMPORT})
                 </Badge>
               )}
             </div>
@@ -377,18 +451,23 @@ const AdminGtinImport = () => {
             <Alert className="border-success/30 bg-success/5">
               <Check className="h-4 w-4 text-success" />
               <AlertDescription>
-                {result.inserted} GTINs importiert, {result.skipped} übersprungen (bereits vorhanden).
+                {result.inserted} GTINs importiert, {result.skipped}{" "}
+                übersprungen (bereits vorhanden).
               </AlertDescription>
             </Alert>
           )}
 
           <Button
             onClick={handleImport}
-            disabled={importing || !ownerId || validGtins.length === 0 || exceedsLimit}
+            disabled={
+              importing || !ownerId || validGtins.length === 0 || exceedsLimit
+            }
             className="gap-2"
           >
             <Upload className="h-4 w-4" />
-            {importing ? "Importiere..." : `${validGtins.length} GTINs importieren`}
+            {importing
+              ? "Importiere..."
+              : `${validGtins.length} GTINs importieren`}
           </Button>
         </CardContent>
       </Card>

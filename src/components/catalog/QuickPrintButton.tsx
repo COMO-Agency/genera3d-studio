@@ -43,9 +43,16 @@ const QuickPrintButton = ({ lastPrint }: QuickPrintButtonProps) => {
       queryClient.invalidateQueries({ queryKey: ["production_logs_all"] });
       queryClient.invalidateQueries({ queryKey: ["last_print"] });
       queryClient.invalidateQueries({ queryKey: ["gtin-pool-count"] });
-      toast({ title: "Express-Druck gestartet", description: `${lastPrint.design_name} wird gedruckt.` });
+      toast({
+        title: "Express-Druck gestartet",
+        description: `${lastPrint.design_name} wird gedruckt.`,
+      });
     } catch (err: unknown) {
-      toast({ title: "Fehler", description: getErrorMessage(err), variant: "destructive" });
+      toast({
+        title: "Fehler",
+        description: getErrorMessage(err),
+        variant: "destructive",
+      });
     } finally {
       setLoading(false);
       setConfirmOpen(false);
@@ -76,8 +83,12 @@ const QuickPrintButton = ({ lastPrint }: QuickPrintButtonProps) => {
             <AlertDialogTitle>Express-Druck wiederholen?</AlertDialogTitle>
             <AlertDialogDescription>
               {lastPrint.design_name}
-              {lastPrint.color ? ` in ${lastPrint.color_name ?? lastPrint.color}` : ""}
-              {lastPrint.mode ? ` · ${modeLabelMap[lastPrint.mode] ?? lastPrint.mode}` : ""}
+              {lastPrint.color
+                ? ` in ${lastPrint.color_name ?? lastPrint.color}`
+                : ""}
+              {lastPrint.mode
+                ? ` · ${modeLabelMap[lastPrint.mode] ?? lastPrint.mode}`
+                : ""}
               {lastPrint.customer_ref ? ` · ${lastPrint.customer_ref}` : ""}
             </AlertDialogDescription>
           </AlertDialogHeader>

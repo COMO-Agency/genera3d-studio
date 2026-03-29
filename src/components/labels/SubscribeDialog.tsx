@@ -1,6 +1,11 @@
 import { useState } from "react";
 import {
-  Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription,
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+  DialogDescription,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -15,7 +20,14 @@ interface Props {
   isPending?: boolean;
 }
 
-const SubscribeDialog = ({ open, onOpenChange, labelName, termsConditions, onAccept, isPending }: Props) => {
+const SubscribeDialog = ({
+  open,
+  onOpenChange,
+  labelName,
+  termsConditions,
+  onAccept,
+  isPending,
+}: Props) => {
   const [accepted, setAccepted] = useState(false);
 
   const handleOpenChange = (v: boolean) => {
@@ -28,7 +40,10 @@ const SubscribeDialog = ({ open, onOpenChange, labelName, termsConditions, onAcc
       <DialogContent className="sm:max-w-lg">
         <DialogHeader>
           <DialogTitle>Nutzungsbedingungen – {labelName}</DialogTitle>
-          <DialogDescription>Bitte lies die Nutzungsbedingungen und bestätige, um das Label zu abonnieren.</DialogDescription>
+          <DialogDescription>
+            Bitte lies die Nutzungsbedingungen und bestätige, um das Label zu
+            abonnieren.
+          </DialogDescription>
         </DialogHeader>
 
         <ScrollArea className="max-h-64 rounded-md border border-border p-4">
@@ -38,14 +53,23 @@ const SubscribeDialog = ({ open, onOpenChange, labelName, termsConditions, onAcc
         </ScrollArea>
 
         <div className="flex items-center gap-2">
-          <Checkbox id="accept-tc" checked={accepted} onCheckedChange={(v) => setAccepted(v === true)} />
-          <label htmlFor="accept-tc" className="text-sm text-muted-foreground cursor-pointer">
+          <Checkbox
+            id="accept-tc"
+            checked={accepted}
+            onCheckedChange={(v) => setAccepted(v === true)}
+          />
+          <label
+            htmlFor="accept-tc"
+            className="text-sm text-muted-foreground cursor-pointer"
+          >
             Ich akzeptiere die Nutzungsbedingungen von {labelName}
           </label>
         </div>
 
         <DialogFooter>
-          <Button variant="outline" onClick={() => handleOpenChange(false)}>Abbrechen</Button>
+          <Button variant="outline" onClick={() => handleOpenChange(false)}>
+            Abbrechen
+          </Button>
           <Button onClick={onAccept} disabled={!accepted || isPending}>
             {isPending ? "Wird abonniert…" : "Abonnieren"}
           </Button>

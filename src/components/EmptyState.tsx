@@ -10,7 +10,13 @@ interface EmptyStateProps {
   actionTo?: string;
 }
 
-const EmptyState = ({ icon: Icon, title, description, actionLabel, actionTo }: EmptyStateProps) => {
+const EmptyState = ({
+  icon: Icon,
+  title,
+  description,
+  actionLabel,
+  actionTo,
+}: EmptyStateProps) => {
   const navigate = useNavigate();
 
   return (

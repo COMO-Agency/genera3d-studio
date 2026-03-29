@@ -48,12 +48,15 @@ async function loadImageAsBase64(url: string): Promise<string | null> {
 }
 
 /** Load image and return base64 + natural dimensions */
-async function loadImageWithDimensions(url: string): Promise<{ base64: string; width: number; height: number } | null> {
+async function loadImageWithDimensions(
+  url: string,
+): Promise<{ base64: string; width: number; height: number } | null> {
   const base64 = await loadImageAsBase64(url);
   if (!base64) return null;
   return new Promise((resolve) => {
     const img = new Image();
-    img.onload = () => resolve({ base64, width: img.naturalWidth, height: img.naturalHeight });
+    img.onload = () =>
+      resolve({ base64, width: img.naturalWidth, height: img.naturalHeight });
     img.onerror = () => resolve(null);
     img.src = base64;
   });
@@ -95,8 +98,17 @@ export async function generateCertificatePdf(data: CertificateData) {
         const aspect = logoData.width / logoData.height;
         const imgH = maxH;
         const imgW = imgH * aspect;
-        const imgFormat = logoData.base64.includes("image/png") ? "PNG" : "JPEG";
-        doc.addImage(logoData.base64, imgFormat, (pageW - imgW) / 2, y - 5, imgW, imgH);
+        const imgFormat = logoData.base64.includes("image/png")
+          ? "PNG"
+          : "JPEG";
+        doc.addImage(
+          logoData.base64,
+          imgFormat,
+          (pageW - imgW) / 2,
+          y - 5,
+          imgW,
+          imgH,
+        );
         y += imgH + 2;
       } catch {
         // skip
@@ -138,11 +150,19 @@ export async function generateCertificatePdf(data: CertificateData) {
   // Product data table
   const tableData: [string, string][] = [
     ["Single Registration Number (SRN):", data.srn || "—"],
-    ["Produktname:", data.designName ? `Korrektionsfassung — ${data.designName}` : "Korrektionsfassung"],
+    [
+      "Produktname:",
+      data.designName
+        ? `Korrektionsfassung — ${data.designName}`
+        : "Korrektionsfassung",
+    ],
     ["Modell:", data.modelName || data.designName || "—"],
     ["Farbe:", data.color || "—"],
     ["Basic UDI-DI:", udiDi],
-    ["Nomenklatur:", "UMDNS Code (ECRI) 11-667, GMDN Code 32816, EMDN Code Q021002"],
+    [
+      "Nomenklatur:",
+      "UMDNS Code (ECRI) 11-667, GMDN Code 32816, EMDN Code Q021002",
+    ],
     ["Risikoklasse:", "Klasse I – nicht steril, keine Messfunktion"],
   ];
 
@@ -163,7 +183,9 @@ export async function generateCertificatePdf(data: CertificateData) {
   // Conformity assessment
   doc.setFontSize(11);
   doc.setFont("helvetica", "bold");
-  doc.text("Konformitätsbewertungsverfahren gemäß Artikel 52 (7)", marginL, y, { maxWidth: contentW });
+  doc.text("Konformitätsbewertungsverfahren gemäß Artikel 52 (7)", marginL, y, {
+    maxWidth: contentW,
+  });
   y += 5;
   doc.text("für Medizinprodukte", marginL, y);
   y += 8;
@@ -172,7 +194,9 @@ export async function generateCertificatePdf(data: CertificateData) {
   doc.setFont("helvetica", "normal");
   doc.text(
     "Wir erklären in alleiniger Verantwortung, dass das Produkt den Bestimmungen der nachfolgenden Rechtsvorschriften entspricht:",
-    marginL, y, { maxWidth: contentW }
+    marginL,
+    y,
+    { maxWidth: contentW },
   );
   y += 12;
 
@@ -192,16 +216,26 @@ export async function generateCertificatePdf(data: CertificateData) {
   // PMS
   doc.text(
     "Wir unterhalten ein systematisches Verfahren zur Überwachung des Produktes nach dem Inverkehrbringen.",
-    marginL, y, { maxWidth: contentW }
+    marginL,
+    y,
+    { maxWidth: contentW },
   );
   y += 10;
 
   // Validity
   doc.setFont("helvetica", "bold");
-  doc.text("Diese Konformitätserklärung hat eine Gültigkeit von 5 Jahren.", marginL, y);
+  doc.text(
+    "Diese Konformitätserklärung hat eine Gültigkeit von 5 Jahren.",
+    marginL,
+    y,
+  );
   y += 6;
   doc.setFont("helvetica", "normal");
-  doc.text(`Ausgestellt am: ${format(certDate, "dd.MM.yyyy")}  —  Gültig bis: ${format(validUntil, "dd.MM.yyyy")}`, marginL, y);
+  doc.text(
+    `Ausgestellt am: ${format(certDate, "dd.MM.yyyy")}  —  Gültig bis: ${format(validUntil, "dd.MM.yyyy")}`,
+    marginL,
+    y,
+  );
   y += 10;
   line(y);
   y += 10;
@@ -262,7 +296,7 @@ export async function generateCertificatePdf(data: CertificateData) {
     `Dokument generiert am ${format(new Date(), "dd.MM.yyyy HH:mm")} — ${data.orgName}`,
     pageW / 2,
     287,
-    { align: "center" }
+    { align: "center" },
   );
 
   const fileName = `EU-Konformitaetserklaerung-${data.designName}-V${data.version}.pdf`;

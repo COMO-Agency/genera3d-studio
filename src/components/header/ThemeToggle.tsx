@@ -11,9 +11,17 @@ const ThemeToggle = () => {
       size="icon"
       className="h-8 w-8"
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-      aria-label={theme === "dark" ? "Zum hellen Design wechseln" : "Zum dunklen Design wechseln"}
+      aria-label={
+        theme === "dark"
+          ? "Zum hellen Design wechseln"
+          : "Zum dunklen Design wechseln"
+      }
     >
-      {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+      {theme === "dark" ? (
+        <Sun className="h-4 w-4" />
+      ) : (
+        <Moon className="h-4 w-4" />
+      )}
     </Button>
   );
 };

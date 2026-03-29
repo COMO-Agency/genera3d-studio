@@ -1,6 +1,11 @@
 import { useState, useEffect } from "react";
 import {
-  Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle,
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -22,10 +27,19 @@ interface QcCheckDialogProps {
   designName: string;
 }
 
-const QcCheckDialog = ({ open, onClose, logId, designName }: QcCheckDialogProps) => {
-  const [checked, setChecked] = useState<boolean[]>(qcChecklistItems.map(() => false));
+const QcCheckDialog = ({
+  open,
+  onClose,
+  logId,
+  designName,
+}: QcCheckDialogProps) => {
+  const [checked, setChecked] = useState<boolean[]>(
+    qcChecklistItems.map(() => false),
+  );
   const [surfaceTreated, setSurfaceTreated] = useState(false);
-  const [surfaceMethod, setSurfaceMethod] = useState<"gleitgeschliffen" | "poliert" | "">("");
+  const [surfaceMethod, setSurfaceMethod] = useState<
+    "gleitgeschliffen" | "poliert" | ""
+  >("");
   const [loading, setLoading] = useState(false);
   const queryClient = useQueryClient();
 
@@ -68,7 +82,9 @@ const QcCheckDialog = ({ open, onClose, logId, designName }: QcCheckDialogProps)
       queryClient.invalidateQueries({ queryKey: ["production_logs"] });
       toast({
         title: passed ? "QC bestanden" : "QC fehlgeschlagen",
-        description: passed ? "Brille hat die Qualitätskontrolle bestanden." : "Brille hat die QC nicht bestanden.",
+        description: passed
+          ? "Brille hat die Qualitätskontrolle bestanden."
+          : "Brille hat die QC nicht bestanden.",
         variant: passed ? "default" : "destructive",
       });
       setChecked(qcChecklistItems.map(() => false));
@@ -76,7 +92,11 @@ const QcCheckDialog = ({ open, onClose, logId, designName }: QcCheckDialogProps)
       setSurfaceMethod("");
       onClose();
     } catch (err: unknown) {
-      toast({ title: "Fehler", description: getErrorMessage(err), variant: "destructive" });
+      toast({
+        title: "Fehler",
+        description: getErrorMessage(err),
+        variant: "destructive",
+      });
     } finally {
       setLoading(false);
     }
@@ -94,7 +114,9 @@ const QcCheckDialog = ({ open, onClose, logId, designName }: QcCheckDialogProps)
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>Qualitätskontrolle</DialogTitle>
-          <DialogDescription>{designName} — alle Punkte prüfen</DialogDescription>
+          <DialogDescription>
+            {designName} — alle Punkte prüfen
+          </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-3 py-2">
@@ -105,7 +127,10 @@ const QcCheckDialog = ({ open, onClose, logId, designName }: QcCheckDialogProps)
                 checked={checked[i]}
                 onCheckedChange={() => handleToggle(i)}
               />
-              <Label htmlFor={`qc-${i}`} className="text-sm text-foreground cursor-pointer leading-tight">
+              <Label
+                htmlFor={`qc-${i}`}
+                className="text-sm text-foreground cursor-pointer leading-tight"
+              >
                 {item}
               </Label>
             </div>
@@ -116,23 +141,43 @@ const QcCheckDialog = ({ open, onClose, logId, designName }: QcCheckDialogProps)
           {/* Nachbearbeitung */}
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <Label className="text-sm font-medium">Oberflächenbehandlung durchgeführt?</Label>
-              <Switch checked={surfaceTreated} onCheckedChange={setSurfaceTreated} />
+              <Label className="text-sm font-medium">
+                Oberflächenbehandlung durchgeführt?
+              </Label>
+              <Switch
+                checked={surfaceTreated}
+                onCheckedChange={setSurfaceTreated}
+              />
             </div>
 
             {surfaceTreated && (
               <RadioGroup
                 value={surfaceMethod}
-                onValueChange={(v) => setSurfaceMethod(v as "gleitgeschliffen" | "poliert")}
+                onValueChange={(v) =>
+                  setSurfaceMethod(v as "gleitgeschliffen" | "poliert")
+                }
                 className="pl-2 space-y-2"
               >
                 <div className="flex items-center gap-2">
-                  <RadioGroupItem value="gleitgeschliffen" id="qc-surface-gleit" />
-                  <Label htmlFor="qc-surface-gleit" className="text-sm cursor-pointer">Gleitgeschliffen</Label>
+                  <RadioGroupItem
+                    value="gleitgeschliffen"
+                    id="qc-surface-gleit"
+                  />
+                  <Label
+                    htmlFor="qc-surface-gleit"
+                    className="text-sm cursor-pointer"
+                  >
+                    Gleitgeschliffen
+                  </Label>
                 </div>
                 <div className="flex items-center gap-2">
                   <RadioGroupItem value="poliert" id="qc-surface-poliert" />
-                  <Label htmlFor="qc-surface-poliert" className="text-sm cursor-pointer">Poliert</Label>
+                  <Label
+                    htmlFor="qc-surface-poliert"
+                    className="text-sm cursor-pointer"
+                  >
+                    Poliert
+                  </Label>
                 </div>
               </RadioGroup>
             )}
@@ -150,7 +195,9 @@ const QcCheckDialog = ({ open, onClose, logId, designName }: QcCheckDialogProps)
           </Button>
           <Button
             className="gap-2"
-            disabled={!allChecked || (surfaceTreated && !surfaceMethod) || loading}
+            disabled={
+              !allChecked || (surfaceTreated && !surfaceMethod) || loading
+            }
             onClick={() => handleSubmit(true)}
           >
             <CheckCircle2 className="h-4 w-4" /> Bestanden

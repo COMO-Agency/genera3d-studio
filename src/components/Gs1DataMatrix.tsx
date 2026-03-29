@@ -37,7 +37,13 @@ export function toParenthesisedGs1(raw: string): string {
   return result;
 }
 
-const Gs1Barcode = ({ value, size = 128, className, id, type = "datamatrix" }: Gs1BarcodeProps) => {
+const Gs1Barcode = ({
+  value,
+  size = 128,
+  className,
+  id,
+  type = "datamatrix",
+}: Gs1BarcodeProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {

@@ -58,10 +58,17 @@ const LabelAdminSettings = ({ embedded = false }: LabelAdminSettingsProps) => {
     },
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["labels"] });
-      toast({ title: "Gespeichert", description: "Label-Einstellungen aktualisiert." });
+      toast({
+        title: "Gespeichert",
+        description: "Label-Einstellungen aktualisiert.",
+      });
     },
     onError: (err: unknown) => {
-      toast({ title: "Fehler", description: getErrorMessage(err), variant: "destructive" });
+      toast({
+        title: "Fehler",
+        description: getErrorMessage(err),
+        variant: "destructive",
+      });
     },
   });
 
@@ -88,25 +95,60 @@ const LabelAdminSettings = ({ embedded = false }: LabelAdminSettingsProps) => {
   return (
     <div className="max-w-2xl space-y-6">
       <Card className="glass">
-        <CardHeader><CardTitle className="text-base">Label-Informationen</CardTitle></CardHeader>
+        <CardHeader>
+          <CardTitle className="text-base">Label-Informationen</CardTitle>
+        </CardHeader>
         <CardContent className="space-y-4">
-          <div className="space-y-1.5"><Label>Name</Label><Input value={name} onChange={(e) => setName(e.target.value)} /></div>
-          <div className="space-y-1.5"><Label>Beschreibung</Label><Textarea value={description} onChange={(e) => setDescription(e.target.value)} rows={3} /></div>
+          <div className="space-y-1.5">
+            <Label>Name</Label>
+            <Input value={name} onChange={(e) => setName(e.target.value)} />
+          </div>
+          <div className="space-y-1.5">
+            <Label>Beschreibung</Label>
+            <Textarea
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              rows={3}
+            />
+          </div>
           <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-1.5"><Label>E-Mail</Label><Input value={contactEmail} onChange={(e) => setContactEmail(e.target.value)} type="email" /></div>
-            <div className="space-y-1.5"><Label>Telefon</Label><Input value={contactPhone} onChange={(e) => setContactPhone(e.target.value)} /></div>
+            <div className="space-y-1.5">
+              <Label>E-Mail</Label>
+              <Input
+                value={contactEmail}
+                onChange={(e) => setContactEmail(e.target.value)}
+                type="email"
+              />
+            </div>
+            <div className="space-y-1.5">
+              <Label>Telefon</Label>
+              <Input
+                value={contactPhone}
+                onChange={(e) => setContactPhone(e.target.value)}
+              />
+            </div>
           </div>
         </CardContent>
       </Card>
 
       <Card className="glass">
-        <CardHeader><CardTitle className="text-base">AGB / Nutzungsbedingungen</CardTitle></CardHeader>
+        <CardHeader>
+          <CardTitle className="text-base">AGB / Nutzungsbedingungen</CardTitle>
+        </CardHeader>
         <CardContent>
-          <Textarea value={termsConditions} onChange={(e) => setTermsConditions(e.target.value)} rows={8} placeholder="Markdown-Text für die Nutzungsbedingungen …" />
+          <Textarea
+            value={termsConditions}
+            onChange={(e) => setTermsConditions(e.target.value)}
+            rows={8}
+            placeholder="Markdown-Text für die Nutzungsbedingungen …"
+          />
         </CardContent>
       </Card>
 
-      <Button onClick={() => updateMutation.mutate()} disabled={updateMutation.isPending || !name.trim()}>
+      <Button
+        onClick={() => updateMutation.mutate()}
+        disabled={updateMutation.isPending || !name.trim()}
+      >
         {updateMutation.isPending ? "Speichern…" : "Einstellungen speichern"}
       </Button>
     </div>

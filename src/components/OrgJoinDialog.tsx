@@ -34,7 +34,11 @@ const OrgJoinDialog = ({ open, onClose }: OrgJoinDialogProps) => {
         p_license_key: licenseKey.trim(),
       });
       if (error) throw error;
-      const result = data as unknown as { success: boolean; org_id: string; org_name: string };
+      const result = data as unknown as {
+        success: boolean;
+        org_id: string;
+        org_name: string;
+      };
       toast({
         title: "Organisation beigetreten!",
         description: `Du bist jetzt Mitglied von "${result.org_name}".`,
@@ -50,14 +54,26 @@ const OrgJoinDialog = ({ open, onClose }: OrgJoinDialogProps) => {
       setLicenseKey("");
       onClose();
     } catch (err: unknown) {
-      toast({ title: "Fehler", description: getErrorMessage(err), variant: "destructive" });
+      toast({
+        title: "Fehler",
+        description: getErrorMessage(err),
+        variant: "destructive",
+      });
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <Dialog open={open} onOpenChange={(v) => { if (!v) { setLicenseKey(""); onClose(); } }}>
+    <Dialog
+      open={open}
+      onOpenChange={(v) => {
+        if (!v) {
+          setLicenseKey("");
+          onClose();
+        }
+      }}
+    >
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
@@ -65,7 +81,8 @@ const OrgJoinDialog = ({ open, onClose }: OrgJoinDialogProps) => {
             Organisation beitreten
           </DialogTitle>
           <DialogDescription>
-            Gib den Lizenzschlüssel deiner Organisation ein, um Zugang zu Designs, Druckern und dem GTIN-Pool zu erhalten.
+            Gib den Lizenzschlüssel deiner Organisation ein, um Zugang zu
+            Designs, Druckern und dem GTIN-Pool zu erhalten.
           </DialogDescription>
         </DialogHeader>
         <div className="space-y-4 py-2">
@@ -81,9 +98,18 @@ const OrgJoinDialog = ({ open, onClose }: OrgJoinDialogProps) => {
           </div>
         </div>
         <DialogFooter>
-          <Button variant="outline" onClick={onClose}>Abbrechen</Button>
+          <Button variant="outline" onClick={onClose}>
+            Abbrechen
+          </Button>
           <Button disabled={!licenseKey.trim() || loading} onClick={handleJoin}>
-            {loading ? <><Loader2 className="h-4 w-4 mr-2 animate-spin" />Wird verknüpft…</> : "Beitreten"}
+            {loading ? (
+              <>
+                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                Wird verknüpft…
+              </>
+            ) : (
+              "Beitreten"
+            )}
           </Button>
         </DialogFooter>
       </DialogContent>

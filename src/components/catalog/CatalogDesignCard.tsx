@@ -1,4 +1,10 @@
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Box, Pencil, Trash2 } from "lucide-react";
@@ -50,10 +56,20 @@ const CatalogDesignCard = ({
       {/* Admin controls */}
       {isAdmin && (
         <div className="absolute top-2 right-2 z-10 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-          <Button variant="ghost" size="sm" className="h-7 w-7 p-0 text-muted-foreground hover:text-foreground" onClick={onEdit}>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-7 w-7 p-0 text-muted-foreground hover:text-foreground"
+            onClick={onEdit}
+          >
             <Pencil className="h-3.5 w-3.5" />
           </Button>
-          <Button variant="ghost" size="sm" className="h-7 w-7 p-0 text-destructive hover:text-destructive" onClick={onDelete}>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-7 w-7 p-0 text-destructive hover:text-destructive"
+            onClick={onDelete}
+          >
             <Trash2 className="h-3.5 w-3.5" />
           </Button>
         </div>
@@ -70,15 +86,31 @@ const CatalogDesignCard = ({
             aria-label={`${design.name} Details anzeigen`}
           >
             <CardTitle className="text-base">{design.name}</CardTitle>
-            {cName && <span className="text-[10px] text-muted-foreground">{cName}</span>}
-            <span className="block text-[9px] font-mono text-muted-foreground/70 mt-0.5" title="UDI-DI Basis">
+            {cName && (
+              <span className="text-[10px] text-muted-foreground">{cName}</span>
+            )}
+            <span
+              className="block text-[9px] font-mono text-muted-foreground/70 mt-0.5"
+              title="UDI-DI Basis"
+            >
               {design.master_udi_di_base}
             </span>
           </div>
           <div className="flex items-center gap-1.5">
-            <FavoriteButton isFavorite={isFavorite} onToggle={onToggleFavorite} />
-            {design.weight_g && <Badge variant="outline" className="text-[10px]">{design.weight_g}g</Badge>}
-            {design.size && <Badge variant="secondary" className="text-xs">{design.size}</Badge>}
+            <FavoriteButton
+              isFavorite={isFavorite}
+              onToggle={onToggleFavorite}
+            />
+            {design.weight_g && (
+              <Badge variant="outline" className="text-[10px]">
+                {design.weight_g}g
+              </Badge>
+            )}
+            {design.size && (
+              <Badge variant="secondary" className="text-xs">
+                {design.size}
+              </Badge>
+            )}
           </div>
         </div>
       </CardHeader>
@@ -103,7 +135,10 @@ const CatalogDesignCard = ({
               <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </>
           ) : (
-            <Box className="h-8 w-8 text-muted-foreground/40" aria-hidden="true" />
+            <Box
+              className="h-8 w-8 text-muted-foreground/40"
+              aria-hidden="true"
+            />
           )}
         </div>
       </CardContent>

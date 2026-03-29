@@ -16,8 +16,21 @@ const DOTS = [
   { key: "n", label: "N", bg: "hsl(30 30% 70%)" },
 ];
 
-const CmykIndicator = ({ className, cyan, magenta, yellow, black, white, natural }: { className?: string } & CmykValues) => {
-  const hasValues = cyan !== undefined || magenta !== undefined || yellow !== undefined || black !== undefined || white !== undefined;
+const CmykIndicator = ({
+  className,
+  cyan,
+  magenta,
+  yellow,
+  black,
+  white,
+  natural,
+}: { className?: string } & CmykValues) => {
+  const hasValues =
+    cyan !== undefined ||
+    magenta !== undefined ||
+    yellow !== undefined ||
+    black !== undefined ||
+    white !== undefined;
   const values: Record<string, number> = {
     c: cyan ?? 0,
     m: magenta ?? 0,
@@ -36,11 +49,14 @@ const CmykIndicator = ({ className, cyan, magenta, yellow, black, white, natural
             style={{
               background: d.bg,
               animationDelay: `${i * 100}ms`,
-              border: d.key === "w" ? "1px solid hsl(var(--border))" : undefined,
+              border:
+                d.key === "w" ? "1px solid hsl(var(--border))" : undefined,
             }}
           />
           {hasValues && (
-            <span className="text-[10px] text-muted-foreground font-mono">{values[d.key].toFixed(1)}%</span>
+            <span className="text-[10px] text-muted-foreground font-mono">
+              {values[d.key].toFixed(1)}%
+            </span>
           )}
         </div>
       ))}

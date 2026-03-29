@@ -25,11 +25,19 @@ const AppHeader = ({ onMenuToggle, onSearchClick }: AppHeaderProps) => {
       <header className="flex items-center justify-between h-14 px-4 sm:px-6 border-b border-border bg-card/80 backdrop-blur-md sticky top-0 z-30">
         <div className="flex items-center gap-3">
           {onMenuToggle && (
-            <Button variant="ghost" size="icon" className="md:hidden h-8 w-8" onClick={onMenuToggle} aria-label="Menü öffnen">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="md:hidden h-8 w-8"
+              onClick={onMenuToggle}
+              aria-label="Menü öffnen"
+            >
               <Menu className="h-5 w-5" />
             </Button>
           )}
-          <h2 className="text-sm font-semibold text-foreground">{org?.name ?? "Genera3D"}</h2>
+          <h2 className="text-sm font-semibold text-foreground">
+            {org?.name ?? "Genera3D"}
+          </h2>
           {gtinCount != null && (
             <Badge
               variant="outline"
@@ -41,7 +49,12 @@ const AppHeader = ({ onMenuToggle, onSearchClick }: AppHeaderProps) => {
         </div>
 
         <div className="flex items-center gap-2 sm:gap-3">
-          <Button variant="ghost" size="icon" className="h-8 w-8 sm:hidden" onClick={onSearchClick}>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-8 w-8 sm:hidden"
+            onClick={onSearchClick}
+          >
             <Search className="h-4 w-4" />
           </Button>
           <button
@@ -54,11 +67,16 @@ const AppHeader = ({ onMenuToggle, onSearchClick }: AppHeaderProps) => {
           <PrinterStatusIndicator settings={org?.settings} />
 
           {!sessionActive && (
-            <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setSessionDialogOpen(true)} title="Druckauftrag anlegen">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8"
+              onClick={() => setSessionDialogOpen(true)}
+              title="Druckauftrag anlegen"
+            >
               <UserPlus className="h-4 w-4" />
             </Button>
           )}
-
 
           <NotificationsDropdown org={org} />
           <ThemeToggle />
@@ -66,7 +84,10 @@ const AppHeader = ({ onMenuToggle, onSearchClick }: AppHeaderProps) => {
         </div>
       </header>
 
-      <CustomerSessionDialog open={sessionDialogOpen} onOpenChange={setSessionDialogOpen} />
+      <CustomerSessionDialog
+        open={sessionDialogOpen}
+        onOpenChange={setSessionDialogOpen}
+      />
     </>
   );
 };

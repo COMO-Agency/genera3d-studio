@@ -22,7 +22,11 @@ export async function generateLabelPdf(data: LabelPdfData): Promise<void> {
     import("jspdf"),
     import("bwip-js"),
   ]);
-  const doc = new jsPDF({ orientation: "landscape", unit: "mm", format: [105, 148] });
+  const doc = new jsPDF({
+    orientation: "landscape",
+    unit: "mm",
+    format: [105, 148],
+  });
   doc.setTextColor(0, 0, 0);
 
   const raw = typeof data.date === "string" ? new Date(data.date) : data.date;
@@ -33,10 +37,13 @@ export async function generateLabelPdf(data: LabelPdfData): Promise<void> {
   doc.text(data.designName, 10, 15);
   doc.setFontSize(10);
   const modeText =
-    data.mode === "optical" ? "Optische Brille — MDR"
-    : data.mode === "optical_sun" ? "Optische Sonnenbrille — MDR+PSA"
-    : data.mode === "sunglasses" ? "Sonnenbrille — PSA"
-    : data.mode;
+    data.mode === "optical"
+      ? "Optische Brille — MDR"
+      : data.mode === "optical_sun"
+        ? "Optische Sonnenbrille — MDR+PSA"
+        : data.mode === "sunglasses"
+          ? "Sonnenbrille — PSA"
+          : data.mode;
   doc.text(modeText, 10, 22);
 
   doc.setFontSize(9);

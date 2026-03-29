@@ -23,7 +23,13 @@ export const useFavorites = () => {
   });
 
   const toggleMutation = useMutation({
-    mutationFn: async ({ designId, wasFav }: { designId: string; wasFav: boolean }) => {
+    mutationFn: async ({
+      designId,
+      wasFav,
+    }: {
+      designId: string;
+      wasFav: boolean;
+    }) => {
       if (!user) throw new Error("Not authenticated");
       if (wasFav) {
         const { error } = await supabase
@@ -41,7 +47,9 @@ export const useFavorites = () => {
     },
     onMutate: async ({ designId }) => {
       await queryClient.cancelQueries({ queryKey: ["favorites", user?.id] });
-      const prev = queryClient.getQueryData<Set<string>>(["favorites", user?.id]) ?? new Set<string>();
+      const prev =
+        queryClient.getQueryData<Set<string>>(["favorites", user?.id]) ??
+        new Set<string>();
       const next = new Set(prev);
       if (next.has(designId)) next.delete(designId);
       else next.add(designId);
@@ -49,8 +57,12 @@ export const useFavorites = () => {
       return { prev };
     },
     onError: (_err, _vars, context) => {
-      if (context?.prev) queryClient.setQueryData(["favorites", user?.id], context.prev);
-      toast({ title: "Fehler beim Aktualisieren der Favoriten", variant: "destructive" });
+      if (context?.prev)
+        queryClient.setQueryData(["favorites", user?.id], context.prev);
+      toast({
+        title: "Fehler beim Aktualisieren der Favoriten",
+        variant: "destructive",
+      });
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["favorites", user?.id] });

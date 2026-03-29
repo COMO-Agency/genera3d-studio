@@ -1,17 +1,17 @@
 /**
  * Error Reporting Setup für Genera3D Studio
  * Phase 4: Monitoring & Tests - Sentry-Integration vorbereitet
- * 
+ *
  * Hinweis: Für die vollständige Integration muss @sentry/react installiert werden:
  * npm install @sentry/react
  * oder
  * bun add @sentry/react
  */
 
-import { toast } from '@/hooks/use-toast';
+import { toast } from "@/hooks/use-toast";
 
 // Error severity levels
-type ErrorSeverity = 'low' | 'medium' | 'high' | 'critical';
+type ErrorSeverity = "low" | "medium" | "high" | "critical";
 
 interface ErrorContext {
   user?: {
@@ -43,11 +43,11 @@ const isDev = import.meta.env.DEV;
  */
 export function captureError(
   error: Error | string,
-  severity: ErrorSeverity = 'medium',
-  context?: ErrorContext
+  severity: ErrorSeverity = "medium",
+  context?: ErrorContext,
 ): void {
-  const errorMessage = typeof error === 'string' ? error : error.message;
-  const stack = typeof error === 'string' ? undefined : error.stack;
+  const errorMessage = typeof error === "string" ? error : error.message;
+  const stack = typeof error === "string" ? undefined : error.stack;
 
   const appError: AppError = {
     message: errorMessage,
@@ -65,15 +65,16 @@ export function captureError(
 
   // Always log to console in development
   if (isDev) {
-    console.error('[Error Reporting]', appError);
+    console.error("[Error Reporting]", appError);
   }
 
   // Show user feedback for critical errors
-  if (severity === 'critical' || severity === 'high') {
+  if (severity === "critical" || severity === "high") {
     toast({
-      title: 'Fehler aufgetreten',
-      description: 'Ein unerwarteter Fehler ist aufgetreten. Bitte versuche es erneut.',
-      variant: 'destructive',
+      title: "Fehler aufgetreten",
+      description:
+        "Ein unerwarteter Fehler ist aufgetreten. Bitte versuche es erneut.",
+      variant: "destructive",
     });
   }
 
@@ -92,16 +93,16 @@ export function captureError(
 export function captureComponentError(
   error: Error,
   errorInfo: React.ErrorInfo,
-  componentName?: string
+  componentName?: string,
 ): void {
-  captureError(error, 'high', {
+  captureError(error, "high", {
     extra: {
       componentStack: errorInfo.componentStack,
       componentName,
     },
     tags: {
-      errorType: 'react_error_boundary',
-      component: componentName || 'unknown',
+      errorType: "react_error_boundary",
+      component: componentName || "unknown",
     },
   });
 }
@@ -112,10 +113,10 @@ export function captureComponentError(
 export function captureApiError(
   error: Error,
   endpoint: string,
-  statusCode?: number
+  statusCode?: number,
 ): void {
   const severity: ErrorSeverity =
-    statusCode && statusCode >= 500 ? 'high' : 'medium';
+    statusCode && statusCode >= 500 ? "high" : "medium";
 
   captureError(error, severity, {
     extra: {
@@ -123,9 +124,9 @@ export function captureApiError(
       statusCode,
     },
     tags: {
-      errorType: 'api_error',
-      endpoint: endpoint.replace(/\//g, '_'),
-      statusCode: String(statusCode || 'unknown'),
+      errorType: "api_error",
+      endpoint: endpoint.replace(/\//g, "_"),
+      statusCode: String(statusCode || "unknown"),
     },
   });
 }
@@ -137,7 +138,7 @@ export function captureApiError(
 export function measurePerformance(
   name: string,
   startTime: number,
-  context?: Record<string, unknown>
+  context?: Record<string, unknown>,
 ): void {
   const duration = performance.now() - startTime;
 
@@ -145,7 +146,7 @@ export function measurePerformance(
   if (duration > 1000) {
     captureError(
       `Slow operation: ${name} took ${duration.toFixed(2)}ms`,
-      'low',
+      "low",
       {
         extra: {
           operation: name,
@@ -153,10 +154,10 @@ export function measurePerformance(
           ...context,
         },
         tags: {
-          errorType: 'performance',
+          errorType: "performance",
           operation: name,
         },
-      }
+      },
     );
   }
 
@@ -175,8 +176,8 @@ export function measurePerformance(
 export function addBreadcrumb(
   message: string,
   category: string,
-  _level: 'info' | 'warning' | 'error' = 'info',
-  data?: Record<string, unknown>
+  _level: "info" | "warning" | "error" = "info",
+  data?: Record<string, unknown>,
 ): void {
   // In development, log breadcrumbs
   if (isDev) {
@@ -227,16 +228,16 @@ export function clearErrorQueue(): void {
 }
 
 // Global error handler for uncaught errors
-if (typeof window !== 'undefined') {
+if (typeof window !== "undefined") {
   window.onerror = (message, source, lineno, colno, error) => {
-    captureError(error || String(message), 'critical', {
+    captureError(error || String(message), "critical", {
       extra: {
         source,
         lineno,
         colno,
       },
       tags: {
-        errorType: 'window_onerror',
+        errorType: "window_onerror",
       },
     });
     return false;
@@ -244,13 +245,15 @@ if (typeof window !== 'undefined') {
 
   window.onunhandledrejection = (event) => {
     captureError(
-      event.reason instanceof Error ? event.reason : new Error(String(event.reason)),
-      'high',
+      event.reason instanceof Error
+        ? event.reason
+        : new Error(String(event.reason)),
+      "high",
       {
         tags: {
-          errorType: 'unhandled_promise_rejection',
+          errorType: "unhandled_promise_rejection",
         },
-      }
+      },
     );
   };
 }

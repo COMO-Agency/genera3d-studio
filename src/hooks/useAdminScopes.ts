@@ -13,7 +13,11 @@ export const useAdminScopes = () => {
   const isLoading = profileLoading || labelLoading || roleLoading;
 
   // Primary scope determines what /settings and /my-designs show by default
-  const primaryScope: "org" | "label" | null = hasOrgScope ? "org" : hasLabelScope ? "label" : null;
+  const primaryScope: "org" | "label" | null = hasOrgScope
+    ? "org"
+    : hasLabelScope
+      ? "label"
+      : null;
 
   return {
     hasOrgScope,

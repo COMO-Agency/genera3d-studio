@@ -6,7 +6,12 @@ const escapeCsv = (value: string): string => {
   if (/^[+\-=@\t\r\n]/.test(str)) {
     return `"'${str.replace(/"/g, '""')}"`;
   }
-  if (str.includes('"') || str.includes('\n') || str.includes('\r') || str.includes(',')) {
+  if (
+    str.includes('"') ||
+    str.includes("\n") ||
+    str.includes("\r") ||
+    str.includes(",")
+  ) {
     return `"${str.replace(/"/g, '""')}"`;
   }
   return str;
@@ -18,19 +23,19 @@ describe("escapeCsv", () => {
   });
 
   it("escapes formula injection with =", () => {
-    expect(escapeCsv("=SUM(A1)")).toBe("\"'=SUM(A1)\"");
+    expect(escapeCsv("=SUM(A1)")).toBe('"\'=SUM(A1)"');
   });
 
   it("escapes formula injection with +", () => {
-    expect(escapeCsv("+cmd")).toBe("\"'+cmd\"");
+    expect(escapeCsv("+cmd")).toBe('"\'+cmd"');
   });
 
   it("escapes formula injection with -", () => {
-    expect(escapeCsv("-cmd")).toBe("\"'-cmd\"");
+    expect(escapeCsv("-cmd")).toBe('"\'-cmd"');
   });
 
   it("escapes formula injection with @", () => {
-    expect(escapeCsv("@SUM")).toBe("\"'@SUM\"");
+    expect(escapeCsv("@SUM")).toBe('"\'@SUM"');
   });
 
   it("wraps values with commas in quotes", () => {

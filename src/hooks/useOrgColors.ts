@@ -81,10 +81,17 @@ export const useCreateOrgColor = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["org_colors"] });
-      toast({ title: "Farbe angelegt", description: "Neue Farbe wurde gespeichert." });
+      toast({
+        title: "Farbe angelegt",
+        description: "Neue Farbe wurde gespeichert.",
+      });
     },
     onError: (err: Error) => {
-      toast({ title: "Fehler", description: err.message, variant: "destructive" });
+      toast({
+        title: "Fehler",
+        description: err.message,
+        variant: "destructive",
+      });
     },
   });
 };
@@ -109,7 +116,11 @@ export const useDeleteOrgColor = () => {
       toast({ title: "Farbe entfernt" });
     },
     onError: (err: Error) => {
-      toast({ title: "Fehler", description: err.message, variant: "destructive" });
+      toast({
+        title: "Fehler",
+        description: err.message,
+        variant: "destructive",
+      });
     },
   });
 };

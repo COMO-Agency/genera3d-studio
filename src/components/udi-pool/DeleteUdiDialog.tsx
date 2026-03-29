@@ -1,6 +1,12 @@
 import {
-  AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
-  AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import type { LabelUdiPoolEntry } from "@/hooks/useLabelUdiPool";
 
@@ -10,7 +16,11 @@ interface DeleteUdiDialogProps {
   onConfirm: () => void;
 }
 
-const DeleteUdiDialog = ({ entry, onClose, onConfirm }: DeleteUdiDialogProps) => (
+const DeleteUdiDialog = ({
+  entry,
+  onClose,
+  onConfirm,
+}: DeleteUdiDialogProps) => (
   <AlertDialog open={!!entry} onOpenChange={(o) => !o && onClose()}>
     <AlertDialogContent>
       <AlertDialogHeader>

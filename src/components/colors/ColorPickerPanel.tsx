@@ -44,7 +44,9 @@ function isValidHex(v: string) {
 
 const ColorPickerPanel = ({ hex, onChange }: ColorPickerPanelProps) => {
   const safeHex = isValidHex(hex) ? hex : "#ff0000";
-  const [hsv, setHsv] = useState<[number, number, number]>(() => hexToHsv(safeHex));
+  const [hsv, setHsv] = useState<[number, number, number]>(() =>
+    hexToHsv(safeHex),
+  );
   const [hexInput, setHexInput] = useState(safeHex);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const dragging = useRef(false);
@@ -57,7 +59,10 @@ const ColorPickerPanel = ({ hex, onChange }: ColorPickerPanelProps) => {
   // hex change → setHsv → re-render → effect runs again
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
-    if (isValidHex(hex) && hex.toLowerCase() !== hsvToHex(...hsv).toLowerCase()) {
+    if (
+      isValidHex(hex) &&
+      hex.toLowerCase() !== hsvToHex(...hsv).toLowerCase()
+    ) {
       const newHsv = hexToHsv(hex);
       setHsv(newHsv);
       setHexInput(hex);
@@ -71,7 +76,7 @@ const ColorPickerPanel = ({ hex, onChange }: ColorPickerPanelProps) => {
       setHexInput(newHex);
       onChange(newHex);
     },
-    [onChange]
+    [onChange],
   );
 
   /* ── draw gradient canvas ── */
@@ -102,10 +107,13 @@ const ColorPickerPanel = ({ hex, onChange }: ColorPickerPanelProps) => {
       if (!canvas) return;
       const rect = canvas.getBoundingClientRect();
       const s = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
-      const v = Math.max(0, Math.min(1, 1 - (e.clientY - rect.top) / rect.height));
+      const v = Math.max(
+        0,
+        Math.min(1, 1 - (e.clientY - rect.top) / rect.height),
+      );
       emit(hue, s, v);
     },
-    [hue, emit]
+    [hue, emit],
   );
 
   useEffect(() => {

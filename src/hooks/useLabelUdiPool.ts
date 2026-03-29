@@ -57,7 +57,11 @@ export const useCreateLabelUdi = () => {
       toast({ title: "UDI angelegt" });
     },
     onError: (err: Error) => {
-      toast({ title: "Fehler", description: err.message, variant: "destructive" });
+      toast({
+        title: "Fehler",
+        description: err.message,
+        variant: "destructive",
+      });
     },
   });
 };
@@ -94,7 +98,11 @@ export const useCreateLabelUdiBatch = () => {
       toast({ title: `${_d.length} UDIs angelegt` });
     },
     onError: (err: Error) => {
-      toast({ title: "Fehler", description: err.message, variant: "destructive" });
+      toast({
+        title: "Fehler",
+        description: err.message,
+        variant: "destructive",
+      });
     },
   });
 };
@@ -124,7 +132,11 @@ export const useUpdateLabelUdi = () => {
       toast({ title: "Preis aktualisiert" });
     },
     onError: (err: Error) => {
-      toast({ title: "Fehler", description: err.message, variant: "destructive" });
+      toast({
+        title: "Fehler",
+        description: err.message,
+        variant: "destructive",
+      });
     },
   });
 };
@@ -147,7 +159,11 @@ export const useDeleteLabelUdi = () => {
       toast({ title: "UDI gelöscht" });
     },
     onError: (err: Error) => {
-      toast({ title: "Fehler", description: err.message, variant: "destructive" });
+      toast({
+        title: "Fehler",
+        description: err.message,
+        variant: "destructive",
+      });
     },
   });
 };

@@ -5,7 +5,11 @@ export function useCountUp(end: number, duration = 1500) {
   const currentValue = useRef(0);
 
   useEffect(() => {
-    if (end === 0) { setValue(0); currentValue.current = 0; return; }
+    if (end === 0) {
+      setValue(0);
+      currentValue.current = 0;
+      return;
+    }
     const start = currentValue.current;
     const startTime = performance.now();
 

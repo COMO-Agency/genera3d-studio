@@ -1,4 +1,12 @@
-import { createContext, useContext, useState, useEffect, useMemo, useCallback, ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useMemo,
+  useCallback,
+  ReactNode,
+} from "react";
 
 interface CustomerSession {
   active: boolean;
@@ -14,7 +22,11 @@ interface CustomerSessionContextType extends CustomerSession {
 const STORAGE_KEY = "genera3d_customer_session";
 const SESSION_EXPIRY_MS = 8 * 60 * 60 * 1000; // 8 hours
 
-const defaultSession: CustomerSession = { active: false, customerName: "", startedAt: null };
+const defaultSession: CustomerSession = {
+  active: false,
+  customerName: "",
+  startedAt: null,
+};
 
 const CustomerSessionContext = createContext<CustomerSessionContextType>({
   ...defaultSession,
@@ -22,7 +34,11 @@ const CustomerSessionContext = createContext<CustomerSessionContextType>({
   endSession: () => {},
 });
 
-export const CustomerSessionProvider = ({ children }: { children: ReactNode }) => {
+export const CustomerSessionProvider = ({
+  children,
+}: {
+  children: ReactNode;
+}) => {
   const [session, setSession] = useState<CustomerSession>(() => {
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
@@ -51,18 +67,25 @@ export const CustomerSessionProvider = ({ children }: { children: ReactNode }) =
   }, [session]);
 
   const startSession = useCallback((name: string) => {
-    setSession({ active: true, customerName: name, startedAt: new Date().toISOString() });
+    setSession({
+      active: true,
+      customerName: name,
+      startedAt: new Date().toISOString(),
+    });
   }, []);
 
   const endSession = useCallback(() => {
     setSession(defaultSession);
   }, []);
 
-  const value = useMemo(() => ({
-    ...session,
-    startSession,
-    endSession,
-  }), [session, startSession, endSession]);
+  const value = useMemo(
+    () => ({
+      ...session,
+      startSession,
+      endSession,
+    }),
+    [session, startSession, endSession],
+  );
 
   return (
     <CustomerSessionContext.Provider value={value}>

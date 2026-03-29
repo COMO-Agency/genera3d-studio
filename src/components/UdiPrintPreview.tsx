@@ -77,9 +77,7 @@ const UdiPrintPreview = ({ open, onClose, log }: UdiPrintPreviewProps) => {
               {/* Center: QR Code + GS1 */}
               <div className="flex-1 flex flex-col items-center justify-center gap-3">
                 <Gs1DataMatrix value={gs1} size={140} type="qrcode" />
-                <p
-                  className="text-[8px] font-mono text-center break-all leading-relaxed max-w-[85mm] text-gray-700"
-                >
+                <p className="text-[8px] font-mono text-center break-all leading-relaxed max-w-[85mm] text-gray-700">
                   {gs1}
                 </p>
               </div>
@@ -116,9 +114,7 @@ const UdiPrintPreview = ({ open, onClose, log }: UdiPrintPreviewProps) => {
                     <ShieldCheck className="h-2.5 w-2.5" />
                     MDR 2017/745 konform
                   </div>
-                  <p className="text-[8px] text-gray-500">
-                    UDI via Label
-                  </p>
+                  <p className="text-[8px] text-gray-500">UDI via Label</p>
                 </div>
               </div>
             </div>

@@ -21,7 +21,10 @@ const AppLayout = () => {
         <AppSidebar />
         <MobileSidebar open={mobileOpen} onOpenChange={setMobileOpen} />
         <div className="flex flex-col flex-1 overflow-hidden">
-          <AppHeader onMenuToggle={() => setMobileOpen(true)} onSearchClick={() => setCmdkOpen(true)} />
+          <AppHeader
+            onMenuToggle={() => setMobileOpen(true)}
+            onSearchClick={() => setCmdkOpen(true)}
+          />
           <CustomerSessionBanner />
           <main className="flex-1 overflow-auto p-4 sm:p-6 bg-background">
             <PageTransition>

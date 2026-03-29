@@ -9,8 +9,16 @@ import { useIsPlatformAdmin } from "@/hooks/useUserRole";
  * Platform admins bypass this gate.
  */
 const OnboardingGate = () => {
-  const { data: profile, isLoading: profileLoading, isError: profileError } = useProfile();
-  const { data: memberships, isLoading: membershipsLoading, isError: membershipsError } = useMyLabelMemberships();
+  const {
+    data: profile,
+    isLoading: profileLoading,
+    isError: profileError,
+  } = useProfile();
+  const {
+    data: memberships,
+    isLoading: membershipsLoading,
+    isError: membershipsError,
+  } = useMyLabelMemberships();
   const { isPlatformAdmin, isLoading: roleLoading } = useIsPlatformAdmin();
 
   const isLoading = profileLoading || membershipsLoading || roleLoading;
@@ -26,7 +34,9 @@ const OnboardingGate = () => {
   if (profileError || membershipsError) {
     return (
       <div className="flex min-h-[60vh] flex-col items-center justify-center gap-3">
-        <p className="text-sm text-destructive">Profildaten konnten nicht geladen werden.</p>
+        <p className="text-sm text-destructive">
+          Profildaten konnten nicht geladen werden.
+        </p>
         <button
           className="text-sm text-primary underline"
           onClick={() => window.location.reload()}

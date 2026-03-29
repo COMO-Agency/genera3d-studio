@@ -3,10 +3,19 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
-  Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle,
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
 } from "@/components/ui/dialog";
 import {
-  Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from "@/components/ui/select";
 import ColorPickerPanel from "./ColorPickerPanel";
 import CmykIndicator from "@/components/CmykIndicator";
@@ -20,11 +29,15 @@ interface Props {
 const CreateColorDialog = ({ open, onOpenChange }: Props) => {
   const createColor = useCreateOrgColor();
 
-  const [colorType, setColorType] = useState<"standard" | "custom_mix">("standard");
+  const [colorType, setColorType] = useState<"standard" | "custom_mix">(
+    "standard",
+  );
   const [name, setName] = useState("");
   const [colorCode, setColorCode] = useState("");
   const [hexPreview, setHexPreview] = useState("#3b82f6");
-  const [opacityType, setOpacityType] = useState<"opak" | "transparent" | "transluzent">("opak");
+  const [opacityType, setOpacityType] = useState<
+    "opak" | "transparent" | "transluzent"
+  >("opak");
 
   // optional CMYK fields for custom_mix
   const [cyan, setCyan] = useState("");
@@ -32,14 +45,24 @@ const CreateColorDialog = ({ open, onOpenChange }: Props) => {
   const [yellow, setYellow] = useState("");
   const [black, setBlack] = useState("");
   const [white, setWhite] = useState("");
-  const cmykSum = [cyan, magenta, yellow, black, white].reduce((s, v) => s + (parseFloat(v) || 0), 0);
+  const cmykSum = [cyan, magenta, yellow, black, white].reduce(
+    (s, v) => s + (parseFloat(v) || 0),
+    0,
+  );
   const naturalPct = Math.max(0, 100 - cmykSum);
   const [showCmyk, setShowCmyk] = useState(false);
 
   const reset = () => {
-    setName(""); setColorCode(""); setHexPreview("#3b82f6");
-    setOpacityType("opak"); setColorType("standard");
-    setCyan(""); setMagenta(""); setYellow(""); setBlack(""); setWhite("");
+    setName("");
+    setColorCode("");
+    setHexPreview("#3b82f6");
+    setOpacityType("opak");
+    setColorType("standard");
+    setCyan("");
+    setMagenta("");
+    setYellow("");
+    setBlack("");
+    setWhite("");
     setShowCmyk(false);
   };
 
@@ -63,11 +86,14 @@ const CreateColorDialog = ({ open, onOpenChange }: Props) => {
       }
     }
     createColor.mutate(input, {
-      onSuccess: () => { reset(); onOpenChange(false); },
+      onSuccess: () => {
+        reset();
+        onOpenChange(false);
+      },
     });
   };
 
-  const cmykAllValid = [cyan, magenta, yellow, black, white].every(v => {
+  const cmykAllValid = [cyan, magenta, yellow, black, white].every((v) => {
     const n = parseFloat(v) || 0;
     return n >= 0;
   });
@@ -77,7 +103,13 @@ const CreateColorDialog = ({ open, onOpenChange }: Props) => {
     (!showCmyk || (cmykSum <= 100 && cmykAllValid));
 
   return (
-    <Dialog open={open} onOpenChange={(v) => { if (!v) reset(); onOpenChange(v); }}>
+    <Dialog
+      open={open}
+      onOpenChange={(v) => {
+        if (!v) reset();
+        onOpenChange(v);
+      }}
+    >
       <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Neue Farbe anlegen</DialogTitle>
@@ -90,11 +122,22 @@ const CreateColorDialog = ({ open, onOpenChange }: Props) => {
           {/* Type */}
           <div className="space-y-2">
             <Label>Typ</Label>
-            <Select value={colorType} onValueChange={(v) => setColorType(v as "standard" | "custom_mix")}>
-              <SelectTrigger><SelectValue /></SelectTrigger>
+            <Select
+              value={colorType}
+              onValueChange={(v) =>
+                setColorType(v as "standard" | "custom_mix")
+              }
+            >
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
               <SelectContent>
-                <SelectItem value="standard">Standardfarbe (Kartusche)</SelectItem>
-                <SelectItem value="custom_mix">Sonderfarbe (C1 selbst gemischt)</SelectItem>
+                <SelectItem value="standard">
+                  Standardfarbe (Kartusche)
+                </SelectItem>
+                <SelectItem value="custom_mix">
+                  Sonderfarbe (C1 selbst gemischt)
+                </SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -102,14 +145,22 @@ const CreateColorDialog = ({ open, onOpenChange }: Props) => {
           {/* Name */}
           <div className="space-y-2">
             <Label>Name der Farbe</Label>
-            <Input placeholder="z.B. Mitternachtsblau" value={name} onChange={(e) => setName(e.target.value)} />
+            <Input
+              placeholder="z.B. Mitternachtsblau"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
           </div>
 
           {colorType === "standard" ? (
             <>
               <div className="space-y-2">
                 <Label>Color Code (Kartusche)</Label>
-                <Input placeholder="z.B. BK-001" value={colorCode} onChange={(e) => setColorCode(e.target.value)} />
+                <Input
+                  placeholder="z.B. BK-001"
+                  value={colorCode}
+                  onChange={(e) => setColorCode(e.target.value)}
+                />
               </div>
               <div className="space-y-2">
                 <Label>Farbvorschau (Hex)</Label>
@@ -122,7 +173,11 @@ const CreateColorDialog = ({ open, onOpenChange }: Props) => {
                   />
                   <div
                     className="h-10 w-10 rounded-md border border-border shrink-0"
-                    style={{ backgroundColor: /^#[0-9a-fA-F]{6}$/.test(hexPreview) ? hexPreview : "transparent" }}
+                    style={{
+                      backgroundColor: /^#[0-9a-fA-F]{6}$/.test(hexPreview)
+                        ? hexPreview
+                        : "transparent",
+                    }}
                   />
                 </div>
               </div>
@@ -135,8 +190,15 @@ const CreateColorDialog = ({ open, onOpenChange }: Props) => {
               {/* Opacity type */}
               <div className="space-y-2">
                 <Label>Materialart</Label>
-                <Select value={opacityType} onValueChange={(v) => setOpacityType(v as "opak" | "transparent" | "transluzent")}>
-                  <SelectTrigger><SelectValue /></SelectTrigger>
+                <Select
+                  value={opacityType}
+                  onValueChange={(v) =>
+                    setOpacityType(v as "opak" | "transparent" | "transluzent")
+                  }
+                >
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="opak">Opak</SelectItem>
                     <SelectItem value="transluzent">Transluzent</SelectItem>
@@ -152,12 +214,16 @@ const CreateColorDialog = ({ open, onOpenChange }: Props) => {
                   className="text-xs text-muted-foreground hover:text-foreground transition-colors underline"
                   onClick={() => setShowCmyk(!showCmyk)}
                 >
-                  {showCmyk ? "CMYKW-Werte ausblenden" : "Optionale CMYKW-Werte eingeben"}
+                  {showCmyk
+                    ? "CMYKW-Werte ausblenden"
+                    : "Optionale CMYKW-Werte eingeben"}
                 </button>
 
                 {showCmyk && (
                   <div className="mt-3 space-y-3">
-                    <p className="text-xs text-muted-foreground">CMYKW-Anteile in % — Natural wird als Rest berechnet.</p>
+                    <p className="text-xs text-muted-foreground">
+                      CMYKW-Anteile in % — Natural wird als Rest berechnet.
+                    </p>
                     <div className="grid grid-cols-3 gap-3">
                       {[
                         { label: "Cyan %", val: cyan, set: setCyan },
@@ -168,16 +234,30 @@ const CreateColorDialog = ({ open, onOpenChange }: Props) => {
                       ].map(({ label, val, set }) => (
                         <div key={label} className="space-y-1">
                           <Label className="text-xs">{label}</Label>
-                          <Input type="number" min="0" max="100" step="0.1" value={val} onChange={(e) => set(e.target.value)} />
+                          <Input
+                            type="number"
+                            min="0"
+                            max="100"
+                            step="0.1"
+                            value={val}
+                            onChange={(e) => set(e.target.value)}
+                          />
                         </div>
                       ))}
                       <div className="space-y-1">
                         <Label className="text-xs">Natural %</Label>
-                        <Input type="number" disabled value={naturalPct.toFixed(1)} className="bg-muted" />
+                        <Input
+                          type="number"
+                          disabled
+                          value={naturalPct.toFixed(1)}
+                          className="bg-muted"
+                        />
                       </div>
                     </div>
                     {cmykSum > 100 && (
-                      <p className="text-xs text-destructive">Summe übersteigt 100% ({cmykSum.toFixed(1)}%)</p>
+                      <p className="text-xs text-destructive">
+                        Summe übersteigt 100% ({cmykSum.toFixed(1)}%)
+                      </p>
                     )}
                     <CmykIndicator
                       cyan={parseFloat(cyan) || 0}
@@ -195,10 +275,19 @@ const CreateColorDialog = ({ open, onOpenChange }: Props) => {
         </div>
 
         <DialogFooter>
-          <Button variant="outline" onClick={() => { reset(); onOpenChange(false); }}>
+          <Button
+            variant="outline"
+            onClick={() => {
+              reset();
+              onOpenChange(false);
+            }}
+          >
             Abbrechen
           </Button>
-          <Button disabled={!valid || createColor.isPending} onClick={handleCreate}>
+          <Button
+            disabled={!valid || createColor.isPending}
+            onClick={handleCreate}
+          >
             {createColor.isPending ? "Wird gespeichert…" : "Farbe anlegen"}
           </Button>
         </DialogFooter>

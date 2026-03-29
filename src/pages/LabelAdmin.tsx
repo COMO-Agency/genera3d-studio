@@ -24,7 +24,8 @@ const LabelAdmin = () => {
     );
   }
 
-  if (!isPlatformAdmin && !isLabelAdmin) return <Navigate to="/dashboard" replace />;
+  if (!isPlatformAdmin && !isLabelAdmin)
+    return <Navigate to="/dashboard" replace />;
 
   return (
     <div className="space-y-6">
@@ -44,7 +45,7 @@ const LabelAdmin = () => {
                 "flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-t-md transition-colors",
                 isActive
                   ? "bg-primary/10 text-primary border-b-2 border-primary"
-                  : "text-muted-foreground hover:text-foreground"
+                  : "text-muted-foreground hover:text-foreground",
               )
             }
           >

@@ -4,7 +4,13 @@ import { KeyRound, Loader2, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
@@ -20,13 +26,15 @@ const Onboarding = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { data: profile, isLoading: profileLoading } = useProfile();
-  const { data: memberships, isLoading: membershipsLoading } = useMyLabelMemberships();
+  const { data: memberships, isLoading: membershipsLoading } =
+    useMyLabelMemberships();
   const { isPlatformAdmin, isLoading: roleLoading } = useIsPlatformAdmin();
   const [licenseKey, setLicenseKey] = useState("");
   const [loading, setLoading] = useState(false);
 
   const isLoading = profileLoading || membershipsLoading || roleLoading;
-  const alreadySetUp = isPlatformAdmin || !!profile?.org_id || (memberships?.length ?? 0) > 0;
+  const alreadySetUp =
+    isPlatformAdmin || !!profile?.org_id || (memberships?.length ?? 0) > 0;
   if (!isLoading && alreadySetUp) {
     return <Navigate to="/dashboard" replace />;
   }
@@ -39,7 +47,11 @@ const Onboarding = () => {
         p_license_key: licenseKey.trim(),
       });
       if (error) throw error;
-      const result = data as unknown as { success: boolean; org_id: string; org_name: string };
+      const result = data as unknown as {
+        success: boolean;
+        org_id: string;
+        org_name: string;
+      };
       toast({
         title: "Organisation beigetreten!",
         description: `Du bist jetzt Mitglied von „${result.org_name}".`,
@@ -58,7 +70,11 @@ const Onboarding = () => {
       ]);
       navigate("/dashboard", { replace: true });
     } catch (err: unknown) {
-      toast({ title: "Fehler", description: getErrorMessage(err), variant: "destructive" });
+      toast({
+        title: "Fehler",
+        description: getErrorMessage(err),
+        variant: "destructive",
+      });
     } finally {
       setLoading(false);
     }
@@ -70,7 +86,9 @@ const Onboarding = () => {
         <div className="h-10 w-10 rounded-lg bg-gradient-to-br from-neon-cyan to-primary flex items-center justify-center shadow-lg shadow-primary/20">
           <span className="text-primary-foreground font-bold text-sm">G3</span>
         </div>
-        <span className="text-2xl font-bold text-foreground tracking-tight">Genera3D</span>
+        <span className="text-2xl font-bold text-foreground tracking-tight">
+          Genera3D
+        </span>
       </div>
 
       <Card className="w-full max-w-md">
@@ -80,7 +98,8 @@ const Onboarding = () => {
             Willkommen bei Genera3D
           </CardTitle>
           <CardDescription>
-            Um loszulegen, tritt einer Organisation bei. Du benötigst den Lizenzschlüssel deiner Organisation.
+            Um loszulegen, tritt einer Organisation bei. Du benötigst den
+            Lizenzschlüssel deiner Organisation.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -105,7 +124,13 @@ const Onboarding = () => {
             onClick={handleJoin}
             disabled={!licenseKey.trim() || loading}
           >
-            {loading ? <><Loader2 className="h-4 w-4 mr-2 animate-spin" /> Beitreten…</> : "Organisation beitreten"}
+            {loading ? (
+              <>
+                <Loader2 className="h-4 w-4 mr-2 animate-spin" /> Beitreten…
+              </>
+            ) : (
+              "Organisation beitreten"
+            )}
           </Button>
 
           <Separator className="my-4" />
@@ -114,7 +139,12 @@ const Onboarding = () => {
             <p className="text-xs text-muted-foreground mb-3">
               Angemeldet als {user?.email}
             </p>
-            <Button variant="ghost" size="sm" className="gap-2 text-muted-foreground" onClick={signOut}>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="gap-2 text-muted-foreground"
+              onClick={signOut}
+            >
               <LogOut className="h-3.5 w-3.5" /> Abmelden
             </Button>
           </div>

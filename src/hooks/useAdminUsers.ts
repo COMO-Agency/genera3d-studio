@@ -13,7 +13,12 @@ export interface AdminUser {
   org_id: string | null;
   org_name?: string | null;
   roles: string[];
-  label_memberships: { id: string; label_id: string; label_name: string; role: string }[];
+  label_memberships: {
+    id: string;
+    label_id: string;
+    label_name: string;
+    role: string;
+  }[];
 }
 
 export const useAdminUsers = () => {
@@ -27,7 +32,9 @@ export const useAdminUsers = () => {
       const [profilesRes, rolesRes, membersRes] = await Promise.all([
         supabase.from("profiles").select("id, full_name, email, org_id"),
         supabase.from("user_roles").select("user_id, role"),
-        supabase.from("label_members").select("id, user_id, label_id, role, labels(name)"),
+        supabase
+          .from("label_members")
+          .select("id, user_id, label_id, role, labels(name)"),
       ]);
       if (profilesRes.error) throw profilesRes.error;
       if (rolesRes.error) throw rolesRes.error;
@@ -36,42 +43,58 @@ export const useAdminUsers = () => {
       const roles = rolesRes.data;
       const members = membersRes.data;
 
-      const orgIds = [...new Set(profiles?.filter(p => p.org_id).map(p => p.org_id as string))];
+      const orgIds = [
+        ...new Set(
+          profiles?.filter((p) => p.org_id).map((p) => p.org_id as string),
+        ),
+      ];
       const orgMap: Record<string, string> = {};
       if (orgIds.length > 0) {
         const { data: orgs } = await supabase
           .from("organizations")
           .select("id, name")
           .in("id", orgIds);
-        orgs?.forEach(o => { orgMap[o.id] = o.name; });
+        orgs?.forEach((o) => {
+          orgMap[o.id] = o.name;
+        });
       }
 
       const rolesMap: Record<string, string[]> = {};
-      roles?.forEach(r => {
+      roles?.forEach((r) => {
         if (!rolesMap[r.user_id]) rolesMap[r.user_id] = [];
         rolesMap[r.user_id].push(r.role);
       });
 
       const membersMap: Record<string, AdminUser["label_memberships"]> = {};
-      members?.forEach((m: { id: string; user_id: string; label_id: string; role: string; labels: { name: string } | null }) => {
-        if (!membersMap[m.user_id]) membersMap[m.user_id] = [];
-        membersMap[m.user_id].push({
-          id: m.id,
-          label_id: m.label_id,
-          label_name: m.labels?.name ?? "–",
-          role: m.role,
-        });
-      });
+      members?.forEach(
+        (m: {
+          id: string;
+          user_id: string;
+          label_id: string;
+          role: string;
+          labels: { name: string } | null;
+        }) => {
+          if (!membersMap[m.user_id]) membersMap[m.user_id] = [];
+          membersMap[m.user_id].push({
+            id: m.id,
+            label_id: m.label_id,
+            label_name: m.labels?.name ?? "–",
+            role: m.role,
+          });
+        },
+      );
 
-      return (profiles ?? []).map((p): AdminUser => ({
-        id: p.id,
-        full_name: p.full_name,
-        email: p.email,
-        org_id: p.org_id,
-        org_name: p.org_id ? orgMap[p.org_id] ?? null : null,
-        roles: rolesMap[p.id] ?? [],
-        label_memberships: membersMap[p.id] ?? [],
-      }));
+      return (profiles ?? []).map(
+        (p): AdminUser => ({
+          id: p.id,
+          full_name: p.full_name,
+          email: p.email,
+          org_id: p.org_id,
+          org_name: p.org_id ? (orgMap[p.org_id] ?? null) : null,
+          roles: rolesMap[p.id] ?? [],
+          label_memberships: membersMap[p.id] ?? [],
+        }),
+      );
     },
   });
 };
@@ -97,7 +120,13 @@ export const useAllLabels = () => {
 export const useToggleAdminRole = () => {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async ({ userId, grant }: { userId: string; grant: boolean }) => {
+    mutationFn: async ({
+      userId,
+      grant,
+    }: {
+      userId: string;
+      grant: boolean;
+    }) => {
       if (grant) {
         const { error } = await supabase
           .from("user_roles")
@@ -117,7 +146,11 @@ export const useToggleAdminRole = () => {
       toast({ title: "Rolle aktualisiert" });
     },
     onError: (err: Error) => {
-      toast({ title: "Fehler", description: err.message, variant: "destructive" });
+      toast({
+        title: "Fehler",
+        description: err.message,
+        variant: "destructive",
+      });
     },
   });
 };
@@ -125,7 +158,15 @@ export const useToggleAdminRole = () => {
 export const useAddLabelMember = () => {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async ({ userId, labelId, role }: { userId: string; labelId: string; role: string }) => {
+    mutationFn: async ({
+      userId,
+      labelId,
+      role,
+    }: {
+      userId: string;
+      labelId: string;
+      role: string;
+    }) => {
       const { error } = await supabase
         .from("label_members")
         .insert({ user_id: userId, label_id: labelId, role });
@@ -136,7 +177,11 @@ export const useAddLabelMember = () => {
       toast({ title: "Label-Mitgliedschaft hinzugefügt" });
     },
     onError: (err: Error) => {
-      toast({ title: "Fehler", description: err.message, variant: "destructive" });
+      toast({
+        title: "Fehler",
+        description: err.message,
+        variant: "destructive",
+      });
     },
   });
 };
@@ -156,7 +201,11 @@ export const useRemoveLabelMember = () => {
       toast({ title: "Label-Mitgliedschaft entfernt" });
     },
     onError: (err: Error) => {
-      toast({ title: "Fehler", description: err.message, variant: "destructive" });
+      toast({
+        title: "Fehler",
+        description: err.message,
+        variant: "destructive",
+      });
     },
   });
 };

@@ -4,8 +4,14 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
-  AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
-  AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import EmptyState from "@/components/EmptyState";
 import ColorPreviewCard from "@/components/colors/ColorPreviewCard";
@@ -13,7 +19,6 @@ import CreateColorDialog from "@/components/colors/CreateColorDialog";
 import { useOrgColors, useDeleteOrgColor } from "@/hooks/useOrgColors";
 import { useDocumentTitle } from "@/hooks/useDocumentTitle";
 import { useProfile } from "@/hooks/useProfile";
-
 
 const ColorCatalog = () => {
   useDocumentTitle("Farbkatalog");
@@ -38,7 +43,9 @@ const ColorCatalog = () => {
   return (
     <div className="space-y-8">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold text-foreground animate-slide-left">Farbkatalog</h1>
+        <h1 className="text-2xl font-semibold text-foreground animate-slide-left">
+          Farbkatalog
+        </h1>
         {hasOrg && (
           <Button className="gap-2" onClick={() => setDialogOpen(true)}>
             <Plus className="h-4 w-4" /> Eigene Farbe anlegen
@@ -49,7 +56,11 @@ const ColorCatalog = () => {
       {isLoading ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {[1, 2, 3].map((i) => (
-            <Card key={i}><CardContent className="pt-6"><Skeleton className="h-16 w-full" /></CardContent></Card>
+            <Card key={i}>
+              <CardContent className="pt-6">
+                <Skeleton className="h-16 w-full" />
+              </CardContent>
+            </Card>
           ))}
         </div>
       ) : !hasOrg ? (
@@ -79,7 +90,11 @@ const ColorCatalog = () => {
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {ownColors.map((c) => (
-                  <ColorPreviewCard key={c.id} color={c} onDelete={setDeleteTarget} />
+                  <ColorPreviewCard
+                    key={c.id}
+                    color={c}
+                    onDelete={setDeleteTarget}
+                  />
                 ))}
               </div>
             )}
@@ -93,7 +108,8 @@ const ColorCatalog = () => {
                 Genera Standardfarben
               </h2>
               <p className="text-xs text-muted-foreground">
-                Diese Farben werden von Genera bereitgestellt und sind für alle Organisationen verfügbar.
+                Diese Farben werden von Genera bereitgestellt und sind für alle
+                Organisationen verfügbar.
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {globalColors.map((c) => (
@@ -108,17 +124,27 @@ const ColorCatalog = () => {
       <CreateColorDialog open={dialogOpen} onOpenChange={setDialogOpen} />
 
       {/* Delete Confirm */}
-      <AlertDialog open={!!deleteTarget} onOpenChange={(v) => { if (!v) setDeleteTarget(null); }}>
+      <AlertDialog
+        open={!!deleteTarget}
+        onOpenChange={(v) => {
+          if (!v) setDeleteTarget(null);
+        }}
+      >
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Farbe entfernen?</AlertDialogTitle>
-            <AlertDialogDescription>Die Farbe wird deaktiviert und steht nicht mehr zur Auswahl.</AlertDialogDescription>
+            <AlertDialogDescription>
+              Die Farbe wird deaktiviert und steht nicht mehr zur Auswahl.
+            </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Abbrechen</AlertDialogCancel>
             <AlertDialogAction
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-              onClick={() => { if (deleteTarget) deleteColor.mutate(deleteTarget); setDeleteTarget(null); }}
+              onClick={() => {
+                if (deleteTarget) deleteColor.mutate(deleteTarget);
+                setDeleteTarget(null);
+              }}
             >
               Entfernen
             </AlertDialogAction>
