@@ -15,7 +15,7 @@ export const useGtinPoolCount = () => {
         .from("gtin_pool")
         .select("id", { count: "exact", head: true })
         .eq("owner_type", "org")
-        .eq("owner_id", orgId!)
+        .eq("owner_id", orgId as string)
         .eq("is_used", false);
 
       if (error) throw error;

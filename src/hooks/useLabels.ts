@@ -42,7 +42,7 @@ export const useLabelBySlug = (slug: string | undefined) =>
       const { data, error } = await supabase
         .from("labels")
         .select(LABEL_COLUMNS)
-        .eq("slug", slug!)
+        .eq("slug", slug as string)
         .eq("is_active", true)
         .single();
       if (error) throw error;

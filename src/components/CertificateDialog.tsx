@@ -61,7 +61,7 @@ const CertificateDialog = ({ open, onOpenChange, design: preselected, defaultCol
         .from("org_designs")
         .select("id, name, master_udi_di_base, construction_type, collection, size, serial_prefix")
         .eq("is_active", true)
-        .eq("org_id", orgId!)
+        .eq("org_id", orgId as string)
         .order("name");
       if (error) throw error;
       return (data ?? []).map((d) => ({

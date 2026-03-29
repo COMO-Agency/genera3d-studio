@@ -83,7 +83,7 @@ export async function generateCertificatePdf(data: CertificateData) {
   const mdrPerson = data.mdrResponsiblePerson || ceoName;
 
   // Determine UDI-DI based on construction type
-  const isCombo = data.constructionType === "combo_frame";
+  const _isCombo = data.constructionType === "combo_frame";
   const udiDi = data.masterUdiDiBase || "—";
 
   // Logo centered above title
@@ -211,7 +211,7 @@ export async function generateCertificatePdf(data: CertificateData) {
   doc.text(`${mfgCity || "—"},`, marginL, y);
   y += 6;
 
-  const dateRow = y;
+  const _dateRow = y;
   doc.setFont("helvetica", "bold");
   doc.text("Ort und Datum", marginL, y);
   doc.text(format(certDate, "dd.MM.yyyy"), marginL + 40, y);

@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect, useCallback } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -100,7 +100,7 @@ const AdminGtinImport = () => {
       const { data, error } = await supabase
         .from("labels")
         .select("id, name")
-        .eq("id", labelId!)
+        .eq("id", labelId as string)
         .single();
       if (error) throw error;
       return data;

@@ -42,7 +42,7 @@ export const useOrgDesigns = () => {
       const { data, error } = await supabase
         .from("org_designs")
         .select("id, org_id, name, image_url, lens_width_mm, bridge_width_mm, temple_length_mm, weight_g, master_udi_di_base, collection, size, construction_type, serial_prefix, fixed_gtin, is_active, created_at")
-        .eq("org_id", orgId!)
+        .eq("org_id", orgId as string)
         .eq("is_active", true)
         .order("created_at", { ascending: false });
       if (error) throw error;

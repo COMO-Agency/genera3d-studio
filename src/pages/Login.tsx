@@ -17,7 +17,6 @@ import { getErrorMessage } from "@/lib/utils";
 const storeCredential = async (id: string, pw: string) => {
   if (!("PasswordCredential" in window)) return;
   try {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const PC = (window as Window & { PasswordCredential?: new (data: { id: string; password: string; name?: string }) => Credential }).PasswordCredential;
     if (!PC) return;
     const cred = new PC({ id, password: pw, name: id });

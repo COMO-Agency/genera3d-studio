@@ -16,7 +16,7 @@ interface AppHeaderProps {
 }
 
 const AppHeader = ({ onMenuToggle, onSearchClick }: AppHeaderProps) => {
-  const { data: org, isLoading: orgLoading } = useOrganization();
+  const { data: org } = useOrganization();
   const { active: sessionActive } = useCustomerSession();
   const { data: gtinCount } = useGtinPoolCount();
   const [sessionDialogOpen, setSessionDialogOpen] = useState(false);

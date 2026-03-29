@@ -14,7 +14,7 @@ export function useTypewriter(text: string, speed = 50, delay = 300) {
         i++;
         setDisplayed(text.slice(0, i));
         if (i >= text.length) {
-          clearInterval(intervalRef.current!);
+          if (intervalRef.current) clearInterval(intervalRef.current);
           intervalRef.current = null;
           setDone(true);
         }

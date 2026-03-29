@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Download, CheckCircle2, Info, Tag } from "lucide-react";
 import { format } from "date-fns";
-import Gs1DataMatrix, { toParenthesisedGs1 } from "@/components/Gs1DataMatrix";
+import Gs1DataMatrix from "@/components/Gs1DataMatrix";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import React, { useState } from "react";
 import { generateLabelPdf } from "@/lib/generateLabelPdf";
@@ -37,8 +37,8 @@ const UdiLabelPreview = ({ open, onClose, data }: UdiLabelPreviewProps) => {
   if (!data) return null;
 
   const isSunglasses = data.mode === "sunglasses";
-  const isOpticalSun = data.mode === "optical_sun";
-  const isOptical = data.mode === "optical";
+  const _isOpticalSun = data.mode === "optical_sun";
+  const _isOptical = data.mode === "optical";
 
   const handleDownloadPDF = async () => {
     try {

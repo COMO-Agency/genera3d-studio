@@ -22,7 +22,7 @@ export const useLabelUdiPool = (labelId: string | null) =>
       const { data, error } = await supabase
         .from("label_udi_pool")
         .select("*, label_designs(name)")
-        .eq("label_id", labelId!)
+        .eq("label_id", labelId as string)
         .order("created_at", { ascending: false });
       if (error) throw error;
       return (data ?? []).map((row) => ({

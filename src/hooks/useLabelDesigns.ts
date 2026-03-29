@@ -35,7 +35,7 @@ export const useLabelDesigns = (labelId: string | undefined) =>
       const { data, error } = await supabase
         .from("label_designs")
         .select("*")
-        .eq("label_id", labelId!)
+        .eq("label_id", labelId as string)
         .eq("is_active", true)
         .order("name");
       if (error) throw error;

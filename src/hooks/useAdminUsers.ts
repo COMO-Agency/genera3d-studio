@@ -36,7 +36,7 @@ export const useAdminUsers = () => {
       const roles = rolesRes.data;
       const members = membersRes.data;
 
-      const orgIds = [...new Set(profiles?.filter(p => p.org_id).map(p => p.org_id!))];
+      const orgIds = [...new Set(profiles?.filter(p => p.org_id).map(p => p.org_id as string))];
       const orgMap: Record<string, string> = {};
       if (orgIds.length > 0) {
         const { data: orgs } = await supabase
