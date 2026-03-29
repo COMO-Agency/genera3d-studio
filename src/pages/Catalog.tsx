@@ -94,7 +94,7 @@ const Catalog = () => {
     allDesigns.forEach((d) => {
       const key = d.collectionName;
       if (!map.has(key)) map.set(key, []);
-      map.get(key)!.push(d);
+      map.get(key)?.push(d);
     });
     return Array.from(map.entries()).map(([name, designs]) => ({ name, designs }));
   }, [allDesigns]);

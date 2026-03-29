@@ -434,7 +434,7 @@ const ProductionRegister = () => {
                               <div className="flex items-center gap-1">
                                 <code className="text-xs font-mono font-bold text-primary bg-primary/10 px-1.5 py-0.5 rounded border border-primary/20">{log.assigned_udi_pi ?? "—"}</code>
                                 {log.assigned_udi_pi && (
-                                  <button onClick={(e) => { e.stopPropagation(); copyToClipboard(log.assigned_udi_pi!, `pi-${log.id}`); }} className="text-muted-foreground hover:text-foreground" aria-label="UDI-PI kopieren">
+                                  <button onClick={(e) => { e.stopPropagation(); copyToClipboard(log.assigned_udi_pi as string, `pi-${log.id}`); }} className="text-muted-foreground hover:text-foreground" aria-label="UDI-PI kopieren">
                                     {copiedId === `pi-${log.id}` ? <Check className="h-3 w-3 text-success" /> : <Copy className="h-3 w-3" />}
                                   </button>
                                 )}
@@ -446,10 +446,10 @@ const ProductionRegister = () => {
                                 <Gs1Breakdown gs1={log.full_udi_string ?? ""} />
                                 {log.full_udi_string && (
                                   <>
-                                    <button onClick={(e) => { e.stopPropagation(); copyToClipboard(log.full_udi_string!, `gs1-${log.id}`); }} className="text-muted-foreground hover:text-foreground transition-colors shrink-0" aria-label="GS1 String kopieren">
+                                    <button onClick={(e) => { e.stopPropagation(); copyToClipboard(log.full_udi_string as string, `gs1-${log.id}`); }} className="text-muted-foreground hover:text-foreground transition-colors shrink-0" aria-label="GS1 String kopieren">
                                       {copiedId === `gs1-${log.id}` ? <Check className="h-3 w-3 text-success" /> : <Copy className="h-3 w-3" />}
                                     </button>
-                                    <button onClick={(e) => { e.stopPropagation(); downloadQrCode(log.full_udi_string!, log.assigned_udi_pi ?? log.id); }} className="text-muted-foreground hover:text-foreground transition-colors shrink-0" aria-label="QR-Code herunterladen">
+                                    <button onClick={(e) => { e.stopPropagation(); downloadQrCode(log.full_udi_string as string, log.assigned_udi_pi ?? log.id); }} className="text-muted-foreground hover:text-foreground transition-colors shrink-0" aria-label="QR-Code herunterladen">
                                       <ImageDown className="h-3 w-3" />
                                     </button>
                                   </>
@@ -465,7 +465,7 @@ const ProductionRegister = () => {
                                 ) : log.mode === "optical_sun" ? (
                                   <div className="flex gap-1">
                                     <Button size="sm" variant="outline" className="h-7 text-xs gap-1" disabled={!log.design_id}
-                                      onClick={(e) => { e.stopPropagation(); if (!log.design_id) return; setCertDesign({ id: log.design_id, name: log.design_name!, master_udi_di_base: log.design_udi_di_base ?? "", version: log.design_version ?? null, defaultColor: log.color_name ?? undefined }); }}>
+                                      onClick={(e) => { e.stopPropagation(); if (!log.design_id) return; setCertDesign({ id: log.design_id, name: log.design_name ?? "Unbekannt", master_udi_di_base: log.design_udi_di_base ?? "", version: log.design_version ?? null, defaultColor: log.color_name ?? undefined }); }}>
                                       <ShieldCheck className="h-3 w-3" /> MDR
                                     </Button>
                                     <Button size="sm" variant="outline" className="h-7 text-xs gap-1" onClick={(e) => { e.stopPropagation(); handlePsaCertificate(log); }}>
@@ -474,7 +474,7 @@ const ProductionRegister = () => {
                                   </div>
                                 ) : (
                                   <Button size="sm" variant="outline" className="h-7 text-xs gap-1" disabled={!log.design_id}
-                                    onClick={(e) => { e.stopPropagation(); if (!log.design_id) return; setCertDesign({ id: log.design_id, name: log.design_name!, master_udi_di_base: log.design_udi_di_base ?? "", version: log.design_version ?? null, defaultColor: log.color_name ?? undefined }); }}>
+                                    onClick={(e) => { e.stopPropagation(); if (!log.design_id) return; setCertDesign({ id: log.design_id, name: log.design_name ?? "Unbekannt", master_udi_di_base: log.design_udi_di_base ?? "", version: log.design_version ?? null, defaultColor: log.color_name ?? undefined }); }}>
                                     <ShieldCheck className="h-3 w-3" /> CE
                                   </Button>
                                 )

@@ -120,7 +120,7 @@ export const OptimizedTableRow = memo(function OptimizedTableRow({
           </code>
           {log.assigned_udi_pi && (
             <button
-              onClick={() => onCopy(log.assigned_udi_pi!, `pi-${log.id}`)}
+              onClick={() => onCopy(log.assigned_udi_pi as string, `pi-${log.id}`)}
               className="text-muted-foreground hover:text-foreground"
               aria-label="UDI-PI kopieren"
             >

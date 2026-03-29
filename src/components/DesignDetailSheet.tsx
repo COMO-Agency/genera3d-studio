@@ -82,7 +82,7 @@ const DesignDetailSheet = ({ open, onClose, design, collectionName, materialName
 
             {show3D && has3D ? (
               <Suspense fallback={<Skeleton className="aspect-[4/3] rounded-lg" />}>
-                <ModelViewer url={design.glb_preview_url!} />
+                <ModelViewer url={design.glb_preview_url as string} />
               </Suspense>
             ) : (
               <div className="rounded-lg bg-muted overflow-hidden aspect-[4/3] flex items-center justify-center relative">
