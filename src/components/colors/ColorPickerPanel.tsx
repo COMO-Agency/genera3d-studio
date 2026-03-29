@@ -49,14 +49,19 @@ const ColorPickerPanel = ({ hex, onChange }: ColorPickerPanelProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const dragging = useRef(false);
 
+  // Extract hue as a stable primitive for dependency arrays
+  const hue = hsv[0];
+
   // sync external hex → internal state
+  // Intentionally omitting hsv from deps to avoid infinite loop:
+  // hex change → setHsv → re-render → effect runs again
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (isValidHex(hex) && hex.toLowerCase() !== hsvToHex(...hsv).toLowerCase()) {
       const newHsv = hexToHsv(hex);
       setHsv(newHsv);
       setHexInput(hex);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hex]);
 
   const emit = useCallback(
@@ -80,7 +85,7 @@ const ColorPickerPanel = ({ hex, onChange }: ColorPickerPanelProps) => {
     // white → hue
     const hGrad = ctx.createLinearGradient(0, 0, w, 0);
     hGrad.addColorStop(0, "#fff");
-    hGrad.addColorStop(1, hsvToHex(hsv[0], 1, 1));
+    hGrad.addColorStop(1, hsvToHex(hue, 1, 1));
     ctx.fillStyle = hGrad;
     ctx.fillRect(0, 0, w, h);
     // transparent → black
@@ -89,7 +94,7 @@ const ColorPickerPanel = ({ hex, onChange }: ColorPickerPanelProps) => {
     vGrad.addColorStop(1, "#000");
     ctx.fillStyle = vGrad;
     ctx.fillRect(0, 0, w, h);
-  }, [hsv[0]]);
+  }, [hue]);
 
   const pickFromCanvas = useCallback(
     (e: React.MouseEvent<HTMLCanvasElement> | MouseEvent) => {
@@ -98,9 +103,9 @@ const ColorPickerPanel = ({ hex, onChange }: ColorPickerPanelProps) => {
       const rect = canvas.getBoundingClientRect();
       const s = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
       const v = Math.max(0, Math.min(1, 1 - (e.clientY - rect.top) / rect.height));
-      emit(hsv[0], s, v);
+      emit(hue, s, v);
     },
-    [hsv[0], emit]
+    [hue, emit]
   );
 
   useEffect(() => {
