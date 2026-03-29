@@ -76,23 +76,24 @@ const ProductionModal = ({ open, onClose, designId, designName, preselectedColor
     }
     let cancelled = false;
     setFreeDesignMfrLoading(true);
-    supabase
-      .from("designs")
-      .select("manufacturer_name, manufacturer_address, manufacturer_city, manufacturer_contact")
-      .eq("id", designId)
-      .maybeSingle()
-      .then(({ data: d }) => {
+    (async () => {
+      try {
+        const { data: d } = await supabase
+          .from("designs")
+          .select("manufacturer_name, manufacturer_address, manufacturer_city, manufacturer_contact")
+          .eq("id", designId)
+          .maybeSingle();
         if (!cancelled) {
           setFreeDesignMfr(d ?? null);
           setFreeDesignMfrLoading(false);
         }
-      })
-      .catch(() => {
+      } catch {
         if (!cancelled) {
           setFreeDesignMfr(null);
           setFreeDesignMfrLoading(false);
         }
-      });
+      }
+    })();
     return () => { cancelled = true; };
   }, [open, isFreeDesign, designId]);
 

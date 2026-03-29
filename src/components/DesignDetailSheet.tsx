@@ -15,7 +15,7 @@ import DimensionsTable from "@/components/catalog/DimensionsTable";
 import ShareDesignButton from "@/components/catalog/ShareDesignButton";
 import { Skeleton } from "@/components/ui/skeleton";
 
-const ModelViewer = lazy(() => import("@/components/catalog/ModelViewer"));
+const ModelViewer = lazy(() => import("@/components/catalog/ModelViewer").catch(() => ({ default: () => null })));
 
 interface DesignDetailSheetProps {
   open: boolean;
