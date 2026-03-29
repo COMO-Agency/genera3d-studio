@@ -6,7 +6,7 @@ import {
   ClipboardCheck, XCircle, ShieldCheck, QrCode, Info, ArrowUp, ArrowDown,
   ArrowUpDown, ImageDown,
 } from "lucide-react";
-import { toParenthesisedGs1 } from "@/components/Gs1DataMatrix";
+import { toParenthesisedGs1 } from "@/components/Gs1DataMatrix"; // eslint-disable-line @typescript-eslint/no-unused-vars
 import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Input } from "@/components/ui/input";
@@ -32,7 +32,7 @@ import EmptyState from "@/components/EmptyState";
 import QcCheckDialog from "@/components/QcCheckDialog";
 import CertificateDialog from "@/components/CertificateDialog";
 import UdiDetailSheet from "@/components/UdiDetailSheet";
-import Gs1DataMatrix from "@/components/Gs1DataMatrix";
+import Gs1DataMatrix from "@/components/Gs1DataMatrix"; // eslint-disable-line @typescript-eslint/no-unused-vars
 import { useAllProductionLogs } from "@/hooks/useAllProductionLogs";
 import { useOrganization } from "@/hooks/useOrganization";
 import { useProfile } from "@/hooks/useProfile";
@@ -44,7 +44,7 @@ import { parseOrgSettings } from "@/lib/types";
 import type { CancelProductionResult } from "@/lib/types";
 
 
-const PAGE_SIZE = 25;
+// PAGE_SIZE defined inside component
 
 /** Split a GS1 string into colored segments */
 const Gs1Breakdown = ({ gs1 }: { gs1: string }) => {
@@ -89,7 +89,7 @@ const ProductionRegister = () => {
   const PAGE_SIZE = 25;
   const [page, setPage] = useState(0);
   const { data, isLoading } = useAllProductionLogs({ page, pageSize: PAGE_SIZE });
-  const { data: org } = useOrganization();
+  const { data: _org } = useOrganization();
   const settings = parseOrgSettings(org?.settings);
   const logs = data?.logs;
   const totalCount = data?.total ?? 0;

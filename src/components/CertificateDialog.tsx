@@ -73,7 +73,7 @@ const CertificateDialog = ({ open, onOpenChange, design: preselected, defaultCol
 
   const chosen = preselected ?? designs?.find((d) => d.id === selectedId) ?? null;
   const settings = parseOrgSettings(org?.settings);
-  const isCombo = chosen?.construction_type === "combo_frame";
+  const _isCombo = chosen?.construction_type === "combo_frame";
   const udiDi = chosen?.master_udi_di_base || null;
 
   const handleGenerate = async () => {
