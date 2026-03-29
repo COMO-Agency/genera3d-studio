@@ -92,7 +92,7 @@ function getGreeting(): string {
 
 const Dashboard = () => {
   useDocumentTitle("Dashboard");
-  const { data: org, isLoading: orgLoading, isError: orgError, refetch: refetchOrg } = useOrganization();
+  const { isLoading: orgLoading, isError: orgError, refetch: refetchOrg } = useOrganization();
   const { data: allLogsData, isLoading: logsLoading } = useAllProductionLogs();
   const allLogs = allLogsData?.logs;
   const { data: profile } = useProfile();
