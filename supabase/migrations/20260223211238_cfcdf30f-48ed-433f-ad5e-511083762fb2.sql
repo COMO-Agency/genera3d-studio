@@ -1,0 +1,1 @@
+ALTER TABLE public.post_market_reports ADD COLUMN resolution_note TEXT;

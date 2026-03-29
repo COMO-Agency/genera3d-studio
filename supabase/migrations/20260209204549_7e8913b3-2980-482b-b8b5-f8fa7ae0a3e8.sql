@@ -1,0 +1,1 @@
+UPDATE organizations SET settings = '{"language": "de", "printer_type": "generic", "printers": [{"name": "G1 Printer", "status": "online"}, {"name": "F1 Post-Processing", "status": "warming_up"}], "material": {"name": "Digital Acetate", "remaining_kg": 2.3, "capacity_kg": 3.2}}'::jsonb WHERE id = '946f07a0-ae0e-4917-bc04-db39897d3d48';

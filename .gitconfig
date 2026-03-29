@@ -1,0 +1,57 @@
+# Git Aliase für Genera3D Studio
+# Diese Datei kann in ~/.gitconfig eingefügt werden
+
+[alias]
+    # Schnelles Pushen
+    save = !git add . && git commit -m "update" && git push origin main
+    
+    # Mit eigener Nachricht
+    savem = "!f() { git add . && git commit -m \"$1\" && git push origin main; }; f"
+    
+    # Status prüfen
+    st = status --short
+    
+    # Schnelles Commit
+    cm = commit -m
+    
+    # Alles adden und commit
+    ac = "!git add . && git commit -m"
+    
+    # Push mit Tracking
+    pushup = push -u origin main
+    
+    # Aktueller Branch
+    br = branch
+    
+    # Letzte Commits anzeigen
+    last = log --oneline -5
+    
+    # Schönes Log
+    lg = log --oneline --graph --decorate -10
+    
+    # Fetch und Pull
+    up = pull origin main
+    
+    # Alles auf einmal: Commit + Push
+    cp = "!git add . && git commit -m 'Update' && git push origin main"
+    
+    # Typische Workflow-Aliase
+    deploy = "!git add . && git commit -m 'Deploy' && git push origin main && echo 'Deploying to GitHub...'"
+    
+    # Status Check
+    check = !git status && echo '---' && git log --oneline -3
+    
+    # Rückgängig machen (nur lokal)
+    undo = reset --soft HEAD~1
+    
+    # Änderungen verwerfen
+    nuke = !git reset --hard HEAD && git clean -fd
+
+[credential]
+    helper = osxkeychain
+
+[push]
+    default = simple
+
+[color]
+    ui = auto

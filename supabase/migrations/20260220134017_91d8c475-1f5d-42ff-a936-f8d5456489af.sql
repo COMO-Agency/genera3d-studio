@@ -1,0 +1,1 @@
+INSERT INTO materials (org_id, name, is_active) VALUES ('946f07a0-ae0e-4917-bc04-db39897d3d48', 'Digital Eyewear', true);

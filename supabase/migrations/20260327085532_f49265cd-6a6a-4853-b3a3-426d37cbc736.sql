@@ -1,0 +1,1 @@
+ALTER TABLE public.post_market_reports ALTER COLUMN resolved_at SET DEFAULT NULL;

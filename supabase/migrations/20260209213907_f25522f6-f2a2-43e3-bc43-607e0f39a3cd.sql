@@ -1,0 +1,26 @@
+
+-- Fix seed customer_ref data
+UPDATE production_logs SET customer_ref = CASE id
+  WHEN 'e8038277-78c3-4c6a-833d-218a68f047aa' THEN 'ORD-2026-001'
+  WHEN 'e07c30d7-556b-4ebf-a741-ceb59fe61083' THEN 'ORD-2026-002'
+  WHEN '2e5a3f2d-ee5e-40df-99ff-246b97d6cdcc' THEN 'ORD-2026-003'
+  WHEN '1cd3050e-60aa-4794-82e2-2b5181022856' THEN 'ORD-2026-004'
+  WHEN 'a16aaed5-9324-4437-9274-7a024075225c' THEN 'ORD-2026-005'
+  WHEN 'f347bc43-14b2-416d-9eec-a7da5cbd8e1a' THEN 'ORD-2026-006'
+  WHEN '78245077-ae83-4a2f-8f04-3375e22029ee' THEN 'ORD-2026-007'
+  WHEN '77323e15-a4ad-4d79-aee0-e9129d0c8cda' THEN 'ORD-2026-008'
+  WHEN '32dee0ae-f3d9-4f54-8050-bcdf3adfb64b' THEN 'ORD-2026-009'
+  WHEN 'f90611fc-824c-4c01-81cf-9baf63f6c352' THEN 'ORD-2026-010'
+  WHEN 'e2327539-2d9d-47af-86d9-21aa454609b3' THEN 'ORD-2026-011'
+END
+WHERE id IN (
+  'e8038277-78c3-4c6a-833d-218a68f047aa','e07c30d7-556b-4ebf-a741-ceb59fe61083',
+  '2e5a3f2d-ee5e-40df-99ff-246b97d6cdcc','1cd3050e-60aa-4794-82e2-2b5181022856',
+  'a16aaed5-9324-4437-9274-7a024075225c','f347bc43-14b2-416d-9eec-a7da5cbd8e1a',
+  '78245077-ae83-4a2f-8f04-3375e22029ee','77323e15-a4ad-4d79-aee0-e9129d0c8cda',
+  '32dee0ae-f3d9-4f54-8050-bcdf3adfb64b','f90611fc-824c-4c01-81cf-9baf63f6c352',
+  'e2327539-2d9d-47af-86d9-21aa454609b3'
+);
+
+-- Fix credits to 142 (150 - 8 series logs)
+UPDATE organizations SET udi_credits = 142 WHERE id = '946f07a0-ae0e-4917-bc04-db39897d3d48';
