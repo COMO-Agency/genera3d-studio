@@ -790,9 +790,9 @@ export type Database = {
           full_udi_string: string | null
           id: string
           material_id: string | null
-          mode: string | null
+          mode: string
           org_id: string | null
-          status: string | null
+          status: string
           user_id: string | null
         }
         Insert: {
@@ -809,9 +809,9 @@ export type Database = {
           full_udi_string?: string | null
           id?: string
           material_id?: string | null
-          mode?: string | null
+          mode: string
           org_id?: string | null
-          status?: string | null
+          status: string
           user_id?: string | null
         }
         Update: {
@@ -828,9 +828,9 @@ export type Database = {
           full_udi_string?: string | null
           id?: string
           material_id?: string | null
-          mode?: string | null
+          mode?: string
           org_id?: string | null
-          status?: string | null
+          status?: string
           user_id?: string | null
         }
         Relationships: [
