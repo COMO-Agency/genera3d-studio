@@ -2,7 +2,7 @@ import { format } from "date-fns";
 import { Copy, Check, ShieldCheck, Info, Printer, Download, Play, FileCheck, ImageDown } from "lucide-react";
 import { useState, useCallback, useRef, useEffect } from "react";
 import { generateLabelPdf } from "@/lib/generateLabelPdf";
-import Gs1DataMatrix, { toParenthesisedGs1 } from "@/components/Gs1DataMatrix";
+import Gs1DataMatrix from "@/components/Gs1DataMatrix";
 import { toast } from "@/hooks/use-toast";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -12,7 +12,7 @@ import {
   Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription,
 } from "@/components/ui/sheet";
 import {
-  Tooltip, TooltipContent, TooltipTrigger,
+  Tooltip, TooltipContent, TooltipTrigger, // eslint-disable-line @typescript-eslint/no-unused-vars
 } from "@/components/ui/tooltip";
 import ProductionModal, { type ProductionSuccessResult } from "@/components/ProductionModal";
 import UdiPrintPreview from "@/components/UdiPrintPreview";
@@ -335,7 +335,7 @@ const UdiDetailSheet = ({ open, onOpenChange, log }: UdiDetailSheetProps) => {
         <ProductionModal
           open={showProductionModal}
           onClose={() => { setShowProductionModal(false); setReprintDesign(null); }}
-          designId={reprintDesign?.designId ?? log.design_id!}
+          designId={reprintDesign?.designId ?? log.design_id ?? ""}
           designName={reprintDesign?.designName ?? log.design_name ?? "Unbekannt"}
           preselectedColor={reprintDesign?.color ?? log.color ?? undefined}
           udiDiBase={reprintDesign?.udiDiBase ?? log.design_udi_di_base ?? undefined}

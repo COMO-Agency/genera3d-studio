@@ -37,8 +37,8 @@ const UdiLabelPreview = ({ open, onClose, data }: UdiLabelPreviewProps) => {
   if (!data) return null;
 
   const isSunglasses = data.mode === "sunglasses";
-  const isOpticalSun = data.mode === "optical_sun";
-  const isOptical = data.mode === "optical";
+  const _isOpticalSun = data.mode === "optical_sun";
+  const _isOptical = data.mode === "optical";
 
   const handleDownloadPDF = async () => {
     try {

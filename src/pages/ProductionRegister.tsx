@@ -6,7 +6,7 @@ import {
   ClipboardCheck, XCircle, ShieldCheck, QrCode, Info, ArrowUp, ArrowDown,
   ArrowUpDown, ImageDown,
 } from "lucide-react";
-import { toParenthesisedGs1 } from "@/components/Gs1DataMatrix"; // eslint-disable-line @typescript-eslint/no-unused-vars
+import { toParenthesisedGs1 } from "@/components/Gs1DataMatrix";
 import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Input } from "@/components/ui/input";
@@ -89,7 +89,7 @@ const ProductionRegister = () => {
   const PAGE_SIZE = 25;
   const [page, setPage] = useState(0);
   const { data, isLoading } = useAllProductionLogs({ page, pageSize: PAGE_SIZE });
-  const { data: org } = useOrganization(); // eslint-disable-line @typescript-eslint/no-unused-vars
+  const { data: org } = useOrganization();
   const settings = parseOrgSettings(org?.settings);
   const logs = data?.logs;
   const totalCount = data?.total ?? 0;
