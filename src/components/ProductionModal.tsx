@@ -17,7 +17,7 @@ import { useMaterials } from "@/hooks/useMaterials";
 import { useOrgColors } from "@/hooks/useOrgColors";
 import { useOrganization } from "@/hooks/useOrganization";
 import { useOrgDesigns } from "@/hooks/useOrgDesigns";
-import type { StartProductionResult, OrgSettings } from "@/lib/types";
+import type { StartProductionResult } from "@/lib/types";
 import { parseOrgSettings } from "@/lib/types";
 import { truncate } from "@/lib/sanitize";
 
