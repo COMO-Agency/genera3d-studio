@@ -15,7 +15,7 @@ import {
 import { useAllProductionLogs } from "@/hooks/useAllProductionLogs";
 
 interface NotificationsDropdownProps {
-  org?: { settings?: Record<string, unknown> | null } | null;
+  org?: { settings?: Record<string, unknown> | string | null } | null;
 }
 
 const NotificationsDropdown = ({ org }: NotificationsDropdownProps) => {
