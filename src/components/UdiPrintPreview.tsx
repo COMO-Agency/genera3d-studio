@@ -2,7 +2,7 @@ import { format } from "date-fns";
 import { ShieldCheck } from "lucide-react";
 import Gs1DataMatrix from "@/components/Gs1DataMatrix";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+
 import { modeLabelMap } from "@/lib/constants";
 import {
   Dialog,

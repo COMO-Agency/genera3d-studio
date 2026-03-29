@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import { Activity, Box, Settings, LogOut, FileText, Printer, Heart, UserPlus, UserX, ShieldCheck } from "lucide-react";
+import { Activity, Box, Settings, LogOut, Printer, Heart, UserPlus, UserX, ShieldCheck } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useOrgDesigns } from "@/hooks/useOrgDesigns";
 import { useCustomerSession } from "@/hooks/useCustomerSession";

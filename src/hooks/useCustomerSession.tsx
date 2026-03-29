@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect, useMemo, ReactNode, useCallback } from "react";
+import { createContext, useContext, useState, useEffect, useMemo, ReactNode } from "react";
 
 interface CustomerSession {
   active: boolean;

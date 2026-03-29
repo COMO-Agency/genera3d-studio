@@ -175,12 +175,12 @@ export function measurePerformance(
 export function addBreadcrumb(
   message: string,
   category: string,
-  level: 'info' | 'warning' | 'error' = 'info',
+  _level: 'info' | 'warning' | 'error' = 'info',
   data?: Record<string, unknown>
 ): void {
   // In development, log breadcrumbs
   if (isDev) {
-    console.log(`[Breadcrumb] ${category}: ${message}`, data);
+    console.warn(`[Breadcrumb] ${category}: ${message}`, data);
   }
 
   // TODO: Send to Sentry
@@ -196,7 +196,7 @@ export function addBreadcrumb(
  * User Context setzen
  * Wichtig für die Fehlerzuordnung
  */
-export function setUserContext(userId?: string, email?: string): void {
+export function setUserContext(_userId?: string, _email?: string): void {
   // TODO: Send to Sentry
   // Sentry.setUser({
   //   id: userId,

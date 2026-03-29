@@ -23,7 +23,7 @@ export const useLabelSubscriptions = () => {
       const { data, error } = await supabase
         .from("label_subscriptions")
         .select("*")
-        .eq("org_id", orgId!)
+        .eq("org_id", orgId as string)
         .eq("status", "active");
       if (error) throw error;
       return data as LabelSubscription[];

@@ -15,7 +15,7 @@ export const useOrganization = () => {
       const { data, error } = await supabase
         .from("organizations")
         .select("*")
-        .eq("id", orgId!)
+        .eq("id", orgId as string)
         .single();
 
       if (error) throw error;
