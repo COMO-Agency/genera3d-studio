@@ -1,9 +1,10 @@
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Printer } from "lucide-react";
 import { cn } from "@/lib/utils";
+import type { Json } from "@/integrations/supabase/types";
 
 interface PrinterStatusIndicatorProps {
-  settings?: any;
+  settings?: Json | null;
 }
 
 const PrinterStatusIndicator = ({ settings }: PrinterStatusIndicatorProps) => {

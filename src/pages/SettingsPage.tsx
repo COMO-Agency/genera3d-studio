@@ -121,7 +121,7 @@ const SettingsPage = () => {
     }
   }, [saveNameDebounced, handleSaveName, hasNameChanged, profile?.full_name]);
 
-  const saveOrgSettings = async (updates: Record<string, any>) => {
+  const saveOrgSettings = async (updates: Record<string, unknown>) => {
     if (!org) return;
     const { data: fresh, error: fetchErr } = await supabase
       .from("organizations")

@@ -576,7 +576,7 @@ const ProductionRegister = () => {
 
 /* ── Helper components ── */
 
-const SortableHead = ({ label, sortKey, currentKey, dir, onSort }: { label: string; sortKey: string; currentKey: string; dir: string; onSort: (k: any) => void }) => (
+const SortableHead = ({ label, sortKey, currentKey, dir, onSort }: { label: string; sortKey: string; currentKey: string; dir: string; onSort: (k: string) => void }) => (
   <TableHead className="cursor-pointer hover:text-foreground select-none" onClick={() => onSort(sortKey)}>
     <span className={`flex items-center gap-1 ${currentKey === sortKey ? "text-foreground font-semibold" : ""}`}>
       {label} {currentKey === sortKey ? (dir === "asc" ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />) : <ArrowUpDown className="h-3 w-3 opacity-40" />}

@@ -4,8 +4,18 @@ import { Button } from "@/components/ui/button";
 import { Box, Pencil, Trash2 } from "lucide-react";
 import FavoriteButton from "./FavoriteButton";
 
+interface CatalogDesign {
+  id: string;
+  name: string;
+  glb_preview_url: string | null;
+  collectionName?: string;
+  master_udi_di_base: string;
+  weight_g: number | null;
+  size: string | null;
+}
+
 interface CatalogDesignCardProps {
-  design: any;
+  design: CatalogDesign;
   index: number;
   isFavorite: boolean;
   onToggleFavorite: () => void;

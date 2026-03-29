@@ -68,7 +68,7 @@ const TableSkeleton = () => (
 );
 
 
-function buildSparkline(logs: any[]): { v: number }[] {
+function buildSparkline(logs: Array<{ created_at: string | null }>): { v: number }[] {
   const now = new Date();
   const days: { v: number }[] = [];
   for (let i = 6; i >= 0; i--) {
